@@ -2,8 +2,6 @@ const ExamForm = require("../models/examModel");
 const axios = require("axios");
 const Student = require("../models/studentModel");
 
-
-
 /* =======================
    STUDENT CONTROLLERS
 ======================= */
@@ -25,7 +23,7 @@ exports.examFormPage = async (req, res) => {
     // 3️⃣ 🔥 CHECK EXISTING EXAM FORM
     const existingForm = await ExamForm.findOne({
       studentId: studentId,
-      paymentStatus: "Paid"
+      paymentStatus: "Paid",
     });
 
     // ✅ Already submitted & paid → FORM HIDE
@@ -35,13 +33,11 @@ exports.examFormPage = async (req, res) => {
 
     // ❌ Otherwise show exam form
     res.render("exam/examForm", { student });
-
   } catch (err) {
     console.error(err);
     res.send("Error loading exam form");
   }
 };
-
 
 // Submit exam form
 // Submit exam form
@@ -61,7 +57,7 @@ exports.submitExamForm = async (req, res) => {
       studentId: student._id,
       semester: Number(semester),
       examType,
-      paymentStatus: "Paid"
+      paymentStatus: "Paid",
     });
 
     if (existing) {
@@ -76,72 +72,78 @@ exports.submitExamForm = async (req, res) => {
       examType,
       course: student.course,
       subjects: Array.isArray(subjects) ? subjects : [subjects],
-      examFee: 1 // sandbox ₹1
+      examFee: 1, // sandbox ₹1
     });
 
     // ✅ STEP 3: GO TO PAYMENT PAGE
-    res.render("exam/examPayment", { student,
-       form });
-
+    res.render("exam/examPayment", { student, form });
   } catch (err) {
     console.error(err);
     res.send("Exam form submit error");
   }
 };
 
-// ✅ CREATE CASHFREE ORDER
 exports.createCashfreeOrder = async (req, res) => {
   try {
     const form = await ExamForm.findById(req.params.id);
     if (!form) return res.status(404).json({ error: "Form not found" });
 
+    const student = await Student.findById(req.session.studentId);
+
     const orderId = "order_" + Date.now();
 
+    const isProd =
+      process.env.CASHFREE_ENV === "PROD" ||
+      process.env.CASHFREE_ENV === "production";
+
+    const baseURL = isProd
+      ? "https://api.cashfree.com/pg/orders"
+      : "https://sandbox.cashfree.com/pg/orders";
+
     const response = await axios.post(
-      "https://api.cashfree.com/pg/orders",
+      baseURL,
       {
         order_id: orderId,
         order_amount: Number(form.examFee),
         order_currency: "INR",
 
         customer_details: {
-          customer_id: String(req.session.studentId),
-          customer_email: "student@test.com",
-          customer_phone: "9999999999"
+          customer_id: String(student._id),
+          customer_email: student.email,
+          customer_phone: student.phone,
         },
 
-order_meta: {
-  return_url: "https://collegeportal-production.up.railway.app/exam/student/cashfree/return/" + form._id
-},
-        // 🔥 IMPORTANT FOR WEBHOOK
+        order_meta: {
+          return_url:
+            "https://collegeportal-production.up.railway.app/exam/student/cashfree/return/" +
+            form._id,
+        },
+
         order_tags: {
-          formId: String(form._id)
-        }
+          formId: String(form._id),
+        },
       },
       {
         headers: {
           "x-api-version": "2022-09-01",
           "x-client-id": process.env.CASHFREE_APP_ID,
           "x-client-secret": process.env.CASHFREE_SECRET_KEY,
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       }
     );
 
-    // ✅ SAVE CORRECT FIELD
     form.cashfreeOrderId = orderId;
     await form.save();
 
     res.json({
-      payment_session_id: response.data.payment_session_id
+      payment_session_id: response.data.payment_session_id,
     });
-
   } catch (err) {
     console.error("❌ Cashfree error:", err.response?.data || err.message);
     res.status(500).json({ error: "Cashfree order failed" });
   }
 };
-
 
 // ✅ CASHFREE RETURN + VERIFY
 exports.cashfreeReturn = async (req, res) => {
@@ -153,39 +155,47 @@ exports.cashfreeReturn = async (req, res) => {
       return res.redirect("/exam/student/exam-status");
     }
 
-    const verify = await axios.get(
-      `https://api.cashfree.com/pg/orders/${form.cashfreeOrderId}`,
-      {
-        headers: {
-          "x-api-version": "2022-09-01",
-          "x-client-id": process.env.CASHFREE_APP_ID,
-          "x-client-secret": process.env.CASHFREE_SECRET_KEY
-        }
-      }
-    );
+    // ✅ ENV check
+    const isProd =
+      process.env.CASHFREE_ENV === "PROD" ||
+      process.env.CASHFREE_ENV === "production";
 
-    if (verify.data.order_status === "PAID") {
-      form.paymentStatus = "Paid";
-      form.transactionId = verify.data.cf_payment_id || verify.data.order_id;
-      form.paidAt = new Date();
-      await form.save();
-    }
+    // ✅ सही URL बनाओ
+    const verifyURL = isProd
+      ? `https://api.cashfree.com/pg/orders/${form.cashfreeOrderId}`
+      : `https://sandbox.cashfree.com/pg/orders/${form.cashfreeOrderId}`;
 
+    console.log("VERIFY URL:", verifyURL);
+
+    // ✅ सही API call
+    const verify = await axios.get(verifyURL, {
+      headers: {
+        "x-api-version": "2022-09-01",
+        "x-client-id": process.env.CASHFREE_APP_ID,
+        "x-client-secret": process.env.CASHFREE_SECRET_KEY,
+      },
+    });
+
+if (verify.data.order_status === "PAID") {
+  console.log("✅ Payment verified (return)");
+  // ❌ DB update मत करो
+}
     res.redirect("/exam/student/exam-status");
-
   } catch (err) {
-    console.error("Return verify error:", err.message);
+    console.error(
+      "❌ Return verify error:",
+      err.response?.data || err.message
+    );
     res.redirect("/exam/student/exam-status");
   }
 };
-
 
 // Student exam status
 exports.examStatusPage = async (req, res) => {
   const forms = await ExamForm.find({ studentId: req.session.studentId });
   res.render("exam/examStatus", {
-      forms
-     });
+    forms,
+  });
 };
 
 exports.cashfreeWebhook = async (req, res) => {
@@ -205,7 +215,7 @@ exports.cashfreeWebhook = async (req, res) => {
         await ExamForm.findByIdAndUpdate(formId, {
           paymentStatus: "Paid",
           transactionId: payment?.cf_payment_id,
-          paidAt: new Date(payment?.payment_time)
+          paidAt: new Date(payment?.payment_time),
         });
 
         console.log("✅ Payment success:", formId);
@@ -214,7 +224,6 @@ exports.cashfreeWebhook = async (req, res) => {
 
     // 🔥 Always respond JSON
     return res.status(200).json({ success: true });
-
   } catch (err) {
     console.error("Webhook error:", err.message);
 
@@ -238,7 +247,7 @@ exports.viewExamForms = async (req, res) => {
 exports.verifyPayment = async (req, res) => {
   await ExamForm.findByIdAndUpdate(req.params.id, {
     paymentStatus: "Paid",
-    paidAt: new Date()
+    paidAt: new Date(),
   });
 
   res.redirect("/exam/admin/exam-forms");
