@@ -89,6 +89,22 @@ exports.createCashfreeOrder = async (req, res) => {
     if (!form) return res.status(404).json({ error: "Form not found" });
 
     const student = await Student.findById(req.session.studentId);
+    if (!student) {
+      return res.status(401).json({ error: "Student not found" });
+    }
+
+    // ✅ PHONE CLEAN + VALIDATE (यहीं डालना है)
+    const rawPhone = String(student.phone || "");
+    const phone = rawPhone.replace(/\D/g, "").slice(-10);
+
+    if (!phone || phone.length !== 10) {
+      return res.status(400).json({ error: "Invalid phone number" });
+    }
+
+    // ✅ EMAIL CHECK (optional but safe)
+    if (!student.email) {
+      return res.status(400).json({ error: "Email missing" });
+    }
 
     const orderId = "order_" + Date.now();
 
@@ -110,7 +126,7 @@ exports.createCashfreeOrder = async (req, res) => {
         customer_details: {
           customer_id: String(student._id),
           customer_email: student.email,
-          customer_phone: student.phone,
+          customer_phone: phone, // ✅ FIXED
         },
 
         order_meta: {
