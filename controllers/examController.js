@@ -96,6 +96,9 @@ exports.createCashfreeOrder = async (req, res) => {
     // ✅ PHONE CLEAN + VALIDATE (यहीं डालना है)
     const rawPhone = String(student.phone || "");
     const phone = rawPhone.replace(/\D/g, "").slice(-10);
+    console.log("RAW PHONE:", student.phone);
+console.log("CLEAN PHONE:", phone);
+console.log("HITTING CASHFREE...");
 
     if (!phone || phone.length !== 10) {
       return res.status(400).json({ error: "Invalid phone number" });
