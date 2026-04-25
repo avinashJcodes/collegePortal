@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Variables & Base Styling */
+        :root {
+            --accent: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.4);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #09031a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Mesh Background */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: #09031a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(76, 29, 149, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(192, 38, 211, 0.3) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(67, 56, 202, 0.4) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(124, 58, 237, 0.3) 0px, transparent 50%);
+            animation: mesh-drift 15s ease infinite alternate;
+        }
+
+        @keyframes mesh-drift {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.15); opacity: 1; }
+        }
+
+        /* Glassmorphism Card Effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Shimmer Effect on Hover */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transition: 0.6s ease-in-out;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(168, 85, 247, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                        0 0 30px rgba(168, 85, 247, 0.1);
+        }
+
+        /* Custom Tabs UI */
+        .filter-tab {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .filter-tab.active {
+            color: white;
+        }
+        .filter-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #a855f7;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #a855f7;
+        }
+
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Typography Helper */
+        .purple-gradient-text {
+            background: linear-gradient(to right, #ffffff, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10 lg:p-16">
+
+    <!-- Animated background layer -->
+    <div class="mesh-bg"></div>
+
+    <div class="w-full max-w-7xl mx-auto space-y-12 relative">
+
+        <!-- 🔥 HEADER SECTION -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div class="space-y-6">
+                <!-- Status Badge -->
+                <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-violet-600/10 border border-violet-500/20 text-violet-300 text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-black/20">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-violet-500"></span>
+                    </span>
+                    Institutional Updates
+                </div>
+                
+                <div>
+                    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1]">
+                        <span class="purple-gradient-text">
+                            Central <br class="hidden md:block"> Notice Hub
+                        </span>
+                    </h1>
+                    <p class="text-violet-200/40 text-lg mt-5 font-medium max-w-xl leading-relaxed">
+                        Stay synchronized with the latest academic schedules, recruitment drives, and campus-wide events.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SEARCH & FILTERS -->
+<!-- SEARCH & FILTERS -->
+<div class="flex flex-col gap-8 w-full lg:w-auto">
+
+  <!-- Search Bar -->
+  <div class="w-full lg:w-[400px]">
+    <div class="relative group">
+
+      <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-2xl blur opacity-20 group-focus-within:opacity-70 transition duration-500"></div>
+
+      <div class="relative flex items-center bg-[#130b2e]/60 backdrop-blur-xl rounded-2xl border border-white/10 focus-within:border-violet-500 transition-all duration-300">
+
+        <div class="pl-4">
+          <svg class="h-5 w-5 text-violet-400/50 group-focus-within:text-violet-400 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        <input 
+          type="text"
+          id="searchInput"
+          autocomplete="off"
+          placeholder="Search announcements..."
+         class="w-full pl-3 pr-10 py-4 rounded-2xl bg-transparent border-none 
+  focus:outline-none focus:ring-0 focus:border-transparent 
+  text-white placeholder-violet-300/30 text-base" />
+
+        <button 
+          id="clearBtn"
+          class="hidden absolute right-3 text-violet-400 hover:text-white">
+          ✕
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+                <!-- CATEGORY TABS -->
+                <div class="flex items-center gap-8 overflow-x-auto pb-2 no-scrollbar border-b border-white/5">
+                    <button class="filter-tab active text-sm font-bold whitespace-nowrap uppercase tracking-widest" data-category="All" >General</button>
+                    <button class="filter-tab text-sm font-bold text-slate-500 hover:text-white transition-colors whitespace-nowrap uppercase tracking-widest " data-category="Academic">Academic</button>
+                    <button class="filter-tab text-sm font-bold text-slate-500 hover:text-white transition-colors whitespace-nowrap uppercase tracking-widest " data-category="Placements">Placements</button>
+                    <button class="filter-tab text-sm font-bold text-slate-500 hover:text-white transition-colors whitespace-nowrap uppercase tracking-widest" data-category="Events">Events</button>
+                    <button class="filter-tab text-sm font-bold text-slate-500 hover:text-white transition-colors whitespace-nowrap uppercase tracking-widest" data-category="Archives">Archives</button>
+                </div>
+            </div>
+        </div>
+
+        
+    <div id="noResults" 
+     class="hidden w-full flex items-center justify-center text-center py-20 min-h-[400px]">
+
+  <div>
+    <div class="text-5xl mb-4">😕</div>
+    <p class="text-white text-lg font-semibold">No notices found</p>
+    <p class="text-slate-400 text-sm mt-2">Try searching something else</p>
+  </div>
+
+</div>
+
+<% if (notices.length === 0) { %>
+
+  <div class="w-full flex items-center justify-center text-center py-32">
+    <div>
+      <div class="text-6xl mb-4">📭</div>
+      <h2 class="text-white text-xl font-bold">No Notices Yet</h2>
+      <p class="text-slate-400 mt-2">There are no announcements available right now.</p>
+    </div>
+  </div>  
+
+<% } else { %>
+
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+
+  <% notices.forEach(n => { %>
+
+   
+
+    <div 
+  class="glass-card group rounded-[2.5rem] p-8 flex flex-col h-[420px]"
+  data-title="<%= n.title %>"
+  data-category="<%= n.category %>"
+>
+
+
+      <!-- TOP ICON + CATEGORY -->
+      <div class="flex items-center justify-between mb-10">
+
+        <div class="h-14 w-14 rounded-2xl bg-violet-600/20 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:bg-violet-600 group-hover:text-white transition-all duration-500">
+
+          <% if (n.category === 'Academic') { %>
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 14l9-5-9-5-9 5 9 5z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+            </svg>
+
+          <% } else if (n.category === 'Placements') { %>
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+
+          <% } else if (n.category === 'Events') { %>
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3M16 7V3M4 11h16M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/>
+            </svg>
+
+          <% } else if (n.category === 'Archives') { %>
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 7h18M3 7l1 14h16l1-14M5 7l1-3h12l1 3"/>
+            </svg>
+
+          <% } else { %>
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M11 5l7 7-7 7M5 5l7 7-7 7"/>
+            </svg>
+          <% } %>
+
+        </div>
+
+        <!-- CATEGORY TEXT -->
+        <div class="text-right">
+          <p class="text-[10px] font-black uppercase tracking-widest
+            <%= n.category === 'Academic' ? 'text-violet-500' :
+                n.category === 'Placements' ? 'text-blue-500' :
+                n.category === 'Events' ? 'text-fuchsia-500' :
+                n.category === 'Archives' ? 'text-gray-500' :
+                n.category === 'Payment' ? 'text-red-500' :
+                'text-green-500' %>">
+            <%= n.category %>
+          </p>
+
+          <p class="text-[10px] font-bold text-slate-500 mt-1">
+            <%= new Date(n.createdAt).toDateString() %>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- TITLE -->
+      <h3 class="text-2xl font-bold text-white mb-4 leading-snug group-hover:text-violet-300 transition-colors">
+        <%= n.title %>
+      </h3>
+
+      <!-- MESSAGE -->
+      <p class="text-slate-400 leading-relaxed mb-6 flex-grow text-[15px] line-clamp-4">
+        <%= n.message %>
+      </p>
+
+      <!-- ACTION SECTION -->
+      <div class="mt-auto space-y-3">
+
+        <% if (n.message && n.message.length > 120) { %>
+          <button 
+            onclick="openNotice('<%= n.title.replace(/'/g, "\\'") %>', '<%= n.message.replace(/'/g, "\\'") %>')"
+            class="w-full py-3 rounded-xl bg-white/5 border border-white/10 
+            hover:bg-violet-600 hover:text-white hover:border-violet-600 
+            font-semibold text-sm tracking-wider transition-all uppercase">
+            See Details →
+          </button>
+        <% } %>
+
+        <% if (n.pdf) { %>
+          <a href="<%= n.pdf %>" target="_blank"
+            class="w-full py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-purple-700 
+            hover:from-purple-700 hover:to-violet-800 text-white 
+            font-bold text-sm tracking-wider uppercase text-center block 
+            shadow-lg shadow-violet-900/40 transition-all">
+            ⬇ Download PDF
+          </a>
+        <% } %>
+
+        <% if (n.category === 'Payment') { %>
+          <button 
+            onclick="window.location.href='/student/pay-fees'"
+            class="w-full py-4 rounded-2xl bg-gradient-to-r from-red-500 to-red-700 
+            hover:from-red-600 hover:to-red-800 text-white 
+            font-bold text-sm tracking-wider uppercase 
+            shadow-lg shadow-red-900/40 transition-all">
+            💳 Pay Your Overdue Fees
+          </button>
+        <% } %>
+
+      </div>
+
+    </div>
+
+  <% }) %>
+   
+  </div>
+  
+<% } %>
+<!-- Floating Quick Help -->
+    <button class="fixed bottom-10 right-10 w-16 h-16 rounded-[1.5rem] bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white shadow-2xl shadow-violet-600/40 flex items-center justify-center hover:scale-110 hover:rotate-6 transition-all duration-300 z-50">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+    </button>
+
+    
+</body>
+</html>
+
+<script>
+const searchInput = document.getElementById("searchInput");
+const cards = document.querySelectorAll(".glass-card");
+const tabs = document.querySelectorAll(".filter-tab");
+const noResults = document.getElementById("noResults");
+
+let activeCategory = "All";
+
+// 🔥 TOTAL NOTICES CHECK
+const totalNotices = cards.length;
+
+// 🔍 SEARCH FUNCTION
+searchInput.addEventListener("input", () => {
+  filterNotices();
+});  
+
+// 📂 CATEGORY CLICK
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+
+    // reset tabs
+    tabs.forEach(t => {
+      t.classList.remove("active", "text-white");
+      t.classList.add("text-slate-500");
+    });
+
+    // active tab
+    tab.classList.add("active", "text-white");
+    tab.classList.remove("text-slate-500");
+
+    activeCategory = tab.dataset.category;
+    filterNotices();
+  });
+});
+
+// 🔥 FILTER LOGIC (FIXED)
+function filterNotices() {
+  const searchValue = searchInput.value.toLowerCase();
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const title = card.dataset.title.toLowerCase();
+    const category = card.dataset.category;
+
+    const matchSearch =
+      title.includes(searchValue) ||
+      category.toLowerCase().includes(searchValue);
+
+    const matchCategory =
+      activeCategory === "All" || category === activeCategory;
+
+    if (matchSearch && matchCategory) {
+      card.style.display = "flex";
+      visibleCount++;
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+  // 🔥 MAIN FIX
+  if (totalNotices === 0) {
+    // DB empty → EJS handle karega (No Notices Yet)
+    return;
+  }
+
+  // 🔍 Only show when filtering fails
+  if (visibleCount === 0 && (searchValue !== "" || activeCategory !== "All")) {
+    noResults.classList.remove("hidden");
+  } else {
+    noResults.classList.add("hidden");
+  }
+}
+</script>
+
+

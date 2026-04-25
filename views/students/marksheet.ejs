@@ -1,0 +1,196 @@
+<div class="min-h-screen w-full bg-gradient-to-br from-[#050510] via-[#0f172a] to-[#050510] font-sans">
+
+  <!-- HEADER BAR -->
+  <div class="w-full px-6 py-5 border-b border-white/10 backdrop-blur-xl bg-white/[0.03] flex justify-between items-center">
+
+    <div>
+      <h1 class="text-xl sm:text-2xl font-bold text-white">
+        AVI INSTITUTE
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
+          DASHBOARD
+        </span>
+      </h1>
+      <p class="text-xs text-violet-300 mt-1">Academic Results Portal</p>
+    </div>
+
+    <div class="text-right text-xs text-slate-400 hidden sm:block">
+      Nagpur • Maharashtra
+    </div>
+
+  </div>
+
+  <!-- 👤 STUDENT INFO ROW -->
+<div class="w-full px-4 sm:px-8 py-6">
+
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
+
+    <!-- Name -->
+    <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 backdrop-blur-xl shadow-lg hover:shadow-violet-500/20 transition-all duration-300">
+
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 transition"></div>
+
+      <p class="text-[10px] text-slate-400 uppercase tracking-[0.2em]">
+        Student Name
+      </p>
+
+      <p class="text-white text-sm font-semibold mt-2 tracking-wide">
+        <%= student.fullname %>
+      </p>
+
+    </div>
+
+    <!-- Admission -->
+    <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 backdrop-blur-xl shadow-lg hover:shadow-violet-500/20 transition-all duration-300">
+
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-indigo-500/10 to-violet-500/10 transition"></div>
+
+      <p class="text-[10px] text-slate-400 uppercase tracking-[0.2em]">
+        Admission No
+      </p>
+
+      <p class="text-violet-400 text-sm font-mono mt-2">
+        <%= student.admissionNumber %>
+      </p>
+
+    </div>
+
+    <!-- Semester -->
+    <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 backdrop-blur-xl shadow-lg hover:shadow-violet-500/20 transition-all duration-300">
+
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-fuchsia-500/10 to-purple-500/10 transition"></div>
+
+      <p class="text-[10px] text-slate-400 uppercase tracking-[0.2em]">
+        Semester
+      </p>
+
+      <p class="text-white text-sm font-semibold mt-2">
+        <%= student.semester || 'N/A' %>
+      </p>
+
+    </div>
+
+    <!-- Course -->
+    <div class="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 backdrop-blur-xl shadow-lg hover:shadow-violet-500/20 transition-all duration-300">
+
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 transition"></div>
+
+      <p class="text-[10px] text-slate-400 uppercase tracking-[0.2em]">
+        Course
+      </p>
+
+      <p class="text-violet-400 text-sm font-mono mt-2">
+        <%= student.course || 'N/A' %>
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- MAIN CONTENT -->
+ <!-- MAIN CONTENT -->
+<div class="w-full px-4 sm:px-8 py-8">
+
+  <% if (typeof results !== "undefined" && results.length > 0) { %>
+
+  <div class="w-full space-y-5">
+
+    <!-- HEADER -->
+    <div class="grid grid-cols-4 px-6 text-[11px] uppercase tracking-[0.3em] text-violet-300/70 font-semibold">
+      <p>Examination</p>
+      <p>Student</p>
+      <p class="text-center">Result</p>
+      <p class="text-right">Action</p>
+    </div>
+
+    <!-- ROWS -->
+    <% results.forEach(result => { %>
+    <div class="grid grid-cols-4 items-center px-6 py-5 rounded-2xl 
+                bg-white/[0.04] border border-white/10 
+                backdrop-blur-xl shadow-md
+                hover:bg-white/[0.07] hover:shadow-violet-500/10 
+                transition-all duration-300 hover:-translate-y-1">
+
+      <!-- Exam -->
+      <div>
+        <p class="text-white font-semibold text-sm">
+          <%= result.examType %>
+        </p>
+        <p class="text-xs text-slate-400 mt-1">
+          <%= result.session || 'Session 2023-24' %>
+        </p>
+      </div>
+
+      <!-- Student -->
+      <div>
+        <p class="text-slate-200 font-medium text-sm">
+          <%= student.fullname %>
+        </p>
+        <p class="text-xs text-violet-400 font-mono mt-1">
+          <%= student.admissionNumber %>
+        </p>
+      </div>
+
+      <!-- Result -->
+      <div class="text-center">
+        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-widest
+          <%= result.finalResult === 'PASS' 
+            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+            : 'bg-rose-500/10 text-rose-400 border border-rose-500/20' %>">
+
+          <span class="w-2 h-2 rounded-full mr-2 animate-pulse
+            <%= result.finalResult === 'PASS' ? 'bg-emerald-400' : 'bg-rose-400' %>">
+          </span>
+
+          <%= result.finalResult %>
+        </span>
+      </div>
+
+      <!-- Action -->
+      <div class="text-right">
+        <a href="<%= result.downloadUrl || '/marks/marksheet/download' %>"
+           class="inline-flex items-center gap-2 px-5 py-2 rounded-xl 
+                  bg-gradient-to-r from-violet-600 to-indigo-600
+                  text-white text-xs font-semibold uppercase
+                  shadow-md hover:shadow-violet-500/40
+                  transition-all duration-300 hover:-translate-y-1 active:scale-95
+                  focus:outline-none focus:ring-0">
+
+          ⬇ Download
+        </a>
+      </div>
+
+    </div>
+    <% }) %>
+
+  </div>
+
+  <% } else { %>
+
+  <!-- EMPTY STATE -->
+  <div class="w-full flex flex-col items-center justify-center py-32 text-center">
+
+    <div class="text-7xl mb-6 animate-bounce">⏳</div>
+
+    <h2 class="text-3xl font-bold text-white">
+      Results <span class="text-violet-400">Awaited</span>
+    </h2>
+
+    <p class="text-slate-400 mt-4 max-w-md">
+      Your results will be displayed here once they are officially released.
+    </p>
+
+    <button onclick="window.location.reload()"
+            class="mt-8 px-8 py-3 rounded-xl bg-white/10 border border-white/10 
+                   text-white text-sm font-medium hover:bg-white/20 transition">
+      Refresh Page
+    </button>
+
+  </div>
+
+  <% } %>
+
+</div>
+
+</div>

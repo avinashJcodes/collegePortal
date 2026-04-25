@@ -1,0 +1,252 @@
+
+
+<div class="max-w-7xl mx-auto px-4 pt-24">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+            <span class="text-purple-400 font-bold text-xs uppercase tracking-[0.3em] mb-2 block">Student Console</span>
+            <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight">
+                <!-- Updated to use 'fullname' as per model -->
+                Welcome, <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300">
+                    <%= (typeof student !== 'undefined' && student && student.fullname) ? student.fullname : 'Student' %>
+                </span>
+            </h1>
+        </div>
+        <div class="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur-md">
+            <div class="w-2 h-2 bg-green-500 rounded-full status-pulse"></div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Session</span>
+        </div>
+    </div>
+
+    <!-- 🔥 TOP CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Profile Card (Updated with Profile Status) -->
+        <div class="glass-card p-6 rounded-[2rem] relative overflow-hidden group">
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-purple-600/10 rounded-full blur-3xl group-hover:bg-purple-600/20 transition-all"></div>
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Profile Status</p>
+                    <h2 class="text-xl font-bold tracking-tight <%= (typeof student !== 'undefined' && student.isProfileComplete) ? 'text-green-400' : 'text-red-400 animate-pulse' %>">
+                        <%= (typeof student !== 'undefined' && student.isProfileComplete) ? 'Complete' : 'Incomplete' %>
+                    </h2>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500 font-medium">Full Name</span>
+                    <span class="text-white font-semibold tracking-tight">
+                         <%= (typeof student !== 'undefined' && student && student.fullname) ? student.fullname : 'Not Available' %>
+                    </span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500 font-medium">Roll Number</span>
+                    <span class="text-purple-300 font-mono">
+                        <%= (typeof student !== 'undefined' && student && student.rollNumber) ? student.rollNumber : '---' %>
+                    </span>
+                </div>
+                <div class="h-[1px] bg-white/5 w-full"></div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-500 font-medium">Department</span>
+                    <span class="text-slate-300">B.Tech - CS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notices Card -->
+        <div class="glass-card p-6 rounded-[2rem] relative overflow-hidden group">
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-indigo-600/10 rounded-full blur-3xl group-hover:bg-indigo-600/20 transition-all"></div>
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-indigo-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                </div>
+                <div>
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Notice Board</p>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Broadcasts</h2>
+                </div>
+            </div>
+            <div class="mt-4">
+                <% if (typeof hasNewNotice !== 'undefined' && hasNewNotice) { %>
+                    <div class="bg-purple-500/10 border border-purple-500/20 p-3 rounded-2xl flex items-center gap-3">
+                        <span class="flex h-2 w-2 rounded-full bg-purple-500 animate-ping"></span>
+                        <span class="text-sm font-semibold text-purple-200 tracking-tight">New update available! 🔔</span>
+                    </div>
+                <% } else { %>
+                    <p class="text-slate-500 text-sm italic">No new announcements at this time.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Attendance Card -->
+        <div class="glass-card p-6 rounded-[2rem] relative overflow-hidden group lg:col-span-1 md:col-span-2 lg:col-auto">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-green-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div>
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Engagement</p>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Attendance</h2>
+                </div>
+            </div>
+            <div class="flex items-end justify-between">
+                <div>
+                    <span class="text-4xl font-black text-green-400 tracking-tighter">75%</span>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase mt-1">Average Presence</p>
+                </div>
+                <div class="w-24 h-1 bg-white/10 rounded-full overflow-hidden mb-2">
+                    <div class="h-full bg-green-500 w-[75%] rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ⚡ QUICK ACTIONS -->
+    <div class="mt-12">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-[0.3em] mb-6">Core Operations</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <% const actions = [
+                { label: 'Notices', icon: '📘', link: '/student/notices', color: 'purple' },
+                { label: 'Marks', icon: '📊', link: '/student/marks', color: 'indigo' },
+                { label: 'Attendance', icon: '📅', link: '/student/attendance', color: 'blue' },
+                { label: 'Profile', icon: '👤', link: '/student/profile', color: 'slate' }
+            ] %>
+
+            <% actions.forEach(action => { %>
+                <a href="<%= action.link %>" class="action-btn group p-5 rounded-3xl flex flex-col items-center justify-center gap-3 text-center">
+                    <span class="text-3xl group-hover:scale-125 transition-transform duration-300 grayscale group-hover:grayscale-0"><%= action.icon %></span>
+                    <span class="text-sm font-bold text-slate-400 group-hover:text-white transition-colors tracking-tight"><%= action.label %></span>
+                </a>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<!-- ================= PROFILE POPUP (REFINED) ================= -->
+<% if (typeof student !== 'undefined' && student && !student.isProfileComplete) { %>
+<div class="fixed inset-0 z-[1000] flex items-center justify-center p-4 overflow-hidden">
+    <div class="absolute inset-0 bg-[#020617]/80 backdrop-blur-2xl"></div>
+    
+    <div class="relative bg-slate-900 border border-purple-500/30 rounded-[2.5rem] p-8 w-full max-w-md shadow-[0_0_100px_rgba(147,51,234,0.2)] animate-in zoom-in duration-300">
+        <div class="flex items-center gap-5 mb-8">
+            <div class="w-16 h-16 rounded-[1.5rem] bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center text-3xl shadow-inner">
+                ⚠️
+            </div>
+            <div>
+                <h2 class="text-2xl font-black text-white leading-tight">Identity<br/>Incomplete</h2>
+                <p class="text-xs font-bold text-purple-400 uppercase tracking-widest mt-1">Security Guardrail</p>
+            </div>
+        </div>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent mb-8"></div>
+
+        <p class="text-slate-400 text-sm leading-relaxed mb-8">
+            To access full academic features and secure your credentials, you must finalize your profile verification.
+        </p>
+
+        <a href="/student/profile"
+           class="block w-full text-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-4 rounded-2xl shadow-lg shadow-purple-900/30 transition-all active:scale-95">
+            Complete Verification
+        </a>
+    </div>
+</div>
+<% } %>
+
+<!-- ================= CHATBOT (GOLU 2.0) ================= -->
+<div id="golu-chatbot" class="fixed bottom-8 right-8 z-[900]">
+    <!-- Glow Backdrop -->
+    <div class="absolute inset-0 bg-purple-600/20 blur-2xl rounded-full"></div>
+    
+    <!-- Main Button -->
+    <button onclick="toggleGolu()"
+        class="relative w-16 h-16 rounded-3xl bg-gradient-to-br from-purple-600 to-indigo-700 text-white shadow-2xl flex items-center justify-center text-2xl hover:scale-110 active:scale-90 transition-all border border-white/20">
+        <span id="golu-btn-icon">😊</span>
+    </button>
+
+    <!-- Chat Box -->
+    <div id="golu-box"
+         class="hidden absolute bottom-20 right-0 w-[350px] sm:w-[400px] h-[550px] bg-slate-950/90 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col transition-all">
+        
+        <!-- Header -->
+        <div class="px-6 py-5 bg-white/5 border-b border-white/10 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 bg-green-500 rounded-full status-pulse"></div>
+                <p class="text-white font-black tracking-widest text-xs uppercase italic">Golu <span class="text-purple-400">AI</span></p>
+            </div>
+            <button onclick="toggleGolu()" class="text-slate-500 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div id="golu-content" class="p-6 flex-1 space-y-4 overflow-y-auto">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-xs">🤖</div>
+                <div class="bg-white/5 border border-white/10 p-4 rounded-2xl rounded-tl-none text-sm text-slate-300 leading-relaxed shadow-sm">
+                    Hi <%= (typeof student !== 'undefined' && student && student.fullname) ? student.fullname.split(' ')[0] : 'Student' %>! 👋 Main Golu hoon. Aapki help kaise kar sakta hoon?
+                </div>
+            </div>
+
+            <div class="pt-4 space-y-2">
+                <p class="text-[10px] font-bold text-slate-600 uppercase tracking-widest px-1">Quick Links</p>
+                <% ['Exam Schedule', 'Attendance Check', 'Fee Status', 'Course Materials'].forEach(item => { %>
+                    <button class="w-full text-left bg-white/5 hover:bg-purple-600/20 border border-white/5 hover:border-purple-500/30 p-3 rounded-xl text-xs text-slate-400 hover:text-white transition-all">
+                        <%= item %>
+                    </button>
+                <% }) %>
+            </div>
+        </div>
+
+        <!-- Input (Mock) -->
+        <div class="p-4 bg-white/5 border-t border-white/10">
+            <div class="relative">
+                <input type="text" placeholder="Poocho kuch bhi..." class="w-full bg-slate-900 border border-white/10 rounded-2xl py-3 px-4 text-sm text-white focus:outline-none focus:border-purple-500/50">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= WARNING (REFINED) ================= -->
+<% if (typeof student !== 'undefined' && student && student.showWarning) { %>
+<div class="fixed inset-0 z-[2000] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-red-950/40 backdrop-blur-3xl"></div>
+    <div class="relative bg-gradient-to-br from-red-900/90 to-slate-950 border border-red-500/30 text-white p-10 rounded-[3rem] text-center max-w-lg shadow-[0_0_80px_rgba(239,68,68,0.3)]">
+        <div class="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-lg shadow-red-900/50">
+            ⚠️
+        </div>
+        <h2 class="text-3xl font-black mb-4 tracking-tighter uppercase italic">Important Alert</h2>
+        <p class="mb-8 text-red-100 text-lg font-medium opacity-90"><%= student.warningMessage %></p>
+
+        <form action="/student/clear-warning" method="POST">
+            <button class="w-full bg-white text-red-700 hover:bg-red-50 px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest transition-all active:scale-95 shadow-xl">
+                I Understand
+            </button>
+        </form>
+    </div>
+</div>
+<% } %>
+
+
+<script>
+  function speakWelcome(name) {
+    const msg = new SpeechSynthesisUtterance(
+      `Welcome ${name}, your dashboard is ready`
+    );
+
+    speechSynthesis.speak(msg);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const name = "<%= student.fullname %>";
+
+    // ✅ ONLY dashboard pe chale
+    if (window.location.pathname === "/student/dashboard") {
+      speakWelcome(name);
+    }
+  });
+</script>
+
+</div>
+

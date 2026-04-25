@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Profile | Academic Portal</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#f8fafc;
+  color:#1e293b;
+}
+
+.card{
+  background:#ffffff;
+  border:1px solid #e2e8f0;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+.input{
+  background:#ffffff;
+  border:1px solid #cbd5f5;
+  color:#1e293b;
+}
+
+.input::placeholder{
+  color:#94a3b8;
+}
+
+.input:focus{
+  outline:none;
+  border-color:#6366f1;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  margin-bottom:1.25rem;
+  padding-bottom:.75rem;
+ border-bottom:1px solid #e2e8f0;
+}
+</style>
+</head>
+
+<body class="text-slate-700 py-10 px-4">
+
+<div class="max-w-5xl mx-auto space-y-8">
+
+
+
+<form action="/student/profile" method="POST" enctype="multipart/form-data" class="space-y-8">
+
+<!-- ================= PROFILE PHOTO ================= -->
+<section class="card rounded-xl p-6">
+  <div class="flex items-center gap-6">
+    <div class="relative">
+      <img id="profilePreview"
+        src="<%= student.profileImage || 'https://ui-avatars.com/api/?background=6366f1&color=fff&size=200&name=' + student.fullname %>"
+        class="w-28 h-28 rounded-full border-4 border-indigo-500/40 object-cover">
+
+      <label for="profileImage"
+        class="absolute bottom-0 right-0 bg-indigo-600 p-2 rounded-full cursor-pointer border-2 border-slate-900">
+        <i data-lucide="camera" class="w-4 h-4"></i>
+      </label>
+
+      <input type="file" id="profileImage" name="profileImage"
+        class="hidden" accept="image/*" onchange="previewImage(event)">
+    </div>
+
+    <div>
+      <h2 class="text-lg font-semibold text-slate-800">Profile Photograph</h2>
+      <p class="text-sm text-slate-400">
+        Upload a recent passport size photo
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PERSONAL ================= -->
+<section class="card rounded-xl p-6">
+<div class="section-title">
+  <i data-lucide="user" class="text-indigo-400"></i>
+  <h3 class="text-lg font-semibold text-slate-800">Personal Information</h3>
+</div>
+
+<div class="grid md:grid-cols-2 gap-4">
+  <input readonly value="<%= student.fullname %>"
+    class="input px-4 py-3 rounded-lg opacity-50"
+    placeholder="Full name as per records">
+
+  <input readonly value="<%= student.email %>"
+    class="input px-4 py-3 rounded-lg opacity-50"
+    placeholder="Official email address">
+
+  <input name="phone" value="<%= student.phone || '' %>"
+    maxlength="10"
+    placeholder="Enter 10 digit mobile number"
+    class="input px-4 py-3 rounded-lg" required>
+
+  <input type="date" name="dob"
+    value="<%= student.dob ? (typeof student.dob==='string'?student.dob:student.dob.toISOString().split('T')[0]) : '' %>"
+    placeholder="Select date of birth"
+    class="input px-4 py-3 rounded-lg" required>
+
+  <select name="gender" class="input px-4 py-3 rounded-lg" required>
+    <option value="" disabled hidden <%= !student.gender?"selected":"" %>>
+      Select Gender
+    </option>
+    <option value="Male" <%= student.gender==="Male"?"selected":"" %>>Male</option>
+    <option value="Female" <%= student.gender==="Female"?"selected":"" %>>Female</option>
+    <option value="Other" <%= student.gender==="Other"?"selected":"" %>>Other</option>
+  </select>
+
+  <select name="bloodGroup" class="input px-4 py-3 rounded-lg" required>
+    <option value="" disabled hidden <%= !student.bloodGroup?"selected":"" %>>
+      Select Blood Group
+    </option>
+    <% ['A+','A-','B+','B-','O+','O-','AB+','AB-'].forEach(bg=>{ %>
+      <option value="<%= bg %>" <%= student.bloodGroup===bg?"selected":"" %>><%= bg %></option>
+    <% }) %>
+  </select>
+
+  <input name="aadharNumber" maxlength="12"
+    value="<%= student.aadharNumber || '' %>"
+    placeholder="Enter 12 digit Aadhar number"
+    class="input px-4 py-3 rounded-lg font-mono tracking-widest md:col-span-2"
+    required>
+</div>
+</section>
+
+<!-- ================= ACADEMIC ================= -->
+<section class="card rounded-xl p-6">
+<div class="section-title">
+  <i data-lucide="graduation-cap" class="text-cyan-400"></i>
+  <h3 class="text-lg font-semibold text-slate-800">Academic Details</h3>
+</div>
+
+<div class="grid md:grid-cols-2 gap-4">
+  <select id="course" name="course" onchange="setCourseCode()"
+    class="input px-4 py-3 rounded-lg" required>
+    <option value="" disabled hidden <%= !student.course?"selected":"" %>>
+      Select enrolled course
+    </option>
+    <option value="Civil Engineering" <%= student.course==="Civil Engineering"?"selected":"" %>>Civil Engineering</option>
+    <option value="Computer Science & Engineering" <%= student.course==="Computer Science & Engineering"?"selected":"" %>>Computer Science & Engineering</option>
+    <option value="Information Technology" <%= student.course==="Information Technology"?"selected":"" %>>Information Technology</option>
+    <option value="Electrical Engineering" <%= student.course==="Electrical Engineering"?"selected":"" %>>Electrical Engineering</option>
+    <option value="Mechanical Engineering" <%= student.course==="Mechanical Engineering"?"selected":"" %>>Mechanical Engineering</option>
+  </select>
+
+  <input id="courseCodeDisplay" readonly
+    placeholder="Auto-generated course code"
+    class="input px-4 py-3 rounded-lg opacity-60">
+
+  <input type="hidden" id="courseCode" name="courseCode"
+    value="<%= student.courseCode || '' %>">
+
+  <input name="rollNumber"
+    value="<%= student.rollNumber || '' %>"
+    placeholder="University roll number"
+    class="input px-4 py-3 rounded-lg" required>
+
+  <select name="semester" class="input px-4 py-3 rounded-lg" required>
+    <option value="" disabled hidden <%= !student.semester?"selected":"" %>>
+      Select semester
+    </option>
+    <% for(let i=1;i<=8;i++){ %>
+      <option value="<%= i %>" <%= Number(student.semester)===i?"selected":"" %>>
+        Semester <%= i %>
+      </option>
+    <% } %>
+  </select>
+
+  <input name="abcId" maxlength="12"
+    value="<%= student.abcId || '' %>"
+    placeholder="Enter 12 digit ABC ID"
+    class="input px-4 py-3 rounded-lg font-mono tracking-widest"
+    required>
+</div>
+</section>
+
+<!-- ================= FAMILY & ADDRESS ================= -->
+<section class="card rounded-xl p-6">
+<div class="section-title">text-slate-800
+  <i data-lucide="users" class="text-rose-400"></i>
+  <h3 class="text-lg font-semibold ">Family & Address</h3>
+</div>
+
+<div class="grid md:grid-cols-2 gap-4">
+  <input name="fatherName"
+    value="<%= student.fatherName || '' %>"
+    placeholder="Father's full name"
+    class="input px-4 py-3 rounded-lg" required>
+
+  <input name="motherName"
+    value="<%= student.motherName || '' %>"
+    placeholder="Mother's full name"
+    class="input px-4 py-3 rounded-lg" required>
+
+  <input name="guardianPhone" maxlength="10"
+    value="<%= student.guardianPhone || '' %>"
+    placeholder="Guardian emergency contact number"
+    class="input px-4 py-3 rounded-lg md:col-span-2" required>
+
+  <textarea name="address" rows="4"
+    placeholder="House no, street, area, city, state, PIN code"
+    class="input px-4 py-3 rounded-lg md:col-span-2 resize-none"
+    required><%= student.address || "" %></textarea>
+</div>
+</section>
+
+<!-- SUBMIT -->
+<button class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold text-slate-800">
+Save & Update Profile
+</button>
+
+</form>
+
+<p class="text-center text-slate-600 text-xs tracking-widest mt-10">
+NEXUS STUDENT INFORMATION SYSTEM
+</p>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+function previewImage(e){
+ const r=new FileReader();
+ r.onload=()=>profilePreview.src=r.result;
+ r.readAsDataURL(e.target.files[0]);
+}
+
+const courseMap={
+ "Civil Engineering":"0414419110",
+ "Computer Science & Engineering":"0414424210",
+ "Information Technology":"0414424610",
+ "Electrical Engineering":"0414429310",
+ "Mechanical Engineering":"0414461210"
+};
+
+function setCourseCode(){
+ const c=document.getElementById("course").value;
+ courseCode.value=courseMap[c]||"";
+ courseCodeDisplay.value=courseMap[c]||"";
+}
+window.onload=setCourseCode;
+</script>
+
+</body>
+</html>

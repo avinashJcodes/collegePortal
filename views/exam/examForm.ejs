@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semester Exam Registration</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #581c87 0%, #2e1065 100%);
+      background-attachment: fixed;
+    }
+    .form-card {
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,.45);
+    }
+    .section-title {
+      position: relative;
+      padding-left: 1rem;
+    }
+    .section-title::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #a855f7;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #2e1065;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #a855f7;
+      border-radius: 10px;
+    }
+    /* ===== LIGHT THEME OVERRIDE ===== */
+
+body {
+  background: #f9fafb !important;
+}
+
+/* Header (purple wala) */
+.bg-purple-900 {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+/* Header text */
+.text-white {
+  color: #111827 !important;
+}
+
+.text-purple-200 {
+  color: #6b7280 !important;
+}
+
+/* Badge */
+.bg-white\/10 {
+  background: #f1f5f9 !important;
+  border-color: #e5e7eb !important;
+  color: #374151 !important;
+}
+
+/* Purple section box */
+.bg-purple-50,
+.bg-purple-50\/60 {
+  background: #f8fafc !important;
+  border-color: #e5e7eb !important;
+}
+
+.text-purple-900,
+.text-purple-700 {
+  color: #1e293b !important;
+}
+
+/* Buttons */
+.bg-purple-700,
+.bg-purple-600 {
+  background: #4f46e5 !important; /* nice blue */
+}
+
+.hover\:bg-purple-800:hover,
+.hover\:bg-purple-700:hover {
+  background: #4338ca !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar-track {
+  background: #f1f5f9 !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c7d2fe !important;
+}
+  </style>
+</head>
+
+<body class="min-h-screen py-10 px-4">
+
+  <div class="w-full max-w-3xl mx-auto bg-white/95 backdrop-blur-md rounded-3xl overflow-hidden form-card border border-purple-400/20">
+
+    <!-- HEADER -->
+    <div class="bg-purple-900 p-8 text-white relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 w-40 h-40 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
+      <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-indigo-500 rounded-full opacity-20"></div>
+
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-bold tracking-tight">Semester Exam Form</h1>
+          <p class="text-purple-200 mt-1">Final Semester Examination Portal</p>
+        </div>
+        <span class="bg-white/10 px-4 py-2 rounded-xl border border-white/20 text-sm font-semibold">
+          Student Dashboard
+        </span>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <form method="POST" action="/exam/student/exam-form" class="p-8 space-y-10">
+
+      <!-- PERSONAL INFO -->
+      <section class="space-y-6">
+        <h2 class="section-title text-lg font-bold text-slate-800 uppercase tracking-wider">
+          Personal Information
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input type="text" readonly
+  value="<%= student.fullname %>">
+
+         <input type="text" readonly
+  value="XXXX-XXXX-<%= student.aadharNumber?.slice(-4) || 'XXXX' %>">
+
+         <input type="text" readonly
+  value="<%= student.phone %>">
+
+        <input type="email" readonly
+  value="<%= student.email %>">
+
+<input type="text" readonly
+  value="<%= student.abcId %>">
+
+        </div>
+      </section>
+
+      <hr class="border-slate-100">
+
+      <!-- ACADEMIC -->
+      <section class="space-y-6">
+        <h2 class="section-title text-lg font-bold text-slate-800 uppercase tracking-wider">
+          Academic Details
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="px-4 py-3 bg-purple-50 border border-purple-100 rounded-xl text-purple-700 font-bold flex items-center gap-2">
+            <span class="w-2 h-2 bg-purple-600 rounded-full animate-ping"></span>
+            Final Semester Exam
+          </div>
+
+          <div>
+  <label class="block text-xs font-bold text-slate-500 uppercase mb-2">
+    Course
+  </label>
+  <input type="text" readonly
+    value="<%= student.course %>"
+    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 font-semibold cursor-not-allowed">
+</div>
+
+<div>
+  <label class="block text-xs font-bold text-slate-500 uppercase mb-2">
+    Exam Attempt Type
+  </label>
+
+  <select name="examType" required
+    class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-600">
+    
+    <option value="" disabled selected>Select Exam Type</option>
+    <option value="Regular">Regular</option>
+    <option value="Backlog">Backlog</option>
+    <option value="Improvement">Improvement</option>
+
+  </select>
+</div>
+
+
+
+
+
+          <select name="semester" id="currentSemester" required onchange="handleSemesterChange()"
+            class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-600">
+            <option value="" disabled selected>Select Semester</option>
+            <option value="1">1st Semester</option>
+            <option value="2">2nd Semester</option>
+            <option value="3">3rd Semester</option>
+            <option value="4">4th Semester</option>
+            <option value="5">5th Semester</option>
+            <option value="6">6th Semester</option>
+            <option value="7">7th Semester</option>
+            <option value="8">8th Semester</option>
+          </select>
+        </div>
+      </section>
+
+
+
+
+      <!-- PREVIOUS RESULT -->
+      <section id="previousResultsContainer" class="hidden space-y-4 bg-purple-50/60 p-6 rounded-2xl border border-purple-100">
+        <h3 class="font-bold text-purple-900 uppercase text-sm">Previous Academic Record</h3>
+        <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+      </section>
+
+      <!-- SUBJECTS -->
+      <section class="space-y-6">
+        <div class="flex justify-between items-center">
+          <h2 class="section-title text-lg font-bold text-slate-800 uppercase tracking-wider">
+            Subjects to Appear
+          </h2>
+          <button type="button" onclick="addSubjectInput()"
+            class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">
+            + ADD SUBJECT
+          </button>
+        </div>
+
+        <div id="subjectsContainer" class="space-y-3">
+          <div class="flex gap-3">
+            <input name="subjects[]" required placeholder="Subject Name"
+              class="flex-1 px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-purple-500/20">
+          </div>
+        </div>
+      </section>
+
+      <!-- SUBMIT -->
+      <button type="submit"
+        class="w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-5 rounded-2xl shadow-xl transition active:scale-[.98]">
+        Submit Exam Form
+      </button>
+
+      <p class="text-center text-xs text-slate-400 uppercase tracking-widest">
+        Official University Examination Portal
+      </p>
+
+    </form>
+  </div>
+
+  <!-- JS (UNCHANGED LOGIC) -->
+  <script>
+    function handleSemesterChange() {
+      const sem = parseInt(currentSemester.value);
+      previousResultsContainer.classList.toggle("hidden", sem <= 1);
+      resultsGrid.innerHTML = "";
+
+      for (let i = 1; i < sem; i++) {
+        resultsGrid.innerHTML += `
+          <div class="p-4 bg-white rounded-xl border flex justify-between">
+            <span class="font-bold">Semester ${i}</span>
+            <div class="flex gap-2">
+              <label><input type="radio" name="sem_${i}_result" required> PASS</label>
+              <label><input type="radio" name="sem_${i}_result" required> FAIL</label>
+            </div>
+          </div>`;
+      }
+    }
+
+    function addSubjectInput() {
+      subjectsContainer.innerHTML += `
+        <div class="flex gap-3">
+          <input name="subjects[]" required placeholder="Subject Name"
+            class="flex-1 px-4 py-3 border rounded-xl">
+          <button type="button" onclick="this.parentElement.remove()" class="text-red-500">✕</button>
+        </div>`;
+    }
+  </script>
+
+</body>
+</html>

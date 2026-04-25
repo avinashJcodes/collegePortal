@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AVI Institute | Engineering Admission 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            background-color: #0b0a1a;
+        }
+
+        /* Animated Background Blobs */
+        .blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.25) 0%, rgba(34, 211, 238, 0.2) 100%);
+            filter: blur(100px);
+            border-radius: 50%;
+            z-index: -1;
+            animation: move 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        .blob-2 {
+            background: rgba(99, 102, 241, 0.2);
+            width: 500px;
+            height: 500px;
+            right: -100px;
+            top: 20%;
+            animation-delay: -7s;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%) rotate(0deg) scale(1); }
+            to { transform: translate(15%, 15%) rotate(180deg) scale(1.1); }
+        }
+
+        /* Engineering Grid Overlay */
+        .grid-pattern {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            mask-image: linear-gradient(to bottom, black, transparent);
+        }
+
+        /* Ultra-Glass Card with Animated Border */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, rgba(168, 85, 247, 0.3));
+            animation: rotate-border 10s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glass-inner {
+            position: relative;
+            z-index: 1;
+            background: rgba(11, 10, 26, 0.85);
+            margin: 1px;
+            border-radius: inherit;
+        }
+
+        @keyframes rotate-border {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Form Input Styling */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            color: rgba(168, 85, 247, 0.6);
+            pointer-events: none;
+        }
+
+        .input-glass {
+            width: 100%;
+            padding: 12px 12px 12px 42px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-glass:focus {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
+            outline: none;
+        }
+
+        .input-glass::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Fix for unreadable dropdown options in dark mode */
+        select.input-glass option {
+            background-color: #1a192e;
+            color: white;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.3); border-radius: 10px; }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+    </style>
+</head>
+
+<body class="text-white min-h-screen relative flex items-center justify-center py-12 px-4 overflow-x-hidden">
+
+    <!-- Design Elements -->
+    <div class="grid-pattern"></div>
+    <div class="blob top-0 left-0"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="w-full max-w-7xl relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+            <!-- LEFT SIDE: BRANDING -->
+            <div class="space-y-10 p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-tr from-purple-600 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
+                        <i data-lucide="cpu" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <span class="text-2xl font-black tracking-tighter uppercase">AVI <span class="text-purple-400">Tech</span></span>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold tracking-widest uppercase">
+                        <span class="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-ping"></span> Now Accepting Applications
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-black tracking-tight leading-[0.9]">
+                        Build The <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-400 to-cyan-400">Impossible</span>
+                    </h1>
+                    <p class="text-slate-400 text-lg max-w-md leading-relaxed font-light">
+                        Engineering at AVI is more than just a degree. It's an ecosystem designed for high-performance innovators and future tech leaders.
+                    </p>
+                </div>
+
+                <!-- Feature Grid with Cards -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="feature-card p-5 rounded-2xl">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 text-purple-400"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-100 mb-1">98% Placement</h4>
+                        <p class="text-xs text-slate-500">Tier-1 Tech Companies</p>
+                    </div>
+                    <div class="feature-card p-5 rounded-2xl">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-4">
+                            <i data-lucide="flask-conical" class="w-5 h-5 text-cyan-400"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-100 mb-1">R&D Labs</h4>
+                        <p class="text-xs text-slate-500">Advanced Prototyping</p>
+                    </div>
+                    <div class="feature-card p-5 rounded-2xl">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
+                            <i data-lucide="globe" class="w-5 h-5 text-blue-400"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-100 mb-1">Global Network</h4>
+                        <p class="text-xs text-slate-500">Alumni in 40+ Countries</p>
+                    </div>
+                    <div class="feature-card p-5 rounded-2xl">
+                        <div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center mb-4">
+                            <i data-lucide="medal" class="w-5 h-5 text-pink-400"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-100 mb-1">Top Ranking</h4>
+                        <p class="text-xs text-slate-500">#1 Engineering Innovator</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE: THE FORM -->
+            <div class="glass-card rounded-[3rem]">
+                <div class="glass-inner p-8 md:p-12 rounded-[3rem]">
+                    
+                    <div class="mb-10">
+                        <h2 class="text-4xl font-black tracking-tight mb-2">Admission Portal</h2>
+                        <p class="text-slate-400 text-sm font-medium">Session 2024-2025 • Early Bird Enrollment</p>
+                    </div>
+
+                    <form class="space-y-6">
+                        <!-- Identity Group -->
+                        <div class="space-y-4">
+                            <p class="text-[11px] font-black uppercase tracking-[0.3em] text-purple-500 mb-2">Personal Identity</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="input-wrapper">
+                                    <i data-lucide="user" class="input-icon w-4 h-4"></i>
+                                    <input type="text" placeholder="First Name" class="input-glass">
+                                </div>
+                                <div class="input-wrapper">
+                                    <i data-lucide="user-plus" class="input-icon w-4 h-4"></i>
+                                    <input type="text" placeholder="Last Name" class="input-glass">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Academic Group -->
+                        <div class="space-y-4">
+                            <p class="text-[11px] font-black uppercase tracking-[0.3em] text-cyan-500 mb-2">Academic Background</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="input-wrapper">
+                                    <i data-lucide="school" class="input-icon w-4 h-4"></i>
+                                    <input type="text" placeholder="10th Board Name" class="input-glass">
+                                </div>
+                                <div class="input-wrapper">
+                                    <i data-lucide="percent" class="input-icon w-4 h-4"></i>
+                                    <input type="number" placeholder="10th Marks" class="input-glass">
+                                </div>
+                                <div class="input-wrapper">
+                                    <i data-lucide="building-2" class="input-icon w-4 h-4"></i>
+                                    <input type="text" placeholder="12th College" class="input-glass">
+                                </div>
+                                <div class="input-wrapper">
+                                    <i data-lucide="percent" class="input-icon w-4 h-4"></i>
+                                    <input type="number" placeholder="12th Marks" class="input-glass">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Entrance & Selection -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-wrapper">
+                                <i data-lucide="file-check-2" class="input-icon w-4 h-4"></i>
+                                <select class="input-glass appearance-none cursor-pointer">
+                                    <option value="" disabled selected>Select Entrance</option>
+                                    <option value="cet">MHT-CET</option>
+                                    <option value="jee">JEE Main</option>
+                                </select>
+                            </div>
+                            <div class="input-wrapper">
+                                <i data-lucide="clipboard-list" class="input-icon w-4 h-4"></i>
+                                <input type="number" placeholder="Exam Score" class="input-glass">
+                            </div>
+                        </div>
+
+                        <!-- Contact & Discipline -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-wrapper">
+                                <i data-lucide="mail" class="input-icon w-4 h-4"></i>
+                                <input type="email" placeholder="Email Address" class="input-glass">
+                            </div>
+                            <div class="input-wrapper">
+                                <i data-lucide="phone" class="input-icon w-4 h-4"></i>
+                                <input type="tel" placeholder="Mobile Number" class="input-glass">
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <i data-lucide="binary" class="input-icon w-4 h-4"></i>
+                            <select class="input-glass appearance-none cursor-pointer">
+                                <option value="" disabled selected>Select course</option>
+                                <option value="cs">Computer Science</option>
+                                <option value="robotics">Civil Engineering</option>
+                                <option value="cyber">Mechanical Engineering.</option>
+                                <option value="civil">Information Technology</option>
+                                <option value="civil">Electrical engineering</option>
+                            </select>
+                        </div>
+
+                        <!-- Submission -->
+                        <form action="/apply" method="POST">
+    <div class="pt-6">
+        <button type="submit" class="w-full relative group">
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 via-indigo-500 to-cyan-400 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-500"></div>
+            
+            <div class="relative py-4 bg-white text-[#0b0a1a] font-black text-sm uppercase tracking-[0.2em] rounded-2xl flex items-center justify-center space-x-3 transition-all hover:bg-slate-50">
+                <span>Begin Application</span>
+                <i data-lucide="chevron-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+        </button>
+    </div>
+</form>
+                    
+                    <div class="mt-8 flex items-center justify-center space-x-4 opacity-40">
+                        <div class="h-[1px] bg-slate-500 flex-grow"></div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-500">End of Form</p>
+                        <div class="h-[1px] bg-slate-500 flex-grow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

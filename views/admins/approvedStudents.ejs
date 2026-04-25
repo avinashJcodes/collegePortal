@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Approved Students | Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white min-h-screen">
+
+  <div class="p-8">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-3xl font-bold text-green-400">
+        Approved Students
+      </h1>
+
+      <a href="/admin/dashboard"
+         class="text-purple-400 hover:underline text-sm">
+        ← Back to Dashboard
+      </a>
+    </div>
+
+    <!-- Table Card -->
+    <div class="bg-slate-800/70 backdrop-blur rounded-2xl shadow-xl overflow-hidden border border-white/10">
+
+      <table class="w-full text-left">
+        <thead class="bg-slate-900 text-gray-300 text-sm uppercase">
+          <tr>
+            <th class="px-6 py-4">Name</th>
+            <th class="px-6 py-4">Admission No</th>
+            <th class="px-6 py-4">Email</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if (students.length === 0) { %>
+            <tr>
+              <td colspan="3" class="text-center py-6 text-gray-400">
+                No approved students found
+              </td>
+            </tr>
+          <% } %>
+
+          <% students.forEach(student => { %>
+            <tr class="border-t border-white/10 hover:bg-slate-700/40 transition">
+
+              <td class="px-6 py-4 font-medium">
+                <%= student.fullname %>
+              </td>
+
+              <td class="px-6 py-4 text-gray-300">
+                <%= student.admissionNumber || "-" %>
+              </td>
+
+              <td class="px-6 py-4 text-gray-300">
+                <%= student.email %>
+              </td>
+
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

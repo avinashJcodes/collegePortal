@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= student.fullname %> | Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 text-white min-h-screen p-8">
+
+  <a href="/admin/students" class="text-purple-400 hover:underline text-sm">
+    ← Back to Students
+  </a>
+
+  <h1 class="text-3xl font-bold mt-4 mb-6">
+    <%= student.fullname %> — Student Details
+  </h1>
+
+  <div class="bg-slate-800/70 backdrop-blur p-6 rounded-2xl shadow-xl max-w-4xl">
+
+    <!-- PHOTO + MAIN INFO -->
+    <div class="flex gap-6 items-center mb-6">
+      <% if (student.profileImage) { %>
+        <img src="<%= student.profileImage %>" 
+             class="w-32 h-32 rounded-xl object-cover border border-white/20">
+      <% } else { %>
+        <div class="w-32 h-32 rounded-xl bg-slate-700 flex items-center justify-center text-gray-300">
+          No Photo
+        </div>
+      <% } %>
+
+      <div>
+        <p class="text-2xl font-semibold"><%= student.fullname %></p>
+        <p class="text-gray-300">Email: <%= student.email %></p>
+        <p class="text-gray-300">Admission No: <%= student.admissionNumber %></p>
+        <p class="text-gray-300">Roll No: <%= student.rollNumber || "-" %></p>
+
+        <p class="text-gray-300 mt-1">
+          Status:
+          <span class="px-2 py-1 rounded text-sm 
+            <%= student.approvalStatus === 'approved' ? 'bg-green-600/30 text-green-400' : 
+                student.approvalStatus === 'pending' ? 'bg-yellow-600/30 text-yellow-400' : 
+                'bg-red-600/30 text-red-400' %>">
+            <%= student.approvalStatus %>
+          </span>
+        </p>
+
+      </div>
+    </div>
+
+    <hr class="border-white/20 my-4">
+
+    <!-- BASIC INFORMATION -->
+    <h2 class="text-xl font-semibold mb-2">Basic Information</h2>
+    <div class="grid grid-cols-2 gap-4 text-gray-300">
+
+      <p><span class="font-medium text-white">Phone:</span> <%= student.phone %></p>
+      <p><span class="font-medium text-white">Guardian Phone:</span> <%= student.guardianPhone %></p>
+
+      <p><span class="font-medium text-white">Gender:</span> <%= student.gender %></p>
+      <p><span class="font-medium text-white">DOB:</span> <%= student.dob.toDateString() %></p>
+
+      <p><span class="font-medium text-white">Blood Group:</span> <%= student.bloodGroup %></p>
+      <p><span class="font-medium text-white">Aadhar:</span> <%= student.aadharNumber %></p>
+
+      <p><span class="font-medium text-white">ABC ID:</span> <%= student.abcId %></p>
+
+    </div>
+
+    <hr class="border-white/20 my-4">
+
+    <!-- PARENTS INFO -->
+    <h2 class="text-xl font-semibold mb-2">Parents Information</h2>
+    <div class="grid grid-cols-2 gap-4 text-gray-300">
+      <p><span class="font-medium text-white">Father's Name:</span> <%= student.fatherName %></p>
+      <p><span class="font-medium text-white">Mother's Name:</span> <%= student.motherName %></p>
+    </div>
+
+    <hr class="border-white/20 my-4">
+
+    <!-- ACADEMIC INFO -->
+    <h2 class="text-xl font-semibold mb-2">Academic Information</h2>
+    <div class="grid grid-cols-2 gap-4 text-gray-300">
+      <p><span class="font-medium text-white">Course:</span> <%= student.course %></p>
+      <p><span class="font-medium text-white">Course Code:</span> <%= student.courseCode %></p>
+
+      <p><span class="font-medium text-white">Semester:</span> <%= student.semester %></p>
+    </div>
+
+    <hr class="border-white/20 my-4">
+
+    <!-- ADDRESS -->
+    <h2 class="text-xl font-semibold mb-2">Address</h2>
+    <p class="bg-slate-700 p-3 rounded-xl text-gray-200 whitespace-pre-line">
+      <%= student.address %>
+    </p>
+
+    <hr class="border-white/10 my-4">
+
+    <p class="text-gray-400 text-sm">
+      Account Created: <%= student.createdAt.toDateString() %>
+    </p>
+
+  </div>
+
+<form action="/admin/student/<%= student._id %>/warning" method="POST" class="mt-4">
+    <textarea name="message" required
+        class="w-full p-2 rounded bg-slate-700 border border-white/20"
+        placeholder="Enter warning message..."></textarea>
+
+    <button class="mt-2 bg-red-500 px-4 py-2 rounded">
+        Send Warning
+    </button>
+</form>
+</body>
+</html>
