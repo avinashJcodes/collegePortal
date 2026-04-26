@@ -154,10 +154,10 @@ exports.createCashfreeOrder = async (req, res) => {
           customer_phone: phone,
         },
 
-        order_meta: {
-          return_url: `${baseUrl}/exam/student/cashfree/return/${form._id}`,
-        },
-
+   order_meta: {
+  return_url: `${baseUrl}/exam/student/cashfree/return/${form._id}`,
+  notify_url: `${baseUrl}/exam/student/cashfree/webhook`,
+},
         order_tags: {
           formId: String(form._id),
         },
@@ -217,34 +217,31 @@ exports.examStatusPage = async (req, res) => {
 
 exports.cashfreeWebhook = async (req, res) => {
   try {
-    console.log("🔔 Webhook hit:", req.body);
+    console.log("🔔 Webhook hit:", JSON.stringify(req.body, null, 2));
 
     const event = req.body;
 
-    // Handle real payment event
     if (event?.type === "PAYMENT_SUCCESS") {
       const payment = event.data?.payment;
       const order = event.data?.order;
 
-      const formId = order?.order_tags?.formId;
+      const orderId = order?.order_id;
 
-      if (formId) {
-        await ExamForm.findByIdAndUpdate(formId, {
+      const updated = await ExamForm.findOneAndUpdate(
+        { cashfreeOrderId: orderId },
+        {
           paymentStatus: "Paid",
           transactionId: payment?.cf_payment_id,
           paidAt: new Date(payment?.payment_time),
-        });
+        }
+      );
 
-        console.log("✅ Payment success:", formId);
-      }
+      console.log("✅ Updated:", updated);
     }
 
-    // 🔥 Always respond JSON
     return res.status(200).json({ success: true });
   } catch (err) {
     console.error("Webhook error:", err.message);
-
-    // 🔥 Even on error return 200 (Cashfree retry spam avoid)
     return res.status(200).json({ success: false });
   }
 };
