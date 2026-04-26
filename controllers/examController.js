@@ -2,6 +2,7 @@ const ExamForm = require("../models/examModel");
 const axios = require("axios");
 const Student = require("../models/studentModel");
 
+
 /* =======================
    STUDENT CONTROLLERS
 ======================= */
@@ -85,42 +86,63 @@ exports.submitExamForm = async (req, res) => {
 
 exports.createCashfreeOrder = async (req, res) => {
   try {
+    // 🔹 Fetch form
     const form = await ExamForm.findById(req.params.id);
-    if (!form) return res.status(404).json({ error: "Form not found" });
+    if (!form) {
+      return res.status(404).json({ error: "Form not found" });
+    }
 
+    // 🔹 Fetch student
     const student = await Student.findById(req.session.studentId);
     if (!student) {
       return res.status(401).json({ error: "Student not found" });
     }
 
-    // ✅ PHONE CLEAN + VALIDATE (यहीं डालना है)
+    // 🔹 Phone clean
     const rawPhone = String(student.phone || "");
     const phone = rawPhone.replace(/\D/g, "").slice(-10);
-    console.log("RAW PHONE:", student.phone);
-console.log("CLEAN PHONE:", phone);
-console.log("HITTING CASHFREE...");
 
-    if (!phone || phone.length !== 10) {
+    console.log("RAW PHONE:", student.phone);
+    console.log("CLEAN PHONE:", phone);
+
+    if (phone.length !== 10) {
       return res.status(400).json({ error: "Invalid phone number" });
     }
 
-    // ✅ EMAIL CHECK (optional but safe)
+    // 🔹 Email check
     if (!student.email) {
       return res.status(400).json({ error: "Email missing" });
     }
 
+    // 🔴 Critical env checks
+    if (!process.env.CASHFREE_APP_ID || !process.env.CASHFREE_SECRET_KEY) {
+      return res.status(500).json({ error: "Cashfree keys missing in .env" });
+    }
+
+    if (!process.env.BASE_URL) {
+      return res.status(500).json({ error: "BASE_URL missing in .env" });
+    }
+
+    if (!form.examFee || isNaN(form.examFee)) {
+      return res.status(400).json({ error: "Invalid exam fee" });
+    }
+
+    // 🔹 Order setup
     const orderId = "order_" + Date.now();
 
     const isProd =
       process.env.CASHFREE_ENV === "PROD" ||
       process.env.CASHFREE_ENV === "production";
 
-    const baseURL = isProd
+    const apiURL = isProd
       ? "https://api.cashfree.com/pg/orders"
       : "https://sandbox.cashfree.com/pg/orders";
 
+    const baseUrl = process.env.BASE_URL;
+
+    // 🔹 Create order
     const response = await axios.post(
-      baseURL,
+      apiURL,
       {
         order_id: orderId,
         order_amount: Number(form.examFee),
@@ -129,13 +151,11 @@ console.log("HITTING CASHFREE...");
         customer_details: {
           customer_id: String(student._id),
           customer_email: student.email,
-          customer_phone: phone, // ✅ FIXED
+          customer_phone: phone,
         },
 
         order_meta: {
-          return_url:
-            "https://collegeportal-production.up.railway.app/exam/student/cashfree/return/" +
-            form._id,
+          return_url: `${baseUrl}/exam/student/cashfree/return/${form._id}`,
         },
 
         order_tags: {
@@ -152,62 +172,40 @@ console.log("HITTING CASHFREE...");
       }
     );
 
+    // 🔹 Save order ID
     form.cashfreeOrderId = orderId;
     await form.save();
 
-    res.json({
+    // 🔹 Send session ID
+    return res.json({
       payment_session_id: response.data.payment_session_id,
     });
+
   } catch (err) {
-    console.error("❌ Cashfree error:", err.response?.data || err.message);
-    res.status(500).json({ error: "Cashfree order failed" });
+    console.error("❌ FULL ERROR:", err);
+    console.error("❌ RESPONSE:", err.response?.data);
+
+    return res.status(500).json({
+      error: err.response?.data || err.message,
+    });
   }
 };
 
 // ✅ CASHFREE RETURN + VERIFY
 exports.cashfreeReturn = async (req, res) => {
   try {
-    const formId = req.params.formId;
-    const form = await ExamForm.findById(formId);
+    console.log("🔁 Return hit:", req.params.formId);
 
-    if (!form || !form.cashfreeOrderId) {
-      return res.redirect("/exam/student/exam-status");
-    }
+    // 👉 बस redirect करो
+    return res.redirect("/exam/student/exam-status");
 
-    // ✅ ENV check
-    const isProd =
-      process.env.CASHFREE_ENV === "PROD" ||
-      process.env.CASHFREE_ENV === "production";
-
-    // ✅ सही URL बनाओ
-    const verifyURL = isProd
-      ? `https://api.cashfree.com/pg/orders/${form.cashfreeOrderId}`
-      : `https://sandbox.cashfree.com/pg/orders/${form.cashfreeOrderId}`;
-
-    console.log("VERIFY URL:", verifyURL);
-
-    // ✅ सही API call
-    const verify = await axios.get(verifyURL, {
-      headers: {
-        "x-api-version": "2022-09-01",
-        "x-client-id": process.env.CASHFREE_APP_ID,
-        "x-client-secret": process.env.CASHFREE_SECRET_KEY,
-      },
-    });
-
-if (verify.data.order_status === "PAID") {
-  console.log("✅ Payment verified (return)");
-  // ❌ DB update मत करो
-}
-    res.redirect("/exam/student/exam-status");
   } catch (err) {
-    console.error(
-      "❌ Return verify error:",
-      err.response?.data || err.message
-    );
-    res.redirect("/exam/student/exam-status");
+    console.error("Return error:", err.message);
+    return res.redirect("/exam/student/exam-status");
   }
 };
+
+
 
 // Student exam status
 exports.examStatusPage = async (req, res) => {

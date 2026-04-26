@@ -9,6 +9,7 @@ const isStudent = async (req, res, next) => {
 
     // ✅ SESSION ID is ObjectId
     const student = await Student.findById(req.session.studentId);
+    console.log("SESSION:", req.session);
 
     if (!student) {
       console.log("❌ Student not found");

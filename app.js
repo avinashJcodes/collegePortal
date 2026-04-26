@@ -34,21 +34,40 @@ const helmet = require("helmet"); // 👈 top pe require
 const cors = require("cors");
 
 // ✅ YAHAN LAGANA HAI (routes se pehle)
-app.use(
+//app.use(
   helmet({
     contentSecurityPolicy: {
+      useDefaults: false, // 👉 defaults हटाकर clean config
+
       directives: {
         defaultSrc: ["'self'"],
 
         scriptSrc: [
           "'self'",
-          "'unsafe-inline'",   // 🔥 VERY IMPORTANT
+          "'unsafe-inline'",
+          "https://sdk.cashfree.com",
           "https://unpkg.com",
           "https://cdn.tailwindcss.com",
           "https://code.iconify.design"
         ],
 
-        scriptSrcAttr: ["'unsafe-inline'"], // 🔥 FIX FOR CLICK EVENTS
+        scriptSrcAttr: ["'unsafe-inline'"],
+
+        connectSrc: [
+          "'self'",
+          "https://sdk.cashfree.com",
+          "https://api.cashfree.com"
+        ],
+
+        frameSrc: [
+          "'self'",
+          "https://sdk.cashfree.com"
+        ],
+
+        formAction: [
+          "'self'",
+          "https://api.cashfree.com"
+        ],
 
         styleSrc: [
           "'self'",
@@ -71,9 +90,7 @@ app.use(
       }
     }
   })
-);
-
-
+//
 
 app.use(cors());
 

@@ -11,7 +11,7 @@ router.post("/student/exam-form", isStudent, examController.submitExamForm);
 
 router.post(
   "/student/cashfree/create-order/:id",
-  isStudent,
+  
   examController.createCashfreeOrder
 );
 
