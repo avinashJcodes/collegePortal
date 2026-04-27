@@ -200,7 +200,7 @@ document.getElementById("resendBtn").addEventListener("click", async () => {
     }
 });
 
-// Popup open होताच timer सुरू करा
+
 startOTPTimer();
 
 document.getElementById("forgotBtn").addEventListener("click", () => {
@@ -214,7 +214,7 @@ function openForgotPopup() {
     const p = document.getElementById("forgotPopup");
     const c = document.getElementById("forgotCard");
 
-            // 🔥 YAHI LINE ADD KARNI HAI
+            
     document.getElementById("forgotEmail").value = "";
     document.getElementById("forgotMsg").classList.add("hidden");
 
@@ -409,12 +409,12 @@ function openRegisterSuccessPopup() {
 }
 
 function goToLogin() {
-    window.location.href = "/";
+    window.location.href = "/register";
 }
 
 
 function goToLogin() {
-    window.location.href = "/";
+    window.location.href = "/register";
 }
 
 

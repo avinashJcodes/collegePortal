@@ -53,16 +53,11 @@ const studentSchema = new mongoose.Schema({
   },
 
   /* ================= PERSONAL INFO ================= */
-  phone: {
+phone: {
   type: String,
-  required: true,
-  validate: {
-    validator: function (v) {
-      return /^[0-9]{10}$/.test(v);
-    },
-    message: "Invalid phone number (must be 10 digits)"
-  }
-},
+  required: false
+}, 
+
   dob: Date,
   gender: String,
   bloodGroup: String,

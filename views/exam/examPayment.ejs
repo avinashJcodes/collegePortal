@@ -85,7 +85,6 @@ async function payNow() {
 
         const data = await res.json();
 
-        console.log("PAYMENT DATA:", data);
 
         if (!data.payment_session_id) {
             throw new Error("No session id received");

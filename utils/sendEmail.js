@@ -1,41 +1,37 @@
-const nodemailer = require("nodemailer");
+const axios = require("axios");
 require("dotenv").config();
 
 const sendEmail = async (to, subject, name, otp) => {
   try {
- const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false
-  }
-});
-
-    const mailOptions = {
-      from: `"NIT Portal" <${process.env.EMAIL_USER}>`,
-      to: to,
-      subject: subject,
-      html: `
-        <h2>Hello ${name},</h2>
-        <p>Your OTP is:</p>
-        <h1 style="color:blue;">${otp}</h1>
-        <p>This OTP will expire in 5 minutes.</p>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
+    await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "NIT Portal",
+          email: process.env.EMAIL_USER, // same email
+        },
+        to: [{ email: to }],
+        subject: subject,
+        htmlContent: `
+          <h2>Hello ${name},</h2>
+          <p>Your OTP is:</p>
+          <h1 style="color:blue;">${otp}</h1>
+          <p>This OTP will expire in 5 minutes.</p>
+        `,
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     console.log("✅ Email sent successfully");
   } catch (error) {
-    console.log("🔥 Email Error:", error);
+    console.log("🔥 Email Error:", error.response?.data || error.message);
     throw error;
   }
 };
 
-// ✅ IMPORTANT (for your current import)
 exports.sendEmail = sendEmail;

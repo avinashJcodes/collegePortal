@@ -227,24 +227,5 @@
 <% } %>
 
 
-<script>
-  function speakWelcome(name) {
-    const msg = new SpeechSynthesisUtterance(
-      `Welcome ${name}, your dashboard is ready`
-    );
-
-    speechSynthesis.speak(msg);
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const name = "<%= student.fullname %>";
-
-    // ✅ ONLY dashboard pe chale
-    if (window.location.pathname === "/student/dashboard") {
-      speakWelcome(name);
-    }
-  });
-</script>
-
 </div>
 

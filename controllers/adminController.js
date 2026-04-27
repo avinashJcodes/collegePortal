@@ -18,7 +18,7 @@ exports.adminLogin = async (req, res) => {
       req.session.adminName = admin.username; 
     req.session.role = "admin";
 
-   return res.redirect("/admins/Dashboard");
+   return res.redirect("/admin/dashboard");
 };
 
 exports.getStudentDetails = async (req, res) => {
