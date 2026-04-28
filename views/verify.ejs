@@ -1,0 +1,23 @@
+<div class="min-h-screen flex items-center justify-center bg-slate-900 text-white">
+
+  <% if (status === "valid") { %>
+    <div class="text-center">
+      <h1 class="text-3xl text-green-400 font-bold">✅ Valid Pass</h1>
+      <p class="mt-2"><%= pass.studentId.fullname %></p>
+      <p><%= pass.passId %></p>
+    </div>
+  <% } %>
+
+  <% if (status === "expired") { %>
+    <h1 class="text-3xl text-red-400 font-bold">❌ Pass Expired</h1>
+  <% } %>
+
+  <% if (status === "invalid") { %>
+    <h1 class="text-3xl text-red-400 font-bold">❌ Invalid Pass</h1>
+  <% } %>
+
+  <% if (status === "not-approved") { %>
+    <h1 class="text-3xl text-yellow-400 font-bold">⏳ Not Approved</h1>
+  <% } %>
+
+</div>

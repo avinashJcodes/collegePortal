@@ -1,0 +1,25 @@
+<h2>Gate Pass Requests</h2>
+
+<% passes.forEach(pass => { %>
+
+  <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+    
+    <p><b>Name:</b> <%= pass.studentId.fullname %></p>
+    <p><b>Reason:</b> <%= pass.reason %></p>
+    <p><b>Status:</b> <%= pass.status %></p>
+
+    <% if (pass.status === "pending") { %>
+      
+      <form action="/admin/gatepass/approve/<%= pass._id %>" method="POST">
+        <button>Approve</button>
+      </form>
+
+      <form action="/admin/gatepass/reject/<%= pass._id %>" method="POST">
+        <button>Reject</button>
+      </form>
+
+    <% } %>
+
+  </div>
+
+<% }) %>

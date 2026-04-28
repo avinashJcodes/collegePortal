@@ -80,6 +80,7 @@ app.use(
            "https://api.cashfree.com",
           "https://meet.jit.si"
         ],
+        
 
         connectSrc: [
           "'self'",
@@ -186,6 +187,8 @@ app.use("/student", require("./routes/studentChatRoutes"));
 app.use("/student", require("./routes/noticeRoutes"));
 app.use("/meeting", require("./routes/mettingRoutes"));
 app.use("/admin", require("./routes/adminMettingRoute"));
+app.use("/admin", require("./routes/adminGatePassRoutes"));
+app.use("/", require("./routes/verifyRoutes"));
 
 
 app.use((err, req, res, next) => {

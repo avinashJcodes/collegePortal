@@ -1,0 +1,35 @@
+<% if (passes.length === 0) { %>
+  <p>No requests yet</p>
+<% } %>
+
+<!-- 🔥 CURRENT (latest) -->
+<% const current = passes[0]; %>
+
+<% if (current) { %>
+
+  <% if (current.status === "pending") { %>
+    <p class="text-yellow-400">Waiting for approval...</p>
+  <% } %>
+
+  <% if (current.status === "approved") { %>
+    <p class="text-green-400">Approved ✅</p>
+  <% } %>
+
+  <% if (current.status === "rejected") { %>
+    <p class="text-red-400">Rejected ❌</p>
+  <% } %>
+
+<% } %>
+
+<hr>
+
+<!-- 🔥 HISTORY -->
+<h3>History</h3>
+
+<% passes.forEach(pass => { %>
+  <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+    <p><%= pass.reason %></p>
+    <p>Status: <%= pass.status %></p>
+    <p><%= pass.from %> → <%= pass.to %></p>
+  </div>
+<% }) %>
