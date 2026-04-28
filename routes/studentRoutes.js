@@ -16,7 +16,7 @@ router.get("/dashboard",  setSidebar(false), setHeader(true),
 
 
 // ================= PROFILE PAGE =================
-router.get("/profile", isStudent, studentController.profilePage);
+router.get("/profile", isStudent,setHeader(true), studentController.profilePage);
 
 // ================= SAVE / UPDATE PROFILE =================
 router.post(
@@ -43,6 +43,7 @@ router.get("/logout", isStudent, (req, res) => {
 router.get(
   "/marksheet",
   isStudent,
+  setHeader(true),
   studentController.viewMarksheet
 );
 

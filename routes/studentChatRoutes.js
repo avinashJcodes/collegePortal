@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Chat = require("../models/chatModel");
+const { setHeader } = require("../middlewares/setHeader");
 
 const { isStudent } = require("../middlewares/studentAuth");
 const chatController = require("../controllers/chatController");
 
 // Student chat page
-router.get("/chat", isStudent, chatController.studentChatPage);
+router.get("/chat", isStudent,setHeader(true), chatController.studentChatPage);
 
 // Send message
 router.post("/chat", isStudent, chatController.sendMessage);

@@ -4,9 +4,10 @@ const router = express.Router();
 const { isStudent } = require("../middlewares/studentAuth");
 const isAdmin = require("../middlewares/isAdmin");
 const examController = require("../controllers/examController");
+const { setHeader } = require("../middlewares/setHeader");
 
 /* STUDENT */
-router.get("/student/exam-form", isStudent, examController.examFormPage);
+router.get("/student/exam-form", isStudent,setHeader(true), examController.examFormPage);
 router.post("/student/exam-form", isStudent, examController.submitExamForm);
 
 router.post(
@@ -16,14 +17,14 @@ router.post(
 );
 
 router.get(
-  "/student/cashfree/return/:formId",
+  "/student/cashfree/return/:formId",setHeader(true),
   examController.cashfreeReturn
 );
 
 router.get(
   "/student/exam-status",
   isStudent,
-  examController.examStatusPage)
+  examController.examStatusPage,setHeader(true))
 
   // 🔔 CASHFREE WEBHOOK (NO auth middleware)
 router.post(
