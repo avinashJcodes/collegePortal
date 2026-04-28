@@ -63,6 +63,7 @@ app.use(
         imgSrc: [
           "'self'",
           "data:",
+          "https://api.cashfree.com",
           "https://meet.jit.si",
           "https://images.unsplash.com",
           "https://cdn-icons-png.flaticon.com"
@@ -76,6 +77,7 @@ app.use(
         frameSrc: [
           "'self'",
           "https://sdk.cashfree.com",
+           "https://api.cashfree.com",
           "https://meet.jit.si"
         ],
 
