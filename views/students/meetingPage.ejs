@@ -1,0 +1,46 @@
+<div class="fixed inset-0 bg-black">
+
+  <!-- Top Bar -->
+  <div class="absolute top-0 left-0 w-full z-10 flex justify-between items-center px-4 py-2 bg-black/60">
+
+    <span class="text-white text-sm">
+      Room: <%= meeting.roomId %>
+    </span>
+
+    <div class="flex gap-2">
+      <button onclick="copyText('<%= meeting.roomId %>')" 
+        class="bg-purple-600 px-3 py-1 text-xs rounded text-white">
+        Copy
+      </button>
+
+      <a href="/student/dashboard"
+        class="bg-red-600 px-3 py-1 text-xs rounded text-white">
+        Leave
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Jitsi -->
+  <div id="meet" class="w-full h-full"></div>
+
+</div>
+
+<script src="https://meet.jit.si/external_api.js"></script>
+
+<script>
+const api = new JitsiMeetExternalAPI("meet.jit.si", {
+  roomName: "<%= meeting.roomId %>",
+  parentNode: document.querySelector("#meet"),
+  width: "100%",
+  height: "100%",
+
+  userInfo: {
+    displayName: "<%= student.fullname %>"
+  },
+
+  configOverwrite: {
+    prejoinPageEnabled: false
+  }
+});
+</script>

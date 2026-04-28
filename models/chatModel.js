@@ -18,6 +18,9 @@ const chatSchema = new mongoose.Schema({
     default: ""
   },
 
+
+  
+
   isDeleted: {
     type: Boolean,
     default: false

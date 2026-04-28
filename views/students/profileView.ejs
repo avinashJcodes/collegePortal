@@ -13,27 +13,55 @@
 
 body{
   font-family:'Inter',sans-serif;
-  background:#f8fafc; /* light gray */
-  color:#1e293b;
+  background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  color:#e2e8f0;
 }
+
+/* CARD */
 .glass-card{
-  background:#ffffff;
-  border:1px solid #e2e8f0;
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(14px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 10px 40px rgba(0,0,0,0.5);
+  transition:0.3s;
 }
 
+.glass-card:hover{
+  transform: translateY(-4px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.7);
+}
+
+/* DETAIL BLOCK */
 .detail-item{
-  background:#f1f5f9;
-  border:1px solid #e2e8f0;
+  background: rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  transition:0.2s;
 }
 
+.detail-item:hover{
+  background: rgba(255,255,255,0.1);
+}
+
+/* HEADERS */
 .section-header{
   display:flex;
   align-items:center;
   gap:.75rem;
   margin-bottom:1.25rem;
   padding-bottom:.75rem;
-  border-bottom:1px solid rgba(255,255,255,.08);
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+/* BUTTON */
+.btn-purple{
+  background: linear-gradient(135deg,#7c3aed,#6366f1);
+  color:white;
+  transition:0.3s;
+}
+
+.btn-purple:hover{
+  transform: scale(1.05);
+  background: linear-gradient(135deg,#8b5cf6,#7c3aed);
 }
 </style>
 </head>
@@ -43,16 +71,16 @@ body{
 <div class="max-w-6xl mx-auto px-6 py-10">
 
 <!-- HEADER -->
-<div class="flex items-center justify-between mb-10 border-b border-slate-200 pb-6">
+<div class="flex items-center justify-between mb-10 border-b border-white/10 pb-6">
   <div>
-    <h1 class="text-2xl font-semibold text-slate-800">Student Profile</h1>
-    <p class="text-sm text-slate-400 mt-1">Official Academic Identity Record</p>
+    <h1 class="text-2xl font-semibold text-white">Student Profile</h1>
+    <p class="text-sm text-purple-300 mt-1">Official Academic Identity Record</p>
   </div>
 
   <a href="/student/profile?edit=true"
-     class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2 rounded-lg text-sm font-semibold text-slate-800 flex items-center gap-2">
+     class="btn-purple px-5 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
     <i data-lucide="edit" class="w-4 h-4"></i>
-    update Profile
+    Update Profile
   </a>
 </div>
 
@@ -61,7 +89,7 @@ body{
   <div class="flex flex-col md:flex-row md:items-center gap-6">
     <img
       src="<%= student.profileImage || 'https://ui-avatars.com/api/?background=6366f1&color=fff&size=200&name=' + student.fullname %>"
-      class="w-28 h-28 rounded-full border-4 border-indigo-500/40 object-cover">
+     class="w-28 h-28 rounded-full border-4 border-purple-500/50 object-cover shadow-lg shadow-purple-500/30"
 
     <div>
       <h2 class="text-2xl font-bold "><%= student.fullname %></h2>
@@ -70,7 +98,7 @@ body{
       </p>
 
       <div class="flex gap-3 mt-3 text-xs">
-        <span class="px-3 py-1 bg-slate-100 border  rounded-full">
+        <span class="px-3 py-1 bg-white/10 border  rounded-full">
           Student ID: <%= student.studentId || 'N/A' %>
         </span>
         <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full">
@@ -85,37 +113,37 @@ body{
 <section class="glass-card rounded-xl p-6 mb-8">
 <div class="section-header">
   <i data-lucide="user" class="w-5 h-5 text-indigo-400"></i>
-  <h3 class="text-lg font-semibold text-slate-800">01 · Personal Details</h3>
+  <h3 class="text-lg font-semibold text-white">01 · Personal Details</h3>
 </div>
 
 <div class="grid md:grid-cols-2 gap-4">
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Email</p>
+    <p class="text-xs text-purple-300">Email</p>
     <p class="font-medium"><%= student.email %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Contact</p>
+    <p class="text-xs text-purple-300">Contact</p>
     <p class="font-medium"><%= student.phone || 'Not Provided' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Date of Birth</p>
+    <p class="text-xs  text-purple-300">Date of Birth</p>
     <p class="font-medium"><%= student.dob ? student.dob.toDateString() : 'Not Set' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Gender</p>
+    <p class="text-xs text-purple-300">Gender</p>
     <p class="font-medium"><%= student.gender || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Blood Group</p>
+    <p class="text-xs  text-purple-300">Blood Group</p>
     <p class="font-medium"><%= student.bloodGroup || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Aadhar</p>
+    <p class="text-xs text-purple-300">Aadhar</p>
     <p class="font-mono tracking-widest"><%= student.aadharNumber || 'XXXX XXXX XXXX' %></p>
   </div>
 </div>
@@ -125,32 +153,32 @@ body{
 <section class="glass-card rounded-xl p-6 mb-8">
 <div class="section-header">
   <i data-lucide="graduation-cap" class="w-5 h-5 text-cyan-400"></i>
-  <h3 class="text-lg font-semibold text-slate-800">02 · Academic Details</h3>
+  <h3 class="text-lg font-semibold text-white">02 · Academic Details</h3>
 </div>
 
 <div class="grid md:grid-cols-2 gap-4">
   <div class="detail-item p-4 rounded-lg md:col-span-2">
-    <p class="text-xs text-slate-400">Course</p>
+    <p class="text-xs text-purple-300">Course</p>
     <p class="font-semibold text-cyan-400"><%= student.course || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Course Code</p>
+    <p class="text-xs  text-purple-300">Course Code</p>
     <p class="font-mono"><%= student.courseCode || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Roll Number</p>
+    <p class="text-xs text-purple-300">Roll Number</p>
     <p class="font-semibold"><%= student.rollNumber || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Semester</p>
+    <p class="text-xs  text-purple-300">Semester</p>
     <p>Semester <%= student.semester || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">ABC ID</p>
+    <p class="text-xs  text-purple-300">ABC ID</p>
     <p class="font-mono tracking-widest"><%= student.abcId || 'N/A' %></p>
   </div>
 </div>
@@ -160,27 +188,27 @@ body{
 <section class="glass-card rounded-xl p-6 mb-8">
 <div class="section-header">
   <i data-lucide="history" class="w-5 h-5 text-amber-400"></i>
-  <h3 class="text-lg font-semibold text-slate-800">03 · Education History</h3>
+  <h3 class="text-lg font-semibold text-white">03 · Education History</h3>
 </div>
 
 <div class="grid md:grid-cols-2 gap-4">
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">10th Board</p>
+    <p class="text-xs  text-purple-300">10th Board</p>
     <p><%= student.tenthBoard || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">10th Score</p>
+    <p class="text-xs  text-purple-300">10th Score</p>
     <p><%= student.tenthScore || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">12th Board</p>
+    <p class="text-xs  text-purple-300">12th Board</p>
     <p><%= student.twelfthBoard || 'N/A' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">12th Score</p>
+    <p class="text-xs  text-purple-300">12th Score</p>
     <p><%= student.twelfthScore || 'N/A' %></p>
   </div>
 </div>
@@ -190,29 +218,29 @@ body{
 <section class="glass-card rounded-xl p-6">
 <div class="section-header">
   <i data-lucide="users" class="w-5 h-5 text-rose-400"></i>
-  <h3 class="text-lg font-semibold text-slate-800">04 · Family & Address</h3>
+  <h3 class="text-lg font-semibold text-white">04 · Family & Address</h3>
 </div>
 
 <div class="space-y-4">
   <div class="grid md:grid-cols-2 gap-4">
     <div class="detail-item p-4 rounded-lg">
-      <p class="text-xs text-slate-400">Father</p>
+      <p class="text-xs  text-purple-300">Father</p>
       <p><%= student.fatherName || 'N/A' %></p>
     </div>
 
     <div class="detail-item p-4 rounded-lg">
-      <p class="text-xs text-slate-400">Mother</p>
+      <p class="text-xs  text-purple-300">Mother</p>
       <p><%= student.motherName || 'N/A' %></p>
     </div>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Address</p>
+    <p class="text-xs  text-purple-300">Address</p>
     <p class="leading-relaxed"><%= student.address || 'Not Provided' %></p>
   </div>
 
   <div class="detail-item p-4 rounded-lg">
-    <p class="text-xs text-slate-400">Emergency Contact</p>
+    <p class="text-xs  text-purple-300">Emergency Contact</p>
     <p class="font-semibold text-rose-400"><%= student.guardianPhone || 'N/A' %></p>
   </div>
 </div>

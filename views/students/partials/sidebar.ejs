@@ -114,6 +114,16 @@ class="fixed lg:sticky top-0 left-0 z-50
             Chat
         </a>
 
+        <a href="/meeting/joinmeeting"
+   class="<%= baseClass %> 
+   <%= currentPath.startsWith('/student/join-meeting') 
+       ? 'bg-gradient-to-r from-purple-500/20 to-transparent text-purple-400 shadow-inner' 
+       : 'text-slate-400 hover:bg-white/5 hover:text-white hover:translate-x-1' %>">
+       
+    <i data-lucide="video" class="w-5 h-5 group-hover:scale-110 transition"></i>
+    Meeting
+</a>
+
         <!-- LOGOUT -->
         <a href="/student/logout"
         class="flex items-center gap-3 px-4 py-3 rounded-xl 

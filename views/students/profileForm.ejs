@@ -13,29 +13,37 @@
 
 body{
   font-family:'Inter',sans-serif;
-  background:#f8fafc;
-  color:#1e293b;
+  background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  color:#e2e8f0;
 }
 
 .card{
-  background:#ffffff;
-  border:1px solid #e2e8f0;
-  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(14px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 10px 40px rgba(0,0,0,0.4);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform: translateY(-4px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
 }
 
 .input{
-  background:#ffffff;
-  border:1px solid #cbd5f5;
-  color:#1e293b;
+  background: rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  color:#fff;
 }
 
 .input::placeholder{
-  color:#94a3b8;
+  color:#cbd5f5;
 }
 
 .input:focus{
   outline:none;
-  border-color:#6366f1;
+  border-color:#a78bfa;
+  box-shadow:0 0 0 2px rgba(167,139,250,0.3);
 }
 
 .section-title{
@@ -44,7 +52,18 @@ body{
   gap:.75rem;
   margin-bottom:1.25rem;
   padding-bottom:.75rem;
- border-bottom:1px solid #e2e8f0;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+button{
+  background: linear-gradient(135deg,#7c3aed,#6366f1);
+  color:white;
+  transition:0.3s;
+}
+
+button:hover{
+  transform: scale(1.02);
+  background: linear-gradient(135deg,#8b5cf6,#7c3aed);
 }
 </style>
 </head>
@@ -75,7 +94,7 @@ body{
     </div>
 
     <div>
-      <h2 class="text-lg font-semibold text-slate-800">Profile Photograph</h2>
+      <h2 class="text-lg font-semibold text-white">Profile Photograph</h2>
       <p class="text-sm text-slate-400">
         Upload a recent passport size photo
       </p>
@@ -87,7 +106,7 @@ body{
 <section class="card rounded-xl p-6">
 <div class="section-title">
   <i data-lucide="user" class="text-indigo-400"></i>
-  <h3 class="text-lg font-semibold text-slate-800">Personal Information</h3>
+  <h3 class="text-lg font-semibold text-white">Personal Information</h3>
 </div>
 
 <div class="grid md:grid-cols-2 gap-4">
@@ -139,7 +158,7 @@ body{
 <section class="card rounded-xl p-6">
 <div class="section-title">
   <i data-lucide="graduation-cap" class="text-cyan-400"></i>
-  <h3 class="text-lg font-semibold text-slate-800">Academic Details</h3>
+  <h3 class="text-lg font-semibold text-white">Academic Details</h3>
 </div>
 
 <div class="grid md:grid-cols-2 gap-4">
@@ -188,7 +207,7 @@ body{
 
 <!-- ================= FAMILY & ADDRESS ================= -->
 <section class="card rounded-xl p-6">
-<div class="section-title">text-slate-800
+<div class="section-title">
   <i data-lucide="users" class="text-rose-400"></i>
   <h3 class="text-lg font-semibold ">Family & Address</h3>
 </div>
@@ -217,7 +236,7 @@ body{
 </section>
 
 <!-- SUBMIT -->
-<button class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold text-slate-800">
+<button class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold text-white">
 Save & Update Profile
 </button>
 

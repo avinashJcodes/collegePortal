@@ -1,0 +1,41 @@
+<div class="flex min-h-screen">
+
+  
+
+  <!-- Main Content -->
+  <div class="flex-1 flex items-center justify-center">
+
+    <div class="max-w-md w-full bg-white/5 p-6 rounded-xl">
+
+      <h2 class="text-white text-xl mb-4">Create Meeting</h2>
+
+      <form action="/admin/create" method="POST" class="space-y-4">
+
+        <select name="semester"
+          class="w-full p-3 rounded bg-white/10 text-white" required>
+          <option value="">Select Semester</option>
+          <option value="1">1st Semester</option>
+          <option value="2">2nd Semester</option>
+          <option value="3">3rd Semester</option>
+          <option value="1">4th Semester</option>
+          <option value="2">5th Semester</option>
+          <option value="3">6th Semester</option>
+          <option value="3">7th Semester</option>
+          <option value="3">8th Semester</option>
+        </select>
+
+        <input name="password"
+          placeholder="Set Password"
+          class="w-full p-3 rounded bg-white/10 text-white" required>
+
+        <button class="w-full bg-purple-600 py-3 rounded text-white">
+          Create Meeting
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

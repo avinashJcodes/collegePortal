@@ -34,11 +34,10 @@ const helmet = require("helmet"); // 👈 top pe require
 const cors = require("cors");
 
 // ✅ YAHAN LAGANA HAI (routes se pehle)
-//app.use(
+app.use(
   helmet({
     contentSecurityPolicy: {
-      useDefaults: false, // 👉 defaults हटाकर clean config
-
+      useDefaults: false,
       directives: {
         defaultSrc: ["'self'"],
 
@@ -46,28 +45,13 @@ const cors = require("cors");
           "'self'",
           "'unsafe-inline'",
           "https://sdk.cashfree.com",
+          "https://meet.jit.si",
           "https://unpkg.com",
           "https://cdn.tailwindcss.com",
           "https://code.iconify.design"
         ],
 
         scriptSrcAttr: ["'unsafe-inline'"],
-
-        connectSrc: [
-          "'self'",
-          "https://sdk.cashfree.com",
-          "https://api.cashfree.com"
-        ],
-
-        frameSrc: [
-          "'self'",
-          "https://sdk.cashfree.com"
-        ],
-
-        formAction: [
-          "'self'",
-          "https://api.cashfree.com"
-        ],
 
         styleSrc: [
           "'self'",
@@ -79,6 +63,7 @@ const cors = require("cors");
         imgSrc: [
           "'self'",
           "data:",
+          "https://meet.jit.si",
           "https://images.unsplash.com",
           "https://cdn-icons-png.flaticon.com"
         ],
@@ -86,10 +71,30 @@ const cors = require("cors");
         fontSrc: [
           "'self'",
           "https://fonts.gstatic.com"
+        ],
+
+        frameSrc: [
+          "'self'",
+          "https://sdk.cashfree.com",
+          "https://meet.jit.si"
+        ],
+
+        connectSrc: [
+          "'self'",
+          "https://sdk.cashfree.com",
+          "https://api.cashfree.com",
+          "https://meet.jit.si",
+          "wss://meet.jit.si"
+        ],
+
+        formAction: [
+          "'self'",
+          "https://api.cashfree.com"
         ]
       }
     }
   })
+);
 //
 
 app.use(cors());
@@ -177,6 +182,8 @@ app.use("/admin", require("./routes/adminNoticeRoutes"));
 app.use("/admin", require("./routes/adminChatRoutes"));
 app.use("/student", require("./routes/studentChatRoutes"));
 app.use("/student", require("./routes/noticeRoutes"));
+app.use("/meeting", require("./routes/mettingRoutes"));
+app.use("/admin", require("./routes/adminMettingRoute"));
 
 
 app.use((err, req, res, next) => {
