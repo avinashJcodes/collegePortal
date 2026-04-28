@@ -23,8 +23,8 @@ router.get(
 
 router.get(
   "/student/exam-status",
-  isStudent,
-  examController.examStatusPage,setHeader(true))
+  isStudent,setHeader(true),
+  examController.examStatusPage)
 
   // 🔔 CASHFREE WEBHOOK (NO auth middleware)
 router.post(
