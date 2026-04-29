@@ -1,25 +1,115 @@
-<h2>Gate Pass Requests</h2>
+<div class="max-w-5xl mx-auto mt-10 px-4">
 
-<% passes.forEach(pass => { %>
+  <h2 class="text-2xl font-bold text-white mb-6">
+    🎫 Gate Pass Requests
+  </h2>
 
-  <div style="border:1px solid #ccc; margin:10px; padding:10px;">
-    
-    <p><b>Name:</b> <%= pass.studentId.fullname %></p>
-    <p><b>Reason:</b> <%= pass.reason %></p>
-    <p><b>Status:</b> <%= pass.status %></p>
+  <% if (passes.length === 0) { %>
+    <p class="text-center text-slate-400 mt-10">
+      No gate pass requests yet
+    </p>
+  <% } %>
 
-    <% if (pass.status === "pending") { %>
-      
-      <form action="/admin/gatepass/approve/<%= pass._id %>" method="POST">
-        <button>Approve</button>
-      </form>
+  <% passes.forEach(pass => { %>
 
-      <form action="/admin/gatepass/reject/<%= pass._id %>" method="POST">
-        <button>Reject</button>
-      </form>
+    <div class="mb-5 p-5 rounded-2xl 
+                bg-gradient-to-br from-[#0f172a]/80 to-[#1e1b4b]/80
+                backdrop-blur-xl border border-purple-500/20
+                shadow-[0_10px_30px_rgba(139,92,246,0.25)]
+                hover:scale-[1.01] transition">
 
-    <% } %>
+      <!-- ================= HEADER ================= -->
+      <div class="flex justify-between items-center mb-4">
 
-  </div>
+        <!-- LEFT: PROFILE + INFO -->
+        <div class="flex items-center gap-4">
 
-<% }) %>
+          <img src="<%= pass.studentId.profileImage || '/images/default-user.png' %>" 
+               class="w-14 h-14 rounded-xl object-cover border border-purple-500/30 shadow" />
+
+          <div>
+            <h3 class="text-lg font-semibold text-white">
+              <%= pass.studentId.fullname %>
+            </h3>
+
+            <p class="text-sm text-slate-400">
+              <%= pass.studentId.course || "Course N/A" %> • Semester <%= pass.studentId.semester || "-" %>
+            </p>
+
+            <% if (pass.studentId.rollNumber) { %>
+              <p class="text-xs text-slate-500">
+                Roll: <%= pass.studentId.rollNumber %>
+              </p>
+            <% } %>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: STATUS -->
+        <div>
+          <% if (pass.status === "pending") { %>
+            <span class="px-3 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-400">
+              Pending
+            </span>
+          <% } %>
+
+          <% if (pass.status === "approved") { %>
+            <span class="px-3 py-1 text-xs rounded-full bg-green-500/20 text-green-400">
+              Approved
+            </span>
+          <% } %>
+
+          <% if (pass.status === "rejected") { %>
+            <span class="px-3 py-1 text-xs rounded-full bg-red-500/20 text-red-400">
+              Rejected
+            </span>
+          <% } %>
+        </div>
+
+      </div>
+
+      <!-- ================= DETAILS ================= -->
+      <div class="text-slate-300 text-sm space-y-1 mb-4">
+        <p><span class="text-slate-400">Reason:</span> <%= pass.reason %></p>
+
+        <p>
+          <span class="text-slate-400">From:</span> 
+          <%= new Date(pass.from).toLocaleString() %>
+        </p>
+
+        <p>
+          <span class="text-slate-400">To:</span> 
+          <%= new Date(pass.to).toLocaleString() %>
+        </p>
+      </div>
+
+      <!-- ================= ACTION BUTTONS ================= -->
+      <% if (pass.status === "pending") { %>
+
+        <div class="flex gap-3">
+
+          <form action="/admin/gatepass/approve/<%= pass._id %>" method="POST" class="flex-1">
+            <button class="w-full py-2 rounded-lg font-semibold
+                           bg-gradient-to-r from-green-500 to-emerald-500
+                           hover:from-green-600 hover:to-emerald-600 transition shadow">
+              ✔ Approve
+            </button>
+          </form>
+
+          <form action="/admin/gatepass/reject/<%= pass._id %>" method="POST" class="flex-1">
+            <button class="w-full py-2 rounded-lg font-semibold
+                           bg-gradient-to-r from-red-500 to-pink-500
+                           hover:from-red-600 hover:to-pink-600 transition shadow">
+              ✖ Reject
+            </button>
+          </form>
+
+        </div>
+
+      <% } %>
+
+    </div>
+
+  <% }) %>
+
+</div>

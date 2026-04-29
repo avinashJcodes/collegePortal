@@ -6,7 +6,7 @@ const QRCode = require("qrcode");
 // 🔥 LIST
 router.get("/gatepass", async (req, res) => {
   const passes = await GatePass.find()
-    .populate("studentId", "fullname rollNumber")
+   .populate("studentId", "fullname rollNumber course semester profileImage")
     .sort({ createdAt: -1 });
 
   res.render("admins/gatepassList", { passes });

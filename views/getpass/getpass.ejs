@@ -110,6 +110,17 @@
               </div>
             <% } %>
 
+            <div class="mt-4 flex justify-center">
+
+  <a href="/student/gatepass/download/<%= current._id %>"
+     class="px-5 py-2 rounded-lg font-semibold
+            bg-gradient-to-r from-purple-600 to-indigo-500
+            hover:from-purple-700 hover:to-indigo-600 transition shadow-lg">
+    ⬇ Download Pass
+  </a>
+
+</div>
+
             <% if (new Date() > new Date(current.to)) { %>
               <p class="text-red-400 mt-3 text-center">❌ Pass Expired</p>
             <% } else { %>

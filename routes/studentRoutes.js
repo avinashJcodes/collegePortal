@@ -8,7 +8,7 @@ const studentController = require("../controllers/studentController");
 const{ setSidebar} = require("../middlewares/setsidebar")
 const {setHeader} = require("../middlewares/setHeader")
 const GatePass = require("../models/gatePassModel");
-
+const crypto = require("crypto");
 
 
 // ================= DASHBOARD =================
@@ -162,13 +162,14 @@ router.post("/gatepass/apply", async (req, res) => {
     }
 
     // ✅ create
-    await GatePass.create({
-      studentId,
-      reason,
-      from: fromDate,
-      to: toDate,
-      status: "pending"
-    });
+   await GatePass.create({
+  studentId,
+  reason,
+  from,
+  to,
+  status: "pending",
+  passId: "GP-" + crypto.randomBytes(6).toString("hex")
+});
 
     req.session.success = "Request submitted successfully";
 
@@ -179,6 +180,26 @@ router.post("/gatepass/apply", async (req, res) => {
     req.session.error = "Server error";
     res.redirect("/student/gatepass?tab=apply");
   }
+});
+
+router.get("/gatepass/download/:id", async (req, res) => {
+  const pass = await GatePass.findById(req.params.id).populate("studentId");
+
+  if (!pass || pass.status !== "approved") {
+    return res.send("Invalid");
+  }
+
+  // simple HTML download
+  res.setHeader("Content-Disposition", "attachment; filename=gatepass.html");
+  res.send(`
+    <h2>Gate Pass</h2>
+    <p>Name: ${pass.studentId.fullname}</p>
+    <p>Pass ID: ${pass.passId}</p>
+    <p>Reason: ${pass.reason}</p>
+    <p>From: ${pass.from}</p>
+    <p>To: ${pass.to}</p>
+    <img src="${pass.qrCode}" width="150"/>
+  `);
 });
 
 
