@@ -9,6 +9,7 @@ router.get("/chat", isAdmin, async (req, res) => {
   const students = await Student.find({ approvalStatus: "approved" });
   res.render("admins/chatList", { 
     layout: false,
+      layout: "admins/layout/admin",
     students });
 });
 
@@ -19,6 +20,7 @@ router.get("/chat/:id", isAdmin, async (req, res) => {
 
   res.render("admins/chatRoom", { 
     layout: false,
+      layout: "admins/layout/admin",
     student, chats });
 });
 

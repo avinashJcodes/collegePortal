@@ -30,6 +30,7 @@ router.get("/dashboard", adminAuth, async (req, res) => {
 
     res.render("admins/Dashboard", {
         layout: false,
+         layout: "admins/layout/admin",
         adminName: req.session.adminName,
         totalStudents,
         pendingStudents,
@@ -45,6 +46,7 @@ router.get("/students/pending", adminAuth, async (req, res) => {
     const students = await Student.find({ approvalStatus: "pending" });
 res.render("admins/pendingStudents", {
     layout: false,
+      layout: "admins/layout/admin",
     students
 });
 
@@ -91,6 +93,7 @@ router.get("/students", adminAuth, async (req, res) => {
 
     res.render("admins/allStudents", {
         layout: false,
+          layout: "admins/layout/admin",
          students,
         search });
 });
@@ -132,6 +135,7 @@ router.get("/students/approved", adminAuth, async (req, res) => {
     const students = await Student.find({ approvalStatus: "approved" });
     res.render("admins/approvedStudents", { 
                layout: false,
+                 layout: "admins/layout/admin",
         students });
 });
 

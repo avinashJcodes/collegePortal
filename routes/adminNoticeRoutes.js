@@ -48,7 +48,8 @@ router.get("/notices", async (req, res) => {
 
   res.render("admins/notices", {
     notices,
-    layout: false
+    layout: false,
+    layout: "admins/layout/admin"
   });
 });
 

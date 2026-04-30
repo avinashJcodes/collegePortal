@@ -9,7 +9,11 @@ router.get("/gatepass", async (req, res) => {
    .populate("studentId", "fullname rollNumber course semester profileImage")
     .sort({ createdAt: -1 });
 
-  res.render("admins/gatepassList", { passes });
+  res.render("admins/gatepassList", {
+     passes,
+       layout: false ,
+         layout: "admins/layout/admin"
+   });
 });
 
 // 🔥 APPROVE (ONLY ONE)
@@ -23,10 +27,21 @@ router.post("/gatepass/approve/:id", async (req, res) => {
   pass.status = "approved";
   pass.passId = "GP" + Date.now();
 
-  // ✅ CORRECT PLACE
+  const jwt = require("jsonwebtoken");
   const baseUrl = req.protocol + "://" + req.get("host");
-  const qrData = `${baseUrl}/verify-pass/${pass.passId}`;
 
+  const token = jwt.sign(
+    {
+      passId: pass.passId,
+      studentId: pass.studentId
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
+
+  const qrData = `${baseUrl}/verify-pass?token=${token}`;
+
+  const QRCode = require("qrcode");
   pass.qrCode = await QRCode.toDataURL(qrData);
 
   await pass.save();

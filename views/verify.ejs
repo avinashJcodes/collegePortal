@@ -55,13 +55,18 @@
 
       </div>
 
-      <!-- 🔥 ACTION BUTTON -->
-      <form action="/verify-pass/use/<%= pass.passId %>" method="POST">
-        <button class="mt-3 w-full py-3 rounded-lg font-semibold text-lg
-                       bg-green-500 hover:bg-green-600 transition shadow-lg">
-          ✔ Allow Entry
-        </button>
-      </form>
+      <form action="/verify-pass/use" method="POST">
+
+  <input type="hidden" name="token" value="<%= token %>" />
+
+  <button class="mt-3 w-full py-3 rounded-lg font-semibold text-lg
+                 bg-green-500 hover:bg-green-600 transition shadow-lg">
+    ✔ Allow Entry
+  </button>
+
+</form>
+
+
 
     <% } %>
 

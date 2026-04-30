@@ -13,13 +13,10 @@ const app = express();
 
 const server = http.createServer(app);
 const io = new Server(server);
+
+// 🔥 ये missing था
 io.on("connection", (socket) => {
   console.log("🟢 Socket connected:", socket.id);
-
-  socket.on("joinRoom", (roomId) => {
-    socket.join(roomId);
-    console.log("Joined room:", roomId);
-  });
 
   socket.on("sendMessage", (data) => {
     io.to(data.room).emit("receiveMessage", data);
@@ -109,6 +106,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(expressLayouts);
+
+
+
+
 
 
 app.use((req, res, next) => {
@@ -137,7 +139,6 @@ app.use((req, res, next) => {
 
 
 
-app.use(expressLayouts);
 
 
 
@@ -195,6 +196,7 @@ app.use((err, req, res, next) => {
   console.error("🔥 Error:", err.stack);
   res.status(500).send("Server Error");
 });
+
 
 
 

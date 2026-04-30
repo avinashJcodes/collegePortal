@@ -1,0 +1,101 @@
+<!-- HEADER -->
+<header class="fixed top-0 left-0 w-full h-16 
+               bg-gradient-to-r from-[#0f172a] via-[#1e1b4b] to-[#312e81]
+               backdrop-blur-xl border-b border-white/10
+               flex items-center justify-between px-4 z-50">
+
+  <!-- LEFT -->
+  <div class="flex items-center gap-4">
+
+    <!-- MOBILE MENU BUTTON -->
+    <button id="menuBtn" class="md:hidden text-white text-xl">
+      ☰
+    </button>
+
+    <h1 class="text-white font-semibold text-lg tracking-wide">
+      Admin Panel
+    </h1>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="flex items-center gap-4">
+
+    <!-- SEARCH -->
+    <div class="hidden md:flex items-center bg-white/10 px-3 py-1.5 rounded-lg">
+      <input type="text" placeholder="Search..."
+             class="bg-transparent outline-none text-sm text-white placeholder-gray-400 w-40">
+    </div>
+
+    <!-- PROFILE -->
+    <div class="flex items-center gap-2 cursor-pointer">
+      <img src="/images/default-user.png"
+           class="w-8 h-8 rounded-full border border-white/20" />
+      <span class="text-sm text-white hidden sm:block">Admin</span>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- MOBILE SIDEBAR -->
+<div id="mobileSidebar"
+     class="fixed top-0 left-[-100%] w-64 h-full 
+            bg-[#0b1120] text-gray-300
+            transition-all duration-300 z-50 shadow-lg">
+
+  <!-- HEADER -->
+  <div class="p-5 flex justify-between items-center border-b border-white/10">
+    <h2 class="text-white font-semibold">Menu</h2>
+    <button id="closeBtn" class="text-white text-lg">✖</button>
+  </div>
+
+  <!-- NAV -->
+  <nav class="mt-4 px-3 space-y-2">
+
+    <a href="/admin/dashboard" class="block px-4 py-2 rounded hover:bg-purple-600/20">📊 Dashboard</a>
+    <a href="/admin/students" class="block px-4 py-2 rounded hover:bg-purple-600/20">👨‍🎓 Students</a>
+    <a href="/admin/notices" class="block px-4 py-2 rounded hover:bg-purple-600/20">📢 Notices</a>
+    <a href="/admin/marks/add" class="block px-4 py-2 rounded hover:bg-purple-600/20">📊 Results</a>
+    <a href="/attendance/view" class="block px-4 py-2 rounded hover:bg-purple-600/20">📝 Attendance</a>
+    <a href="/admin/chat" class="block px-4 py-2 rounded hover:bg-purple-600/20">💬 Chat</a>
+    <a href="/admin/gatepass" class="block px-4 py-2 rounded hover:bg-purple-600/20">📄 Gate Pass</a>
+
+    <a href="/admin/logout" class="block px-4 py-2 rounded text-red-400 hover:bg-red-500/20">
+      🚪 Logout
+    </a>
+
+  </nav>
+
+</div>
+
+
+<!-- OVERLAY -->
+<div id="overlay"
+     class="fixed inset-0 bg-black/50 hidden z-40"></div>
+
+
+<!-- SCRIPT -->
+<script>
+  const menuBtn = document.getElementById("menuBtn");
+  const closeBtn = document.getElementById("closeBtn");
+  const sidebar = document.getElementById("mobileSidebar");
+  const overlay = document.getElementById("overlay");
+
+  menuBtn.onclick = () => {
+    sidebar.style.left = "0";
+    overlay.classList.remove("hidden");
+  };
+
+  closeBtn.onclick = () => {
+    sidebar.style.left = "-100%";
+    overlay.classList.add("hidden");
+  };
+
+  overlay.onclick = () => {
+    sidebar.style.left = "-100%";
+    overlay.classList.add("hidden");
+  };
+</script>
+
+

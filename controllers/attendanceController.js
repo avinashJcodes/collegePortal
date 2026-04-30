@@ -68,6 +68,7 @@ exports.viewAttendance = async (req, res) => {
 
     res.render("admins/attendance", {
       layout: false,
+      layout: "admins/layout/admin",
       records,
       filters: { date, student, status }
     });

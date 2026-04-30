@@ -8,6 +8,7 @@ exports.addMarksPage = async (req, res) => {
 
   res.render("admins/addMarks", {
     layout: false,
+    layout: "admins/layout/admin",
     students
   });
 };

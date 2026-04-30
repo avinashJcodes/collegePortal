@@ -9,6 +9,7 @@ const{ setSidebar} = require("../middlewares/setsidebar")
 const {setHeader} = require("../middlewares/setHeader")
 const GatePass = require("../models/gatePassModel");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 
 // ================= DASHBOARD =================
@@ -67,11 +68,24 @@ router.post("/gatepass/approve/:id", async (req, res) => {
   }
 
   pass.status = "approved";
-  pass.passId = "GP" + Date.now();
 
-  // ✅ YAHAN USE KARO
+  // 🔥 strong passId
+  pass.passId = "GP-" + crypto.randomBytes(6).toString("hex");
+
+  // 🔥 JWT token
+  const token = jwt.sign(
+    {
+      passId: pass.passId,
+      studentId: pass.studentId
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" } // expiry embedded
+  );
+
   const baseUrl = req.protocol + "://" + req.get("host");
-  const qrData = `${baseUrl}/verify-pass/${pass.passId}`;
+
+  // 🔥 IMPORTANT: token use karo (passId nahi)
+  const qrData = `${baseUrl}/verify-pass?token=${token}`;
 
   const QRCode = require("qrcode");
   pass.qrCode = await QRCode.toDataURL(qrData);
@@ -162,13 +176,12 @@ router.post("/gatepass/apply", async (req, res) => {
     }
 
     // ✅ create
-   await GatePass.create({
+await GatePass.create({
   studentId,
   reason,
   from,
   to,
-  status: "pending",
-  passId: "GP-" + crypto.randomBytes(6).toString("hex")
+  status: "pending"
 });
 
     req.session.success = "Request submitted successfully";

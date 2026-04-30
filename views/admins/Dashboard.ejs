@@ -1,58 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Admin Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-900 text-white">
+<div class="max-w-7xl">
 
-  <%- include("partials/sidebar") %>
-
-  <main class="ml-64 p-8">
-    <h1 class="text-3xl font-bold mb-8 text-white">
-  Welcome <%= adminName %> 👋
-</h1>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-
-  <!-- TOTAL STUDENTS -->
-  <a href="/admin/students"
-   class="block bg-slate-800 p-6 rounded-xl border border-white/10 hover:bg-slate-700 transition">
-  <p class="text-gray-400 text-sm">Total Students</p>
-  <h2 class="text-3xl font-bold text-white mt-2">
-    <%= totalStudents %>
-  </h2>
-</a>
-
-
-  <!-- PENDING REQUESTS -->
-  <div class="bg-yellow-500/10 p-6 rounded-xl border border-yellow-500/30">
-    <p class="text-yellow-400 text-sm">Pending Requests</p>
-    <h2 class="text-3xl font-bold text-yellow-300 mt-2">
-      <%= pendingStudents %>
-    </h2>
-
-    <% if (pendingStudents > 0) { %>
-      <a href="/admin/students/pending"
-         class="inline-block mt-4 text-sm text-yellow-300 underline">
-        Review Requests →
-      </a>
-    <% } %>
+  <div class="mb-10">
+    <h1 class="text-3xl md:text-4xl font-semibold tracking-tight">
+      Welcome <span class="text-purple-400"><%= adminName %></span> 👋
+    </h1>
+    <p class="text-slate-400 text-sm mt-2">
+      Overview of your admin dashboard
+    </p>
   </div>
 
-  <!-- APPROVED STUDENTS -->
- <a href="/admin/students/approved"
-   class="block bg-green-500/10 p-6 rounded-xl border border-green-500/30 hover:bg-green-500/20 transition">
-  <p class="text-green-400 text-sm">Approved Students</p>
-  <h2 class="text-3xl font-bold text-green-300 mt-2">
-    <%= approvedStudents %>
-  </h2>
-</a>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
+    <a href="/admin/students"
+       class="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-purple-500/40 transition">
+      <p class="text-slate-400 text-sm">Total Students</p>
+      <h2 class="text-3xl font-bold mt-3">
+        <%= totalStudents %>
+      </h2>
+    </a>
+
+    <div class="p-6 rounded-2xl bg-yellow-500/10 border border-yellow-500/30">
+      <p class="text-yellow-400 text-sm">Pending Requests</p>
+      <h2 class="text-3xl font-bold mt-3">
+        <%= pendingStudents %>
+      </h2>
+
+      <% if (pendingStudents > 0) { %>
+        <a href="/admin/students/pending"
+           class="inline-block mt-4 text-sm text-yellow-300 hover:underline">
+          Review Requests →
+        </a>
+      <% } %>
+    </div>
+
+    <a href="/admin/students/approved"
+       class="group p-6 rounded-2xl bg-green-500/10 border border-green-500/30">
+      <p class="text-green-400 text-sm">Approved Students</p>
+      <h2 class="text-3xl font-bold mt-3">
+        <%= approvedStudents %>
+      </h2>
+    </a>
+
+  </div>
 
 </div>
-
-  </main>
-
-</body>
-</html>

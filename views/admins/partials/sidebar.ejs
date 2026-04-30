@@ -1,20 +1,85 @@
-<aside class="w-64 bg-[#0f172a] min-h-screen text-gray-300 fixed">
-  <div class="p-6 text-xl font-bold text-white">
+<aside class="w-64 bg-[#0b1120] text-gray-300 fixed h-screen flex flex-col border-r border-white/10">
+
+  <!-- LOGO -->
+  <div class="p-6 text-xl font-semibold text-white border-b border-white/10 tracking-wide">
     🛡 Admin Panel
   </div>
 
-  <nav class="mt-6 space-y-2 px-4">
-    <a href="/admin/dashboard" class="block px-4 py-2 rounded hover:bg-purple-600">📊 Dashboard</a>
-    <a href="/admin/students" class="block px-4 py-2 rounded hover:bg-purple-600">👨‍🎓 Students</a>
-    <a href="/admin/notices" class="block px-4 py-2 rounded hover:bg-purple-600">📢 Notices</a>
-    <a href="/admin/marks/add" class="block px-4 py-2 rounded hover:bg-purple-600">📊 Results</a>
-    <a href="/attendance/view" class="block px-4 py-2 rounded hover:bg-purple-600">📝 Attendance</a>
-        <a href="/admin/chat" class="block px-4 py-2 rounded hover:bg-red-600 text-red-400">student chat</a>
-        <a href="/admin/gatepass" 
-   class="block px-4 py-2 rounded hover:bg-purple-600 transition">
-   📄 Gate Pass Requests
-</a>
-    <a href="/admin/logout" class="block px-4 py-2 rounded hover:bg-red-600 text-red-400">🚪 Logout</a>
+  <!-- NAV -->
+  <nav class="flex-1 mt-4 px-3 space-y-1 text-sm">
+
+    <!-- Dashboard -->
+    <a href="/admin/dashboard"
+       class="group flex items-center gap-3 px-4 py-2.5 rounded-lg transition
+       <%= currentPath === '/admin/dashboard'
+         ? 'bg-purple-600/20 text-white border border-purple-500/30'
+         : 'hover:bg-purple-600/20 hover:text-white' %>">
+      📊 <span class="group-hover:translate-x-0.5 transition">Dashboard</span>
+    </a>
+
+    <!-- Students -->
+    <a href="/admin/students"
+       class="group flex items-center gap-3 px-4 py-2.5 rounded-lg transition
+       <%= currentPath.includes('/admin/students')
+         ? 'bg-purple-600/20 text-white border border-purple-500/30'
+         : 'hover:bg-purple-600/20 hover:text-white' %>">
+      👨‍🎓 <span class="group-hover:translate-x-0.5 transition">Students</span>
+    </a>
+
+    <!-- Notices -->
+    <a href="/admin/notices"
+       class="group flex items-center gap-3 px-4 py-2.5 rounded-lg transition
+       <%= currentPath.includes('/admin/notices')
+         ? 'bg-purple-600/20 text-white border border-purple-500/30'
+         : 'hover:bg-purple-600/20 hover:text-white' %>">
+      📢 <span class="group-hover:translate-x-0.5 transition">Notices</span>
+    </a>
+
+    <!-- Results -->
+    <a href="/admin/marks/add"
+       class="group flex items-center gap-3 px-4 py-2.5 rounded-lg transition
+       <%= currentPath.includes('/admin/marks')
+         ? 'bg-purple-600/20 text-white border border-purple-500/30'
+         : 'hover:bg-purple-600/20 hover:text-white' %>">
+      📊 <span class="group-hover:translate-x-0.5 transition">Results</span>
+    </a>
+
+    <!-- Attendance -->
+    <a href="/attendance/view"
+       class="group flex items-center gap-3 px-4 py-2.5 rounded-lg transition
+       <%= currentPath.includes('/attendance')
+         ? 'bg-purple-600/20 text-white border border-purple-500/30'
+         : 'hover:bg-purple-600/20 hover:text-white' %>">
+      📝 <span class="group-hover:translate-x-0.5 transition">Attendance</span>
+    </a>
+
+    <!-- Chat -->
+    <a href="/admin/chat"
+       class="group flex items-center gap-3 px-4 py-2.5 rounded-lg transition
+       <%= currentPath.includes('/admin/chat')
+         ? 'bg-purple-600/20 text-white border border-purple-500/30'
+         : 'hover:bg-purple-600/20 hover:text-white' %>">
+      💬 <span class="group-hover:translate-x-0.5 transition">Student Chat</span>
+    </a>
+
+    <!-- Gatepass -->
+    <a href="/admin/gatepass"
+       class="group flex items-center gap-3 px-4 py-2.5 rounded-lg transition
+       <%= currentPath.includes('/admin/gatepass')
+         ? 'bg-purple-600/20 text-white border border-purple-500/30'
+         : 'hover:bg-purple-600/20 hover:text-white' %>">
+      📄 <span class="group-hover:translate-x-0.5 transition">Gate Pass Requests</span>
+    </a>
 
   </nav>
+
+  <!-- LOGOUT -->
+  <div class="p-4 border-t border-white/10">
+    <a href="/admin/logout"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-lg 
+              text-red-400 hover:bg-red-500/20 hover:text-red-300 transition">
+      🚪 <span>Logout</span>
+    </a>
+  </div>
+
 </aside>
