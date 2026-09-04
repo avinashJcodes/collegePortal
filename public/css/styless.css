@@ -1,0 +1,28 @@
+.exam-input{
+    width:100%;
+    background:#1e293b;
+    border:1px solid #334155;
+    color:white;
+    padding:14px 18px;
+    border-radius:14px;
+    transition:.25s;
+}
+
+.exam-input:focus{
+    outline:none;
+    border-color:#8b5cf6;
+    box-shadow:0 0 0 4px rgba(139,92,246,.2);
+}
+
+.exam-input[readonly]{
+    background:#0f172a;
+    color:#cbd5e1;
+}
+
+.exam-label{
+    display:block;
+    margin-bottom:8px;
+    color:#cbd5e1;
+    font-size:.9rem;
+    font-weight:600;
+}

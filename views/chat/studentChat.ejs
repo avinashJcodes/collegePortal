@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Support & Grievance Desk | MahaDBT 2.0 ERP</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --mahadbt-navy: #0b2546;
+            --mahadbt-navy-dark: #071930;
+            --mahadbt-orange: #f47721;
+            --mahadbt-orange-dark: #d95f0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .heading-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .chat-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .message-in {
+            animation: messageSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(8px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .user-bubble {
+            background: linear-gradient(135deg, #0b2546 0%, #153e75 100%);
+            color: #ffffff;
+        }
+
+        .advisor-bubble {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col">
+
+  
+    <!-- ================= 3. MAIN CHAT CONTAINER ================= -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-6 md:p-8 flex flex-col">
+
+        <!-- Breadcrumb Navigation -->
+        <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4 no-print">
+            <a href="/student/dashboard" class="hover:text-[#f47721]">Home</a>
+            <span>/</span>
+            <a href="/student/helpdesk" class="hover:text-[#f47721]">Student Helpdesk</a>
+            <span>/</span>
+            <span class="text-slate-700 font-semibold">Live Support Chat</span>
+        </nav>
+
+        <!-- Main Card Window -->
+        <div class="flex-1 bg-white border border-slate-200 rounded-2xl sm:rounded-3xl shadow-sm overflow-hidden flex flex-col md:flex-row min-h-[640px] max-h-[780px]">
+
+            <!-- ================= SIDEBAR (DESKTOP) ================= -->
+            <div class="hidden md:flex w-72 flex-col border-r border-slate-200 bg-slate-50/70 p-5">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 pb-3 border-b border-slate-200">
+                        <div class="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#d95f0b] shadow-inner">
+                            <i data-lucide="headphones" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-[#f47721] uppercase font-bold tracking-wider block">Helpdesk Cell</span>
+                            <span class="font-bold text-sm text-[#0b2546]">Portal Support</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <button type="button" 
+                                class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white text-[#0b2546] font-bold text-xs shadow-xs border border-orange-200/80 transition-all">
+                            <span class="w-2 h-2 rounded-full bg-[#f47721]"></span>
+                            <i data-lucide="message-square" class="w-4 h-4 text-[#f47721]"></i>
+                            <span>Live Counselor</span>
+                        </button>
+                        
+                        <a href="/student/faq" 
+                           class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#0b2546] hover:bg-white/80 font-semibold text-xs transition-all">
+                            <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i>
+                            <span>Scholarship FAQs</span>
+                        </a>
+
+                        <a href="/student/notices" 
+                           class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#0b2546] hover:bg-white/80 font-semibold text-xs transition-all">
+                            <i data-lucide="bell" class="w-4 h-4 text-slate-400"></i>
+                            <span>College Notices</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Verified Identity Card Badge -->
+                <div class="mt-auto pt-4 border-t border-slate-200 space-y-2.5">
+                    <div class="p-3.5 rounded-xl bg-orange-50/70 border border-orange-200/80">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-[10px] font-bold text-[#d95f0b] uppercase tracking-wider">Student Verified PRN</span>
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        </div>
+                        <p class="text-xs font-mono font-bold text-[#0b2546]">
+                            <%= (typeof student !== 'undefined' && student.admissionNumber) ? student.admissionNumber : (student.studentId || '2026ENG6175') %>
+                        </p>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-snug">
+                            <%= (typeof student !== 'undefined' && student.fullname) ? student.fullname : 'Enrolled Student' %>
+                        </p>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-white border border-slate-200 text-[11px] text-slate-500 leading-relaxed">
+                        <span class="font-bold text-[#0b2546] block">Working Hours:</span>
+                        Mon - Sat: 10:00 AM to 5:30 PM (Except Govt Holidays)
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ================= MAIN CHAT AREA ================= -->
+            <div class="flex-1 flex flex-col bg-white overflow-hidden">
+                
+                <!-- Chat Window Header -->
+                <div class="px-5 sm:px-6 py-4 flex items-center justify-between border-b border-slate-200 bg-slate-50/50">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <div class="w-10 h-10 rounded-xl bg-[#0b2546] text-[#f47721] flex items-center justify-center font-bold shadow-xs">
+                                <i data-lucide="user-check" class="w-5 h-5"></i>
+                            </div>
+                            <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-sm font-bold text-[#0b2546]">
+                                    Academic & MahaDBT Advisor
+                                </h2>
+                                <span class="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold">
+                                    Online
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-0.5 flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-[10px] text-[#f47721]"></i>
+                                <span>Typical response: Within a few minutes</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <span class="hidden sm:inline-flex text-[11px] text-slate-400 font-medium">
+                            Desk Reference: #DBT-SEC-2026
+                        </span>
+                        <a href="/student/helpdesk" 
+                           class="p-2 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition" 
+                           title="Help Desk Rules">
+                            <i data-lucide="help-circle" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Messages List Container -->
+                <div id="messageContainer" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 chat-scroll bg-slate-50/30">
+                    
+                    <!-- Session Start Banner -->
+                    <div class="flex flex-col items-center gap-2 my-2">
+                        <span class="px-3.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-[10px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-lock text-[9px] text-[#f47721]"></i>
+                            Official Grievance Session Initialized
+                        </span>
+                        <span class="text-[11px] text-slate-400">
+                            Conversation records are logged under institutional ERP regulations.
+                        </span>
+                    </div>
+
+                    <!-- DYNAMIC MESSAGES LOOP (EXACT LOGIC PRESERVED) -->
+                    <% messages.forEach(msg => { %>
+                        <div class="flex <%= msg.sender === 'student' ? 'justify-end' : 'justify-start' %> group message-in">
+                            <div class="max-w-[85%] sm:max-w-[75%] flex flex-col <%= msg.sender === 'student' ? 'items-end' : 'items-start' %>">
+                                
+                                <% if (msg.status === 'deleted' || msg.isDeleted) { %>
+                                    <div class="px-4 py-2.5 rounded-xl text-xs italic text-slate-400 bg-slate-100 border border-slate-200 flex items-center gap-2">
+                                        <i data-lucide="circle-off" class="w-3.5 h-3.5 text-slate-400"></i>
+                                        <span>This message has been retracted.</span>
+                                    </div>
+                                <% } else { %>
+                                    <div class="relative group/bubble flex items-center gap-2">
+                                        
+                                        <!-- Delete Button (Left side for student messages) -->
+                                        <% if (msg.sender === 'student') { %>
+                                            <form action="/student/chat/delete/<%= msg._id %>" method="POST" class="opacity-0 group-hover/bubble:opacity-100 transition-all translate-x-1 group-hover/bubble:translate-x-0">
+                                                <button type="submit" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Delete message">
+                                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                                </button>
+                                            </form>
+                                        <% } %>
+
+                                        <!-- Message Bubble -->
+                                        <div class="px-4.5 py-3 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-xs
+                                            <%= msg.sender === 'student' 
+                                                ? 'user-bubble rounded-br-xs shadow-slate-300/40' 
+                                                : 'advisor-bubble rounded-bl-xs shadow-slate-200/50' %>">
+                                            <%= msg.message %>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sender Status Pill & Timestamp -->
+                                    <span class="mt-1 text-[10px] font-semibold text-slate-400 uppercase tracking-tight px-1">
+                                        <%= msg.sender === 'student' ? 'Sent by You' : 'Support Officer' %>
+                                    </span>
+                                <% } %>
+
+                            </div>
+                        </div>
+                    <% }) %>
+
+                    <% if (typeof messages !== 'undefined' && messages.length === 0) { %>
+                        <div class="py-12 text-center text-slate-400 space-y-2">
+                            <div class="w-12 h-12 mx-auto rounded-full bg-orange-50 text-[#f47721] flex items-center justify-center">
+                                <i data-lucide="message-circle" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-[#0b2546]">No messages yet</h4>
+                            <p class="text-xs text-slate-500 max-w-xs mx-auto">
+                                Type your query below regarding scholarships, registration, gate passes, or examinations to start the conversation.
+                            </p>
+                        </div>
+                    <% } %>
+
+                </div>
+
+                <!-- Input Box Bar -->
+                <div class="p-3 sm:p-4 border-t border-slate-200 bg-white">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-1.5 focus-within:border-[#f47721] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#f47721]/15 transition-all">
+                        <form method="POST" class="flex items-center gap-2">
+                            <input
+                                name="message"
+                                type="text"
+                                placeholder="Describe your query or scholarship grievance..."
+                                class="flex-1 px-4 py-2.5 bg-transparent outline-none text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 font-medium"
+                                required
+                                autocomplete="off"
+                            />
+                            
+                            <div class="flex items-center gap-1 flex-shrink-0 pr-1">
+                                <button type="button" 
+                                        class="p-2 text-slate-400 hover:text-[#f47721] transition rounded-lg hover:bg-slate-100" 
+                                        title="Attach document/screenshot">
+                                    <i data-lucide="paperclip" class="w-4 h-4"></i>
+                                </button>
+
+                                <button type="submit" 
+                                        class="bg-[#0b2546] hover:bg-[#f47721] text-white w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all shadow-xs active:scale-95">
+                                    <i data-lucide="send" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security and Version Notice -->
+                    <div class="flex items-center justify-between mt-2.5 px-2 text-[10px] text-slate-400">
+                        <span class="flex items-center gap-1.5 font-medium">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            SSL Encrypted Communication Ledger
+                        </span>
+                        <span class="font-semibold text-slate-400 hidden sm:inline">
+                            MahaDBT 2.0 Student Desk
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ================= 4. FOOTER ================= -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-3 px-4 text-center text-xs text-slate-500 no-print">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>© 2026 Avi Institute of Technology. Integrated with Maharashtra DBT Portal.</span>
+            <div class="flex items-center gap-3">
+                <a href="#" class="hover:text-[#f47721]">Grievance Rules</a>
+                <span>•</span>
+                <span class="text-[#f47721] font-semibold">Desk Helpline: 022-49150800</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= SCRIPTS (EXACT LOGIC PRESERVED) ================= -->
+    <script>
+        lucide.createIcons();
+
+        const container = document.getElementById('messageContainer');
+        const scrollToEnd = () => {
+            if (container) {
+                container.scrollTo({
+                    top: container.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+        };
+        
+        scrollToEnd();
+
+        // Maintain scroll position after form submission
+        const messageForm = document.querySelector('form');
+        if (messageForm) {
+            messageForm.addEventListener('submit', () => {
+                setTimeout(scrollToEnd, 100);
+            });
+        }
+    </script>
+
+    <!-- Socket.io Logic (Unchanged) -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const roomId = "<%= student._id %>";
+      socket.emit("joinRoom", roomId);
+
+      const form = document.querySelector("form");
+      const input = document.querySelector("input[name='message']");
+
+      if (form && input) {
+          form.addEventListener("submit", (e) => {
+            socket.emit("sendMessage", {
+              room: roomId,
+              sender: "student",
+              message: input.value
+            });
+          });
+      }
+
+      socket.on("receiveMessage", () => {
+        location.reload();
+      });
+    </script>
+
+</body>
+</html>

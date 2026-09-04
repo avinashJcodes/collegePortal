@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Board & Circulars - Student ERP | MahaDBT 2.0</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --mahadbt-navy: #0b2546;
+            --mahadbt-orange: #f47721;
+            --mahadbt-orange-dark: #d95f0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .heading-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .filter-tab.active {
+            background-color: #f47721;
+            color: #ffffff;
+            border-color: #f47721;
+            box-shadow: 0 2px 6px rgba(244, 119, 33, 0.25);
+        }
+
+        /* Custom subtle scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col">
+
+
+
+
+    <!-- ================= 3. MAIN CONTENT CONTAINER ================= -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 md:p-8 space-y-6">
+
+        <!-- Banner & Action Bar -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-72 h-full bg-gradient-to-l from-orange-50 via-orange-50/40 to-transparent pointer-events-none"></div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+                <div>
+                    <!-- Breadcrumbs -->
+                    <nav class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                        <a href="/student/dashboard" class="hover:text-[#f47721]">Home</a>
+                        <span>/</span>
+                        <span class="text-[#0b2546] font-semibold">Circulars & Announcements</span>
+                    </nav>
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-[#f47721]/10 text-[#f47721] flex items-center justify-center font-bold flex-shrink-0">
+                            <i data-lucide="bell-ring" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-bold text-[#0b2546] heading-font">
+                                Official Notice Board & Circulars
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-500">
+                                Stay updated with college announcements, examination notices, scholarships, and campus updates.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats & Actions -->
+                <div class="flex items-center gap-3 self-start md:self-auto flex-wrap">
+                    <div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl text-center">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block">Total Notices</span>
+                        <span class="text-lg font-extrabold text-[#0b2546] leading-none">
+                            <%= (typeof notices !== 'undefined') ? notices.length : 0 %>
+                        </span>
+                    </div>
+
+                    <button onclick="markAllAsRead(this)"
+                            type="button"
+                            class="px-4 py-2.5 rounded-xl bg-white border border-slate-300 hover:border-[#f47721] text-slate-700 hover:text-[#f47721] text-xs font-semibold shadow-sm transition flex items-center gap-2">
+                        <i data-lucide="check-check" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Mark All Read</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 4. SEARCH & FILTER CONTROLS ================= -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+            <div class="flex flex-col md:flex-row gap-3">
+                
+                <!-- Search Input -->
+                <div class="relative flex-1">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                    <input type="text"
+                           id="searchInput"
+                           onkeyup="filterNotices()"
+                           placeholder="Search notices by title or content..."
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#f47721]/30 focus:border-[#f47721] transition">
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="w-full md:w-64">
+                    <select id="categoryFilter" 
+                            onchange="filterNotices()"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#f47721]/30 focus:border-[#f47721] transition font-medium">
+                        <option value="all">All Categories</option>
+                        <option value="MahaDBT">MahaDBT & Scholarship</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Exam">Exam</option>
+                        <option value="Placement">Placement</option>
+                        <option value="Events">Events</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Quick Pill Category Buttons -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-slate-100 no-scrollbar">
+                <button type="button" 
+                        onclick="setCategoryTab('all', this)"
+                        class="filter-tab active px-3.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700 whitespace-nowrap transition">
+                    All Categories
+                </button>
+                <button type="button" 
+                        onclick="setCategoryTab('MahaDBT', this)"
+                        class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-orange-50 hover:text-[#d95f0b] whitespace-nowrap transition flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-orange-500 inline-block"></span>
+                    MahaDBT & Schemes
+                </button>
+                <button type="button" 
+                        onclick="setCategoryTab('Academic', this)"
+                        class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-orange-50 hover:text-[#d95f0b] whitespace-nowrap transition">
+                    Academic
+                </button>
+                <button type="button" 
+                        onclick="setCategoryTab('Exam', this)"
+                        class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-orange-50 hover:text-[#d95f0b] whitespace-nowrap transition">
+                    Exam
+                </button>
+                <button type="button" 
+                        onclick="setCategoryTab('Placement', this)"
+                        class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-orange-50 hover:text-[#d95f0b] whitespace-nowrap transition">
+                    Placement
+                </button>
+                <button type="button" 
+                        onclick="setCategoryTab('Events', this)"
+                        class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-orange-50 hover:text-[#d95f0b] whitespace-nowrap transition">
+                    Events
+                </button>
+                <button type="button" 
+                        onclick="setCategoryTab('General', this)"
+                        class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-orange-50 hover:text-[#d95f0b] whitespace-nowrap transition">
+                    General
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= 5. DYNAMIC NOTICES LIST ================= -->
+        <div id="noticeListContainer" class="space-y-4">
+
+            <% if (typeof notices !== 'undefined' && notices.length > 0) { %>
+                <% notices.forEach(notice => { 
+                    const cat = notice.category || "General";
+                    const isMahaDBT = (cat.toLowerCase().includes('mahadbt') || cat.toLowerCase().includes('scholarship'));
+                    const isExam = (cat.toLowerCase().includes('exam'));
+                    const isPlacement = (cat.toLowerCase().includes('placement'));
+                %>
+                    <div class="notice-card bg-white border border-slate-200 hover:border-[#f47721]/60 hover:shadow-md rounded-2xl p-5 sm:p-6 transition duration-200"
+                         data-id="<%= notice._id %>"
+                         data-category="<%= cat %>"
+                         data-title="<%= (notice.title || '').toLowerCase() %>"
+                         data-message="<%= (notice.message || '').toLowerCase() %>">
+
+                        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                            
+                            <!-- Left: Notice Information -->
+                            <div class="flex items-start gap-4 flex-1">
+                                
+                                <!-- Category Icon -->
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm
+                                    <%= isMahaDBT ? 'bg-orange-50 text-[#d95f0b] border border-orange-200' :
+                                       isExam ? 'bg-indigo-50 text-indigo-600 border border-indigo-200' :
+                                       isPlacement ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' :
+                                       'bg-slate-100 text-[#0b2546] border border-slate-200' %>">
+                                    <% if (isMahaDBT) { %>
+                                        <i class="fa-solid fa-file-invoice-dollar text-lg"></i>
+                                    <% } else if (isExam) { %>
+                                        <i class="fa-solid fa-graduation-cap text-lg"></i>
+                                    <% } else if (isPlacement) { %>
+                                        <i class="fa-solid fa-briefcase text-lg"></i>
+                                    <% } else { %>
+                                        <i data-lucide="bell-ring" class="w-5 h-5"></i>
+                                    <% } %>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="flex-1 space-y-1.5">
+                                    
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold
+                                            <%= isMahaDBT ? 'bg-orange-100 text-[#d95f0b]' :
+                                               isExam ? 'bg-indigo-100 text-indigo-700' :
+                                               isPlacement ? 'bg-emerald-100 text-emerald-700' :
+                                               'bg-slate-100 text-slate-700' %>">
+                                            <%= cat %>
+                                        </span>
+
+                                        <span class="text-xs text-slate-400">•</span>
+
+                                        <span class="text-xs text-slate-500 font-medium flex items-center gap-1">
+                                            <i class="fa-regular fa-clock text-[11px] text-slate-400"></i>
+                                            <%= new Date(notice.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                                        </span>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <h2 class="text-lg sm:text-xl font-bold text-[#0b2546] hover:text-[#f47721] transition cursor-pointer"
+                                        onclick="openNotice('<%= notice._id %>')">
+                                        <%= notice.title %>
+                                    </h2>
+
+                                    <!-- Truncated Description -->
+                                    <p class="text-slate-600 text-sm leading-relaxed">
+                                        <%= notice.message.length > 180 ? notice.message.substring(0, 180) + "..." : notice.message %>
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Right Actions: Download & Read More -->
+                            <div class="flex items-center gap-2 lg:self-center flex-shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100 justify-end">
+                                
+                                <% if (notice.pdf) { %>
+                                    <a href="/uploads/<%= notice.pdf %>"
+                                       target="_blank"
+                                       title="Download Official Attachment"
+                                       class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-orange-50 hover:text-[#d95f0b] border border-slate-200 text-xs font-semibold text-slate-700 transition flex items-center gap-1.5">
+                                        <i data-lucide="download" class="w-4 h-4"></i>
+                                        <span>Download</span>
+                                    </a>
+                                <% } %>
+
+                                <button onclick="openNotice('<%= notice._id %>')"
+                                        type="button"
+                                        class="px-4 py-2 rounded-xl bg-[#0b2546] hover:bg-[#f47721] transition text-xs font-semibold text-white shadow-sm flex items-center gap-1.5">
+                                    <span>Read More</span>
+                                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                <% }) %>
+            <% } %>
+
+        </div>
+
+        <!-- ================= 6. EMPTY STATE (DATABASE EMPTY) ================= -->
+        <% if (typeof notices === 'undefined' || notices.length === 0) { %>
+            <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-sm">
+                <div class="w-16 h-16 mx-auto rounded-full bg-orange-50 text-[#f47721] flex items-center justify-center mb-4">
+                    <i data-lucide="bell-off" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-xl font-bold text-[#0b2546] mb-2">No Notices Available</h3>
+                <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed">
+                    There are currently no announcements published by the institute. New circulars and notices will appear here automatically.
+                </p>
+            </div>
+        <% } %>
+
+        <!-- ================= 7. SEARCH RESULT EMPTY STATE ================= -->
+        <div id="noResults" class="hidden bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-sm">
+            <div class="w-16 h-16 mx-auto rounded-full bg-red-50 text-red-500 flex items-center justify-center mb-4">
+                <i data-lucide="search-x" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-[#0b2546] mb-2">No Matching Notice</h3>
+            <p class="text-slate-500 text-sm max-w-md mx-auto">
+                Try searching with another keyword or choose a different category from the filter.
+            </p>
+            <button onclick="resetFilters()"
+                    type="button"
+                    class="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition">
+                Clear Filters
+            </button>
+        </div>
+
+    </main>
+
+    <!-- ================= 8. NOTICE DETAILS MODAL (MahaDBT 2.0 UI) ================= -->
+    <div id="noticeModal"
+         class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4 transition-all">
+
+        <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
+
+            <!-- Modal Header -->
+            <div class="bg-[#0b2546] text-white px-6 py-4 flex items-center justify-between border-b-2 border-b-[#f47721]">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-orange-500/20 border border-orange-400/40 flex items-center justify-center text-orange-400">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-orange-400 uppercase font-bold tracking-wider block">Official Circular</span>
+                        <h2 id="modalTitle" class="text-base sm:text-lg font-bold text-white line-clamp-1">
+                            Notice Title
+                        </h2>
+                    </div>
+                </div>
+
+                <button onclick="closeNotice()"
+                        type="button"
+                        class="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto space-y-4">
+                
+                <!-- Notice Meta Bar -->
+                <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="flex items-center gap-2">
+                        <span id="modalCategory" class="inline-flex px-3 py-1 rounded-full bg-orange-100 text-[#d95f0b] text-xs font-semibold">
+                            General
+                        </span>
+                        <span class="text-xs text-slate-500 hidden sm:inline font-mono">Verified Circular</span>
+                    </div>
+                    <span id="modalDate" class="text-xs text-slate-500 font-medium flex items-center gap-1">
+                        <i class="fa-regular fa-calendar text-[11px] text-[#f47721]"></i> --
+                    </span>
+                </div>
+
+                <!-- Full Description -->
+                <div id="modalDescription"
+                     class="text-slate-700 leading-relaxed text-sm whitespace-pre-wrap bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+                </div>
+
+                <!-- Official Signature Block -->
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                    <div>
+                        <strong class="text-slate-700 block">Office of the Principal / Registrar</strong>
+                        <span>Avi Institute of Technology & Research</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-emerald-700 font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check text-[11px]"></i> Digitally Authorized
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-3">
+                <a id="modalFile"
+                   href="#"
+                   target="_blank"
+                   class="hidden px-4 py-2 rounded-xl bg-orange-50 border border-orange-200 hover:bg-orange-100 text-[#d95f0b] text-xs font-semibold transition flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4 text-[#f47721]"></i>
+                    <span>Download Attachment</span>
+                </a>
+
+                <button onclick="closeNotice()"
+                        type="button"
+                        class="ml-auto px-5 py-2 rounded-xl bg-[#0b2546] hover:bg-slate-800 transition text-xs font-semibold text-white">
+                    Close
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= 9. FOOTER ================= -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-4 px-4 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>© 2026 Avi Institute of Technology. Integrated with Maharashtra DBT Portal.</span>
+            <div class="flex items-center gap-3">
+                <a href="#" class="hover:text-[#f47721]">Privacy Policy</a>
+                <span>•</span>
+                <a href="#" class="hover:text-[#f47721]">Student Helpdesk</a>
+                <span>•</span>
+                <span class="text-[#f47721] font-semibold">Portal Version 2.4.0</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= 10. DYNAMIC BACKEND JAVASCRIPT ================= -->
+    <script>
+        // Store the server-rendered notices in JS memory
+        const notices = <%- JSON.stringify(typeof notices !== 'undefined' ? notices : []) %>;
+
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // Open Notice Modal dynamically using _id
+        function openNotice(id) {
+            const notice = notices.find(n => String(n._id) === String(id));
+            if (!notice) return;
+
+            document.getElementById('modalTitle').innerText = notice.title || 'Notice Details';
+            document.getElementById('modalCategory').innerText = notice.category || 'General';
+            
+            const dateStr = notice.createdAt 
+                ? new Date(notice.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+                : '';
+            document.getElementById('modalDate').innerHTML = `<i class="fa-regular fa-calendar text-[11px] text-[#f47721]"></i> ${dateStr}`;
+            
+            document.getElementById('modalDescription').innerText = notice.message || '';
+
+            // Handle Attachment link
+            const modalFile = document.getElementById('modalFile');
+            if (notice.pdf) {
+                modalFile.href = `/uploads/${notice.pdf}`;
+                modalFile.classList.remove('hidden');
+                modalFile.classList.add('flex');
+            } else {
+                modalFile.classList.add('hidden');
+                modalFile.classList.remove('flex');
+            }
+
+            const modal = document.getElementById('noticeModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        // Close Notice Modal
+        function closeNotice() {
+            const modal = document.getElementById('noticeModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Set category via tabs
+        function setCategoryTab(category, btn) {
+            document.getElementById('categoryFilter').value = category;
+            
+            // Update active pill button style
+            document.querySelectorAll('.filter-tab').forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            btn.classList.add('active');
+            btn.classList.remove('bg-slate-100', 'text-slate-700');
+
+            filterNotices();
+        }
+
+        // Live Search & Category Filtering
+        function filterNotices() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+            const categoryVal = document.getElementById('categoryFilter').value.toLowerCase();
+            const cards = document.querySelectorAll('.notice-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
+                const cardTitle = (card.getAttribute('data-title') || '').toLowerCase();
+                const cardMsg = (card.getAttribute('data-message') || '').toLowerCase();
+
+                const matchesCategory = (categoryVal === 'all' || cardCat.includes(categoryVal));
+                const matchesSearch = !searchVal || cardTitle.includes(searchVal) || cardMsg.includes(searchVal);
+
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Toggle No Results View
+            const noResults = document.getElementById('noResults');
+            if (visibleCount === 0 && cards.length > 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        // Reset Filters
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = 'all';
+            const firstTab = document.querySelector('.filter-tab');
+            if (firstTab) setCategoryTab('all', firstTab);
+        }
+
+        // Mark all as read feedback
+        function markAllAsRead(btn) {
+            btn.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> All Caught Up!`;
+            btn.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-300');
+            lucide.createIcons();
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('noticeModal');
+            if (event.target === modal) {
+                closeNotice();
+            }
+        };
+    </script>
+</body>
+</html>

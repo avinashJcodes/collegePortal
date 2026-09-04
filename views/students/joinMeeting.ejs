@@ -1,0 +1,51 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b0b1a] via-[#1a1333] to-[#2a0f4a]">
+
+  <form action="/meeting/join" method="POST"
+    class="w-full max-w-md bg-white/5 backdrop-blur-2xl border border-purple-500/20 shadow-[0_20px_80px_rgba(0,0,0,0.7)] p-8 rounded-3xl">
+
+    <!-- Title -->
+    <h2 class="text-white text-2xl font-semibold text-center mb-6 tracking-wide">
+      🔗 Join Meeting
+    </h2>
+
+    <!-- Room ID -->
+    <div class="mb-4">
+      <label class="text-purple-300 text-sm">Meeting ID</label>
+      <input 
+        name="roomId" 
+        placeholder="Enter Meeting ID"
+        required
+        class="w-full mt-1 px-4 py-3 rounded-xl bg-white/5 text-white placeholder-purple-300/50 
+               border border-purple-500/10 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 
+               outline-none transition"
+      />
+    </div>
+
+    <!-- Password -->
+    <div class="mb-6">
+      <label class="text-purple-300 text-sm">Password</label>
+      <input 
+        type="password"
+        name="password" 
+        placeholder="Enter Password"
+        required
+        class="w-full mt-1 px-4 py-3 rounded-xl bg-white/5 text-white placeholder-purple-300/50 
+               border border-purple-500/10 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 
+               outline-none transition"
+      />
+    </div>
+
+    <!-- Button -->
+    <button 
+      class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 
+             active:scale-[0.97] text-white py-3 rounded-xl font-semibold transition duration-200 shadow-lg">
+      Join Now
+    </button>
+
+    <!-- Hint -->
+    <p class="text-center text-xs text-purple-300/60 mt-4">
+      Make sure ID & password are correct
+    </p>
+
+  </form>
+</div>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Chat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 text-white h-screen flex flex-col">
+
+<!-- 🔹 Header -->
+<div class="p-4 bg-slate-800 flex items-center gap-3 border-b border-white/10">
+  <img
+    src="<%= student.profileImage || 'https://ui-avatars.com/api/?name=' + student.fullname %>"
+    class="w-10 h-10 rounded-full"
+  />
+  <div>
+    <h2 class="font-bold text-lg"><%= student.fullname %></h2>
+    <p class="text-xs text-gray-400">
+      Admission No: <%= student.admissionNumber %>
+    </p>
+  </div>
+</div>
+
+<!-- 🔹 Messages -->
+<div class="flex-1 overflow-y-auto p-4 space-y-3" id="chatBox">
+
+  <% if (chats.length === 0) { %>
+    <p class="text-center text-gray-400 mt-10">
+      No messages yet
+    </p>
+  <% } %>
+
+  <% chats.forEach(c => { %>
+    <% if (c.sender === "admin") { %>
+      <!-- Admin Message (Right) -->
+      <div class="flex justify-end">
+        <div class="bg-indigo-600 max-w-md p-3 rounded-2xl rounded-br-none">
+          <p><%= c.message %></p>
+          <span class="text-[10px] text-indigo-200 block mt-1 text-right">
+            You • <%= new Date(c.createdAt).toLocaleTimeString() %>
+          </span>
+        </div>
+      </div>
+    <% } else { %>
+      <!-- Student Message (Left) -->
+      <div class="flex justify-start">
+        <div class="bg-slate-700 max-w-md p-3 rounded-2xl rounded-bl-none">
+          <p><%= c.message %></p>
+          <span class="text-[10px] text-gray-300 block mt-1">
+            <%= student.fullname %> • <%= new Date(c.createdAt).toLocaleTimeString() %>
+          </span>
+        </div>
+      </div>
+    <% } %>
+  <% }) %>
+
+</div>  
+
+<!-- 🔹 Input -->
+<form method="POST"
+      action="/admin/chat/<%= student._id %>"
+      class="p-4 bg-slate-800 flex gap-3 border-t border-white/10">
+
+  <input
+    name="message"
+    placeholder="Type reply..."
+    required
+    class="flex-1 px-4 py-3 rounded-full bg-slate-700 outline-none"
+  />
+
+  <button
+    class="bg-indigo-600 px-6 rounded-full font-semibold hover:bg-indigo-700">
+    Send
+  </button>
+
+</form>
+
+<!-- 🔹 Auto scroll -->
+<script>
+  const chatBox = document.getElementById("chatBox");
+  chatBox.scrollTop = chatBox.scrollHeight;
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  // Room = student id
+  const roomId = "<%= student._id %>";
+
+  // join room
+  socket.emit("joinRoom", roomId);
+
+  const form = document.querySelector("form");
+  const input = document.querySelector("input[name='message']");
+
+  form.addEventListener("submit", () => {
+    socket.emit("sendMessage", {
+      room: roomId,
+      sender: "admin",
+      message: input.value
+    });
+  });
+
+  socket.on("receiveMessage", () => {
+    location.reload();
+  });
+</script>
+</body>
+</html>

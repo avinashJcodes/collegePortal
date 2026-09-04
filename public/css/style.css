@@ -1,0 +1,84 @@
+/* ----------------------------------------------------
+   PREMIUM FUTURE CORE ENGINE VARIABLES & INTERPOLATION
+   ---------------------------------------------------- */
+
+/* Layered Root Normalization Overrides */
+html {
+    scroll-padding-top: 80px; /* Synchronizes scroll anchoring with static navigation bar bounding boxes */
+}
+
+/* Custom Animation Mechanics Keyframes */
+@keyframes spin-reverse {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Functional Utility Processing Rules */
+.animate-spin-reverse {
+    animation: spin-reverse 1.5s linear infinite;
+}
+
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+
+.animate-marquee {
+    display: inline-flex;
+    animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+    animation-play-state: paused;
+}
+
+/* Premium Visual Design System Classes */
+.glass-card {
+    background: rgba(30, 27, 75, 0.45);
+    box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-6px);
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 20px 40px -15px rgba(124, 58, 237, 0.3);
+}
+
+.hover-glow:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.15);
+}
+
+/* Customized Application Loader Mask */
+#loader.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Scroll System Track Cleanup */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0F172A;
+}
+::-webkit-scrollbar-thumb {
+    background: #1E1B4B;
+    border-radius: 4px;
+    border: 2px solid #0F172A;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #7C3AED;
+}

@@ -1,0 +1,448 @@
+<!-- =========================================================================================
+     MAHADBT 2.0 STUDENT ERP - DIGITAL GATE PASS & OUTING AUTHORIZATION (CLEAN WHITE UI)
+     ========================================================================================= -->
+
+<style>
+    :root {
+        --mahadbt-navy: #0b2546;
+        --mahadbt-orange: #f47721;
+        --mahadbt-orange-dark: #d95f0b;
+    }
+
+    /* Clean MahaDBT Form Input Styling */
+    .gatepass-input {
+        width: 100%;
+        background-color: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        color: #1e293b;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .gatepass-input:focus {
+        background-color: #ffffff;
+        border-color: #f47721;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(244, 119, 33, 0.15);
+    }
+
+    .gatepass-label {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #475569;
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<div class="max-w-4xl mx-auto py-6 px-3 sm:px-6 space-y-6">
+
+    <!-- ================= ALERT NOTIFICATIONS (DYNAMIC) ================= -->
+    <% if (typeof success !== 'undefined' && success) { %>
+        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 shadow-xs flex items-center gap-3 animate-in fade-in">
+            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold flex-shrink-0">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+            </div>
+            <div class="text-sm font-semibold">
+                <%= success %>
+            </div>
+        </div>
+    <% } %>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 shadow-xs flex items-center gap-3 animate-in fade-in">
+            <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold flex-shrink-0">
+                <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+            </div>
+            <div class="text-sm font-semibold">
+                <%= error %>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- ================= PAGE BANNER ================= -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-80 h-full bg-gradient-to-l from-orange-50 via-orange-50/40 to-transparent pointer-events-none"></div>
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+            <div>
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                    <a href="/student/dashboard" class="hover:text-[#f47721]">Home</a>
+                    <span>/</span>
+                    <span class="text-[#0b2546] font-semibold">Campus Services</span>
+                    <span>/</span>
+                    <span class="text-slate-700 font-medium">Digital Gate Pass</span>
+                </nav>
+
+                <div class="flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-xl bg-[#0b2546] text-[#f47721] flex items-center justify-center font-bold flex-shrink-0 shadow-sm">
+                        <i data-lucide="qr-code" class="w-6 h-6 text-[#f47721]"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold text-[#0b2546] tracking-tight">
+                            Student Outing & Digital Gate Pass
+                        </h1>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+                            Official Campus Outing Authorization & Security Check System
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Badge -->
+            <div class="flex items-center gap-2 self-start md:self-auto">
+                <div class="bg-orange-50 border border-orange-200/80 px-4 py-2 rounded-xl flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-[#f47721]/15 text-[#d95f0b] flex items-center justify-center font-bold">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="text-[10px] uppercase font-extrabold text-[#d95f0b] tracking-wider block">Security Cell</span>
+                        <span class="text-xs font-bold text-[#0b2546]">Hostel / Campus Pass</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 🔥 TAB BUTTONS (MAHADBT 2.0 SEGMENTED CONTROL) ================= -->
+    <div class="flex p-1.5 bg-slate-100 border border-slate-200 rounded-2xl gap-2">
+        
+        <a href="/student/gatepass?tab=apply"
+           class="flex-1 text-center py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2
+           <%= tab === 'apply' 
+             ? 'bg-[#0b2546] text-white shadow-sm' 
+             : 'text-slate-600 hover:text-[#0b2546] hover:bg-white/60' %>">
+            <i data-lucide="plus-circle" class="w-4 h-4 <%= tab === 'apply' ? 'text-[#f47721]' : '' %>"></i>
+            <span>Apply For Gate Pass</span>
+        </a>
+
+        <a href="/student/gatepass?tab=history"
+           class="flex-1 text-center py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2
+           <%= tab === 'history' 
+             ? 'bg-[#0b2546] text-white shadow-sm' 
+             : 'text-slate-600 hover:text-[#0b2546] hover:bg-white/60' %>">
+            <i data-lucide="history" class="w-4 h-4 <%= tab === 'history' ? 'text-[#f47721]' : '' %>"></i>
+            <span>Pass Status & History</span>
+        </a>
+
+    </div>
+
+    <!-- ================= 🔥 APPLY TAB CONTENT ================= -->
+    <% if (tab === "apply") { %>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+            
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#f47721]"></span>
+                    <h2 class="text-base sm:text-lg font-bold text-[#0b2546] uppercase tracking-wide">
+                        New Outing / Gate Pass Request
+                    </h2>
+                </div>
+                <span class="text-xs font-semibold text-orange-800 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-md flex items-center gap-1">
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-orange-600"></i> Auto Approval Verification
+                </span>
+            </div>
+
+            <form action="/student/gatepass/apply" method="POST" class="space-y-5">
+
+                <!-- Reason For Outing -->
+                <div>
+                    <label class="gatepass-label">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Reason for Outing / Leave <span class="text-red-500">*</span>
+                    </label>
+                    <input name="reason"
+                           type="text"
+                           placeholder="e.g. Medical Appointment, Library visit, Going Home, Project work"
+                           class="gatepass-input"
+                           required />
+                </div>
+
+                <!-- From & To Date-Time Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    
+                    <!-- From Date-Time -->
+                    <div>
+                        <label class="gatepass-label">
+                            <i data-lucide="log-out" class="w-3.5 h-3.5 text-orange-500"></i>
+                            Out-Time (Departure Date & Time) <span class="text-red-500">*</span>
+                        </label>
+                        <input type="datetime-local"
+                               name="from"
+                               class="gatepass-input font-medium"
+                               required />
+                    </div>
+
+                    <!-- To Date-Time -->
+                    <div>
+                        <label class="gatepass-label">
+                            <i data-lucide="log-in" class="w-3.5 h-3.5 text-orange-500"></i>
+                            Expected In-Time (Return Date & Time) <span class="text-red-500">*</span>
+                        </label>
+                        <input type="datetime-local"
+                               name="to"
+                               class="gatepass-input font-medium"
+                               required />
+                    </div>
+
+                </div>
+
+                <!-- Safety Note Banner -->
+                <div class="flex items-start gap-3 bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs text-slate-600">
+                    <i data-lucide="info" class="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5"></i>
+                    <p class="leading-relaxed">
+                        Students must ensure return before hostel/campus in-time. The generated digital QR pass must be shown to security at the main gate upon exit and entry.
+                    </p>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                        class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#0b2546] to-[#12396b] hover:from-[#f47721] hover:to-[#d95f0b] text-white text-sm font-bold shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-[.99]">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>Apply For Gate Pass</span>
+                </button>
+
+            </form>
+
+        </div>
+
+    <% } %>
+
+    <!-- ================= 🔥 HISTORY TAB CONTENT ================= -->
+    <% if (tab === "history") { %>
+
+        <% if (typeof passes !== 'undefined' && passes.length === 0) { %>
+            <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-sm">
+                <div class="w-16 h-16 mx-auto rounded-full bg-orange-50 text-[#f47721] flex items-center justify-center mb-4">
+                    <i data-lucide="ticket" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-lg font-bold text-[#0b2546] mb-1">No Gate Pass Requests Found</h3>
+                <p class="text-slate-500 text-sm max-w-sm mx-auto">
+                    You have not submitted any outing or gate pass requests yet.
+                </p>
+                <a href="/student/gatepass?tab=apply"
+                   class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-[#0b2546] hover:bg-[#f47721] text-white text-xs font-bold rounded-lg transition shadow-xs">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>Apply New Pass</span>
+                </a>
+            </div>
+        <% } %>
+
+        <% const current = (typeof passes !== 'undefined' && passes.length > 0) ? passes[0] : null; %>
+
+        <!-- CURRENT / MOST RECENT PASS -->
+        <% if (current) { %>
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm space-y-4">
+                
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#f47721]"></span>
+                        <h2 class="text-sm font-bold text-[#0b2546] uppercase tracking-wider">
+                            Latest Gate Pass Application Status
+                        </h2>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono">
+                        ID: <%= current.passId || current._id %>
+                    </span>
+                </div>
+
+                <!-- ⏳ PENDING STATE -->
+                <% if (current.status === "pending") { %>
+                    <div class="p-5 rounded-xl bg-amber-50 border border-amber-200 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold flex-shrink-0 animate-pulse">
+                            <i data-lucide="clock" class="w-5 h-5"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-bold text-amber-900">Waiting for Warden / Authority Approval</h3>
+                            <p class="text-xs text-amber-700 mt-0.5">
+                                Your pass request for "<strong><%= current.reason %></strong>" is currently in queue. You will receive an instant digital pass once authorized.
+                            </p>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- 🎫 APPROVED STATE (MAHADBT 2.0 DIGITAL PASS CARD) -->
+                <% if (current.status === "approved") { %>
+
+                    <div class="bg-gradient-to-b from-emerald-50/50 to-white border-2 border-emerald-500/30 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+                        
+                        <!-- Header of Pass -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-5 border-b border-emerald-100">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold shadow-xs">
+                                    <i data-lucide="badge-check" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-emerald-700 font-extrabold uppercase tracking-wider block">Verified Authorization</span>
+                                    <h2 class="text-lg font-bold text-[#0b2546]">
+                                        Campus Gate Pass Approved
+                                    </h2>
+                                </div>
+                            </div>
+
+                            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold tracking-wide border border-emerald-300 self-start sm:self-auto flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                                ACTIVE PASS
+                            </span>
+                        </div>
+
+                        <!-- Pass Details Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Pass Reference No</span>
+                                <strong class="text-[#0b2546] font-mono text-sm"><%= current.passId %></strong>
+                            </div>
+
+                            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Authorized Reason</span>
+                                <strong class="text-slate-800"><%= current.reason %></strong>
+                            </div>
+
+                            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Valid Out-Time (From)</span>
+                                <strong class="text-slate-700"><%= new Date(current.from).toLocaleString() %></strong>
+                            </div>
+
+                            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block">Valid In-Time (To)</span>
+                                <strong class="text-slate-700"><%= new Date(current.to).toLocaleString() %></strong>
+                            </div>
+                        </div>
+
+                        <!-- QR Code Area -->
+                        <% if (current.qrCode) { %>
+                            <div class="mt-6 flex flex-col items-center justify-center p-4 bg-white border border-slate-200 rounded-xl max-w-xs mx-auto shadow-xs">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-wider">Scan at Security Gate</span>
+                                <img src="<%= current.qrCode %>" 
+                                     alt="Gate Pass QR Code"
+                                     class="w-36 h-36 rounded-lg p-1 border border-slate-200 bg-white" />
+                                <span class="text-[11px] font-mono font-bold text-slate-600 mt-2">PIN: <%= current.passId?.slice(-6) || 'VERIFIED' %></span>
+                            </div>
+                        <% } %>
+
+                        <!-- Action: Download Pass -->
+                        <div class="mt-6 flex justify-center">
+                            <a href="/student/gatepass/download/<%= current._id %>"
+                               class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#0b2546] hover:bg-[#f47721] text-white transition-all shadow-sm active:scale-95">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                <span>Download Official Pass PDF</span>
+                            </a>
+                        </div>
+
+                        <!-- Expiry Banner Check -->
+                        <% if (new Date() > new Date(current.to)) { %>
+                            <div class="mt-4 p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold text-center flex items-center justify-center gap-1.5">
+                                <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+                                <span>Pass Expired (Return Time Exceeded)</span>
+                            </div>
+                        <% } else { %>
+                            <div class="mt-4 p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold text-center flex items-center justify-center gap-1.5">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+                                <span>Present this digital pass at the security gate terminal</span>
+                            </div>
+                        <% } %>
+
+                    </div>
+
+                <% } %>
+
+                <!-- ❌ REJECTED STATE -->
+                <% if (current.status === "rejected") { %>
+                    <div class="p-5 rounded-xl bg-rose-50 border border-rose-200 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold flex-shrink-0">
+                            <i data-lucide="x-circle" class="w-5 h-5"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-bold text-rose-900">Request Rejected by Authority</h3>
+                            <p class="text-xs text-rose-700 mt-0.5">
+                                Your gate pass request was not approved. Please consult your hostel warden or department coordinator.
+                            </p>
+                        </div>
+                    </div>
+                <% } %>
+
+            </div>
+        <% } %>
+
+        <!-- ================= ALL PREVIOUS PASSES HISTORY ================= -->
+        <% if (typeof passes !== 'undefined' && passes.length > 0) { %>
+            
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm space-y-4">
+                
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#0b2546]"></span>
+                        <h2 class="text-sm font-bold text-[#0b2546] uppercase tracking-wider">
+                            Pass History Log
+                        </h2>
+                    </div>
+                    <span class="text-xs text-slate-500 font-medium">
+                        Total: <strong><%= passes.length %></strong>
+                    </span>
+                </div>
+
+                <div class="space-y-3">
+                    <% passes.forEach(pass => { %>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#f47721]/50 hover:bg-white transition flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm font-bold text-[#0b2546]">
+                                        <%= pass.reason %>
+                                    </p>
+                                </div>
+                                <p class="text-xs text-slate-500 flex items-center gap-1 font-medium">
+                                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
+                                    <%= new Date(pass.from).toLocaleString() %> &rarr; <%= new Date(pass.to).toLocaleString() %>
+                                </p>
+                            </div>
+
+                            <div class="self-start sm:self-center">
+                                <% if (pass.status === "pending") { %>
+                                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-200 flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pending
+                                    </span>
+                                <% } %>
+
+                                <% if (pass.status === "approved") { %>
+                                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Approved
+                                    </span>
+                                <% } %>
+
+                                <% if (pass.status === "rejected") { %>
+                                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-rose-100 text-rose-800 border border-rose-200 flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Rejected
+                                    </span>
+                                <% } %>
+                            </div>
+
+                        </div>
+                    <% }) %>
+                </div>
+
+            </div>
+
+        <% } %>
+
+    <% } %>
+
+</div>
+
+<!-- Initialize Lucide Icons -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    });
+</script>

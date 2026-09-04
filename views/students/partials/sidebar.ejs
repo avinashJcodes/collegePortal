@@ -1,0 +1,192 @@
+<!-- ================= MAHADBT 2.0 STUDENT DASHBOARD SIDEBAR (100% PURE WHITE THEME) ================= -->
+
+<aside id="sidebar"
+       class="fixed lg:sticky top-0 left-0 z-50
+              w-72 h-screen
+              !bg-white bg-white
+              border-r border-slate-200
+              shadow-[2px_0_12px_rgba(0,0,0,0.04)]
+              px-3.5 py-4
+              transform -translate-x-full
+              lg:translate-x-0
+              transition-transform duration-300 ease-in-out
+              flex flex-col text-slate-800"
+       style="background-color: #ffffff !important; color: #1e293b !important;">
+
+    <!-- ================= 1. INSTITUTION BRANDING HEADER ================= -->
+    <div class="flex items-center gap-3 pb-3.5 px-2 border-b border-slate-200 bg-white">
+        <!-- Official Crest Box -->
+        <div class="w-11 h-11 rounded-lg bg-white p-1 border-2 border-[#f47721] shadow-xs flex items-center justify-center overflow-hidden flex-shrink-0">
+            <img src="/images/collage boy iamge.png"
+                 alt="College Crest"
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135755.png'"
+                 class="w-full h-full object-contain">
+        </div>
+
+        <div class="leading-tight">
+            <div class="text-[10px] text-[#f47721] font-black uppercase tracking-wider">
+                AVI INSTITUTE
+            </div>
+            <h2 class="text-sm font-extrabold text-[#082444] tracking-tight">
+                Student Portal
+            </h2>
+            <p class="text-[10px] text-slate-500 font-semibold font-devanagari">
+                महाविद्यालीन विद्यार्थी प्रणाली
+            </p>
+        </div>
+    </div>
+
+    <!-- ================= 2. NAVIGATION MENU ================= -->
+    <nav class="flex-1 mt-3 overflow-y-auto pr-1 space-y-1 bg-white">
+
+        <!-- Section 1: Main Menu -->
+        <div class="px-2.5 pt-2 pb-1">
+            <p class="text-[10px] uppercase tracking-wider text-slate-400 font-black flex items-center justify-between">
+                <span>Main Menu</span>
+                <span class="text-[9px] font-bold text-[#f47721] bg-orange-50 border border-orange-200 px-1.5 py-0.5 rounded">ERP</span>
+            </p>
+        </div>
+
+        <% 
+            const baseClass = "group flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all duration-150";
+            const activeClass = "bg-[#fff4ec] text-[#d95f0b] border-l-4 border-[#f47721] font-bold shadow-xs";
+            const inactiveClass = "text-slate-700 hover:bg-slate-50 hover:text-[#082444] hover:border-l-4 hover:border-slate-300";
+        %>
+
+        <!-- DASHBOARD -->
+        <a href="/student/dashboard"
+           class="<%= baseClass %> <%= currentPath.startsWith('/student/dashboard') ? activeClass : inactiveClass %>">
+            <i data-lucide="layout-dashboard" class="w-4 h-4 <%= currentPath.startsWith('/student/dashboard') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <!-- NOTICES -->
+        <a href="/student/notices"
+           class="<%= baseClass %> <%= currentPath.startsWith('/student/notices') ? activeClass : inactiveClass %>">
+            <i data-lucide="bell" class="w-4 h-4 <%= currentPath.startsWith('/student/notices') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+            <span>Notices & Circulars</span>
+        </a>
+
+        <!-- MARKS -->
+        <a href="/marks/marks"
+           class="<%= baseClass %> <%= currentPath.startsWith('/marks') ? activeClass : inactiveClass %>">
+            <i data-lucide="file-text" class="w-4 h-4 <%= currentPath.startsWith('/marks') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+            <span>Academic Marks</span>
+        </a>
+
+        <!-- ATTENDANCE -->
+        <a href="/attendance/student"
+           class="<%= baseClass %> <%= currentPath.startsWith('/attendance') ? activeClass : inactiveClass %>">
+            <i data-lucide="calendar-check" class="w-4 h-4 <%= currentPath.startsWith('/attendance') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+            <span>Attendance</span>
+        </a>
+
+        <!-- EXAM ACCORDION MENU -->
+        <div class="space-y-1">
+            <button id="examBtn"
+                    type="button"
+                    class="<%= baseClass %> w-full justify-between <%= currentPath.startsWith('/exam') ? activeClass : inactiveClass %>">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="calendar" class="w-4 h-4 <%= currentPath.startsWith('/exam') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+                    <span>Examination</span>
+                </div>
+                <i id="examIcon"
+                   data-lucide="chevron-right"
+                   class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200 <%= currentPath.startsWith('/exam') ? 'rotate-90 text-[#f47721]' : '' %>">
+                </i>
+            </button>
+
+            <!-- Submenu Items -->
+            <div id="examMenu"
+                 class="<%= currentPath.startsWith('/exam') ? '' : 'hidden' %> ml-3 pl-3 border-l-2 border-slate-200 space-y-1 pt-1">
+
+                <a href="/exam/student/exam-form"
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold transition <%= currentPath === '/exam/student/exam-form' ? 'text-[#d95f0b] bg-orange-50 font-bold' : 'text-slate-600 hover:text-[#082444] hover:bg-slate-100' %>">
+                    <i data-lucide="file-plus" class="w-3.5 h-3.5"></i>
+                    <span>Apply for Exam</span>
+                </a>
+
+                <a href="/exam/student/exam/hallticket"
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold transition <%= currentPath === '/exam/student/exam/hallticket' ? 'text-[#d95f0b] bg-orange-50 font-bold' : 'text-slate-600 hover:text-[#082444] hover:bg-slate-100' %>">
+                    <i data-lucide="ticket" class="w-3.5 h-3.5"></i>
+                    <span>Hall Ticket / Timetable</span>
+                </a>
+
+                <a href="/exam/student/receipt"
+                   class="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold transition <%= currentPath === '/exam/student/receipt' ? 'text-[#d95f0b] bg-orange-50 font-bold' : 'text-slate-600 hover:text-[#082444] hover:bg-slate-100' %>">
+                    <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+                    <span>Fee Receipts</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Section 2: Student Services -->
+        <div class="px-2.5 pt-3 pb-1">
+            <p class="text-[10px] uppercase tracking-wider text-slate-400 font-black">
+                Student Services
+            </p>
+        </div>
+
+        <!-- PROFILE -->
+        <a href="/student/profile"
+           class="<%= baseClass %> <%= currentPath.startsWith('/student/profile') ? activeClass : inactiveClass %>">
+            <i data-lucide="user-circle" class="w-4 h-4 <%= currentPath.startsWith('/student/profile') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+            <span>Student Profile</span>
+        </a>
+
+        <!-- CHAT -->
+        <a href="/student/chat"
+           class="<%= baseClass %> <%= currentPath.startsWith('/student/chat') ? activeClass : inactiveClass %>">
+            <i data-lucide="messages-square" class="w-4 h-4 <%= currentPath.startsWith('/student/chat') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+            <span>Helpdesk & Support</span>
+        </a>
+
+        <!-- MEETING -->
+        <a href="/meeting/joinmeeting"
+           class="<%= baseClass %> <%= currentPath.startsWith('/meeting') ? activeClass : inactiveClass %>">
+            <i data-lucide="video" class="w-4 h-4 <%= currentPath.startsWith('/meeting') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+            <span>Online Classroom</span>
+        </a>
+
+        <!-- GATE PASS -->
+        <a href="/student/gatepass"
+           class="<%= baseClass %> <%= currentPath.startsWith('/student/gatepass') ? activeClass : inactiveClass %>">
+            <i data-lucide="clipboard-list" class="w-4 h-4 <%= currentPath.startsWith('/student/gatepass') ? 'text-[#f47721]' : 'text-slate-500 group-hover:text-[#082444]' %>"></i>
+            <span>Digital Gate Pass</span>
+        </a>
+
+    </nav>
+
+    <!-- ================= 3. LOGOUT BUTTON (MahaDBT Standard Red Action) ================= -->
+    <div class="pt-3 border-t border-slate-200 mt-auto bg-white">
+        <a href="/student/logout"
+           class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg
+                  bg-red-50 border border-red-200
+                  text-red-700 hover:bg-red-100 hover:text-red-800
+                  text-xs font-bold transition-all duration-150">
+            <i data-lucide="log-out" class="w-4 h-4 text-red-600"></i>
+            <span>Logout from Portal</span>
+        </a>
+    </div>
+
+</aside>
+
+<!-- ================= 4. EXAM ACCORDION JAVASCRIPT ================= -->
+<script>
+    (function () {
+        const btn = document.getElementById("examBtn");
+        const menu = document.getElementById("examMenu");
+        const icon = document.getElementById("examIcon");
+
+        if (btn && menu && icon) {
+            btn.addEventListener("click", () => {
+                const isHidden = menu.classList.toggle("hidden");
+                if (isHidden) {
+                    icon.classList.remove("rotate-90", "text-[#f47721]");
+                } else {
+                    icon.classList.add("rotate-90", "text-[#f47721]");
+                }
+            });
+        }
+    })();
+</script>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Avi Institute of Technology</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter & Noto Sans Devanagari (MahaDBT Standard) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 6 Icons (For Govt / ERP Badges) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- MahaDBT 2.0 Clean White Portal Stylesheet -->
+    <style>
+        :root {
+            --portal-navy: #082444;
+            --portal-navy-light: #0d386d;
+            --portal-saffron: #f47721;
+            --portal-saffron-hover: #d95f0b;
+            --portal-bg: #f4f6f9;
+            --portal-border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--portal-bg);
+            color: #1e293b;
+        }
+
+        /* ================= MAHADBT 2.0 CARD STYLING ================= */
+        .glass-card,
+        .portal-card {
+            background: #ffffff !important;
+            border: 1px solid var(--portal-border) !important;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+            border-radius: 0.75rem;
+        }
+
+        /* ================= SIDEBAR (PURE WHITE) ================= */
+        #sidebar {
+            background-color: #ffffff !important;
+            background-image: none !important;
+            border-right: 1px solid var(--portal-border) !important;
+            color: #1e293b !important;
+        }
+
+        /* Sidebar link base */
+        #sidebar a, #sidebar button {
+            color: #334155 !important;
+        }
+
+        /* Sidebar link hover */
+        #sidebar a:hover, #sidebar button:hover {
+            background-color: #f8fafc !important;
+            color: var(--portal-navy) !important;
+        }
+
+        /* Sidebar link active state (MahaDBT Signature Saffron Border & Peach Fill) */
+        .sidebar-link-active {
+            background-color: #fff4ec !important;
+            border-left: 4px solid var(--portal-saffron) !important;
+            color: #d95f0b !important;
+            font-weight: 700 !important;
+        }
+
+        /* ================= HEADER ================= */
+        header {
+            background-color: #ffffff !important;
+            border-bottom: 2px solid var(--portal-saffron) !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* ================= TEXT COLORS ================= */
+        .text-slate-900 { color: #082444 !important; }
+        .text-slate-800 { color: #1e293b !important; }
+        .text-slate-700 { color: #334155 !important; }
+        .text-slate-600 { color: #475569 !important; }
+        .text-slate-500 { color: #64748b !important; }
+        .text-slate-400 { color: #94a3b8 !important; }
+
+        /* ================= BACKGROUNDS ================= */
+        .bg-slate-900,
+        .bg-slate-950 {
+            background-color: var(--portal-bg) !important;
+        }
+        .bg-slate-800 {
+            background-color: #ffffff !important;
+        }
+
+        /* ================= POPUPS / DIALOGS (CLEAN WHITE) ================= */
+        #profilePopup > div,
+        #golu-box,
+        #profilePanel {
+            background: #ffffff !important;
+            border: 1px solid var(--portal-border) !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+            color: #1e293b !important;
+        }
+
+        /* ================= CLEAN PORTAL SCROLLBAR ================= */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--portal-saffron);
+        }
+    </style>
+</head>
+
+<body class="bg-[#f4f6f9] text-slate-800 flex min-h-screen">
+
+    <!-- Sidebar (Clean White MahaDBT Style) -->
+    <%- include('students/partials/sidebar') %>
+
+    <!-- Sidebar Backdrop Overlay (Mobile View) -->
+    <div id="sidebarOverlay"
+         onclick="toggleSidebar()"
+         class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 hidden lg:hidden">
+    </div>
+
+    <!-- MAIN PORTAL CONTENT WRAPPER -->
+    <div class="flex-1 min-w-0 flex flex-col min-h-screen bg-[#f4f6f9]">
+
+        <!-- HEADER (Conditional) -->
+        <% if (showHeader) { %>
+            <%- include('students/partials/header') %>
+        <% } %>
+
+        <!-- Content Area -->
+        <main class="w-full flex-1 px-3 sm:px-4 md:px-6 py-4">
+            <%- body %>
+        </main>
+
+    </div> 
+
+    <!-- Lucide Icons Script -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        function toggleProfile() {
+            const panel = document.getElementById("profilePanel");
+            if (panel) panel.classList.toggle("hidden");
+        }
+
+        document.addEventListener("click", function (e) {
+            const panel = document.getElementById("profilePanel");
+            const button = e.target.closest("button");
+
+            if (!button && panel && !panel.contains(e.target)) {
+                panel.classList.add("hidden");
+            }
+        });
+
+        function toggleGolu() {
+            const box = document.getElementById("golu-box");
+            if (box) box.classList.toggle("hidden");
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("sidebarOverlay");
+
+            if (sidebar && overlay) {
+                sidebar.classList.toggle("-translate-x-full");
+                overlay.classList.toggle("hidden");
+            }
+        }
+    </script>
+
+</body>
+</html>

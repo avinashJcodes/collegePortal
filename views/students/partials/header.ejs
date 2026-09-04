@@ -1,0 +1,184 @@
+<!-- =========================================================================================
+     COLLEGE STUDENT ERP PORTAL HEADER (CLEAN CAMPUS ERP THEME)
+     ========================================================================================= -->
+
+<!-- ================= 1. TOP UTILITY & ACCESSIBILITY BAR ================= -->
+<div class="bg-[#0b2546] text-white text-[11px] py-1 px-3 sm:px-6 border-b border-orange-500/40 select-none">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+        
+        <!-- Left: Campus Portal Title & Helpdesk -->
+        <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1.5 font-medium tracking-wide">
+                <i class="fa-solid fa-graduation-cap text-orange-400 text-xs"></i>
+                <span class="text-orange-400 font-bold uppercase tracking-wider">Student ERP Portal</span>
+                <span class="hidden md:inline text-slate-300">| Avi Institute of Technology</span>
+            </div>
+
+            <span class="hidden lg:inline text-slate-500">•</span>
+
+            <div class="hidden lg:flex items-center gap-1.5 text-slate-300">
+                <i class="fa-solid fa-headset text-orange-400 text-[10px]"></i>
+                <span>Campus Helpline: <strong class="text-white">020-27659000</strong></span>
+            </div>
+        </div>
+
+        <!-- Right: Academic Session, Active Status & Accessibility Controls -->
+        <div class="flex items-center gap-3">
+            
+            <!-- Academic Session Badge -->
+            <div class="hidden sm:flex items-center gap-1.5 bg-white/10 px-2.5 py-0.5 rounded border border-white/15 text-slate-200">
+                <i class="fa-solid fa-calendar-check text-orange-400 text-[10px]"></i>
+                <span>Academic Session: <b class="text-white font-semibold">2026-2027</b></span>
+            </div>
+
+            <!-- Student ERP Verified Status Pill -->
+            <div class="hidden md:flex items-center gap-1.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded text-[10px] font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Active Student Account</span>
+            </div>
+
+            <!-- Accessibility Font Controls & Language Toggle -->
+            <div class="flex items-center gap-1 text-[10px] font-bold text-slate-200 pl-1 border-l border-white/20">
+                <button type="button" class="hover:text-orange-400 px-1" title="Decrease Font">A-</button>
+                <button type="button" class="hover:text-orange-400 px-1" title="Standard Font">A</button>
+                <button type="button" class="hover:text-orange-400 px-1" title="Increase Font">A+</button>
+                <span class="text-slate-500">|</span>
+                <button type="button" class="hover:text-orange-400 px-1 text-orange-300">मराठी</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= 2. MAIN COLLEGE ERP BRANDING HEADER ================= -->
+<header class="sticky top-0 z-40 bg-white border-b-2 border-b-[#f47721] shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+
+        <!-- Left: Mobile Toggle + College Logo & Academic Details -->
+        <div class="flex items-center gap-2 sm:gap-4">
+
+            <!-- Mobile Sidebar Toggle -->
+            <button onclick="toggleSidebar()"
+                    type="button"
+                    class="lg:hidden p-2 rounded-lg bg-slate-50 border border-slate-200 hover:bg-[#f47721] hover:text-white text-slate-700 transition"
+                    aria-label="Toggle Navigation">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+
+            <!-- College Crest & Branding Typography -->
+            <div class="flex items-center gap-2.5 sm:gap-3.5">
+                
+                <!-- College Logo Container -->
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-50/70 border border-orange-200 p-1 flex items-center justify-center flex-shrink-0 shadow-inner">
+                    <img src="/images/college-logo.png"
+                         alt="College Logo"
+                         onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135755.png'"
+                         class="w-full h-full object-contain">
+                </div>
+
+                <!-- Branding Typography -->
+                <div class="leading-tight">
+                    <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center text-[9px] sm:text-[10px] bg-orange-100 text-[#d95f0b] font-bold px-1.5 py-0.5 rounded border border-orange-300/60 uppercase tracking-wider">
+                            Campus ERP
+                        </span>
+                        <span class="text-[10px] text-slate-500 font-medium hidden md:inline">
+                            DTE Code: <strong class="text-slate-700">6175</strong> | SPPU Pune Affiliated
+                        </span>
+                    </div>
+
+                    <h1 class="text-sm sm:text-base md:text-lg font-extrabold text-[#0b2546] tracking-tight truncate max-w-[210px] sm:max-w-md md:max-w-xl">
+                        Avi Institute of Technology & Research
+                    </h1>
+
+                    <p class="text-[11px] text-slate-500 hidden sm:block font-medium">
+                        Approved by AICTE, New Delhi • Autonomous Institutional ERP
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Right: Action Center, Notification Bell & Student Profile Card -->
+        <div class="flex items-center gap-2 sm:gap-3">
+
+            <!-- Examination Hall Ticket Quick Link (Desktop) -->
+            <a href="/student/hall-ticket"
+               title="View Examination Hall Ticket"
+               class="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-orange-50 border border-orange-200 text-orange-800 hover:bg-orange-100 transition text-xs font-semibold">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-[#f47721]"></i>
+                <div class="text-left leading-none">
+                    <span class="block text-[9px] text-orange-600 font-bold uppercase">Admit Card</span>
+                    <span>Hall Ticket</span>
+                </div>
+            </a>
+
+            <!-- Notification Bell -->
+            <a href="/student/notices"
+               title="Notifications & Circulars"
+               class="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-50 border border-slate-200 hover:bg-orange-50 hover:border-[#f47721] text-slate-600 hover:text-[#f47721] transition shadow-sm">
+                <i data-lucide="bell" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                
+                <% if (typeof hasNewNotice !== 'undefined' && hasNewNotice) { %>
+                    <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-600 border-2 border-white text-[8px] font-bold text-white items-center justify-center">1</span>
+                    </span>
+                <% } %>
+            </a>
+
+            <!-- Helpdesk / Grievance Button -->
+            <a href="/student/chat"
+               title="Student Grievance & Helpdesk"
+               class="hidden sm:flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-[#0b2546] transition">
+                <i data-lucide="help-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </a>
+
+            <div class="h-7 w-[1px] bg-slate-200 hidden sm:block"></div>
+
+            <!-- Student Profile Badge -->
+            <div class="flex items-center gap-2 sm:gap-2.5 bg-slate-50 border border-slate-200 hover:border-[#f47721]/50 rounded-xl p-1 sm:py-1.5 sm:px-2.5 transition">
+                
+                <!-- Avatar with Verification Check -->
+                <div class="relative w-8 h-8 sm:w-9 sm:h-9 rounded-lg overflow-hidden border border-[#f47721] bg-white shadow-sm flex-shrink-0">
+                    <% if (typeof student !== 'undefined' && student && student.profileImage) { %>
+                        <img src="<%= student.profileImage %>" 
+                             alt="Student Avatar" 
+                             class="w-full h-full object-cover">
+                    <% } else { %>
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#0b2546] to-[#12396b] text-white font-bold text-xs sm:text-sm">
+                            <%= (typeof student !== 'undefined' && student && student.fullname) ? student.fullname.charAt(0).toUpperCase() : "S" %>
+                        </div>
+                    <% } %>
+                    
+                    <!-- Verified Checkmark Badge -->
+                    <span class="absolute bottom-0 right-0 bg-emerald-500 text-white w-2.5 h-2.5 rounded-tl-sm flex items-center justify-center text-[7px]" title="Enrolled Student">
+                        ✓
+                    </span>
+                </div>
+
+                <!-- Student Info (PRN, Name) -->
+                <div class="hidden lg:block text-left leading-tight pr-1">
+                    <div class="text-xs font-bold text-[#0b2546] truncate max-w-[130px]">
+                        <%= (typeof student !== 'undefined' && student && student.fullname) ? student.fullname : "Student Name" %>
+                    </div>
+                    <div class="text-[10px] text-slate-500 font-medium">
+                        PRN: <span class="text-[#f47721] font-semibold"><%= (typeof student !== 'undefined' && student && (student.admissionNumber || student.enrollmentNumber)) ? (student.admissionNumber || student.enrollmentNumber) : "2026ENG6175" %></span>
+                    </div>
+                </div>
+
+                <!-- Logout Link -->
+                <a href="/student/logout" 
+                   title="Logout" 
+                   class="inline-flex p-1 text-slate-400 hover:text-red-600 rounded transition">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</header>

@@ -1,0 +1,463 @@
+<!-- =========================================================================================
+     MAHADBT 2.0 STUDENT ERP - SEMESTER EXAMINATION REGISTRATION FORM (CLEAN WHITE UI)
+     ========================================================================================= -->
+
+<style>
+    :root {
+        --mahadbt-navy: #0b2546;
+        --mahadbt-orange: #f47721;
+        --mahadbt-orange-dark: #d95f0b;
+    }
+
+    /* MahaDBT Clean Input Controls */
+    .mahadbt-input {
+        width: 100%;
+        background-color: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        color: #1e293b;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .mahadbt-input:focus {
+        background-color: #ffffff;
+        border-color: #f47721;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(244, 119, 33, 0.15);
+    }
+
+    .mahadbt-input-readonly {
+        background-color: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+        color: #475569 !important;
+        cursor: not-allowed;
+        user-select: none;
+    }
+
+    .mahadbt-label {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #475569;
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<!-- MAIN EXAM FORM CONTAINER (WITHOUT HEADER AS REQUESTED) -->
+<div class="max-w-6xl mx-auto py-6 px-3 sm:px-6 space-y-6">
+
+    <!-- Page Title & Instructions Banner -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-80 h-full bg-gradient-to-l from-orange-50 via-orange-50/40 to-transparent pointer-events-none"></div>
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+            <div>
+                <!-- Breadcrumbs -->
+                <nav class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                    <a href="/student/dashboard" class="hover:text-[#f47721]">Home</a>
+                    <span>/</span>
+                    <span class="text-[#0b2546] font-semibold">Examinations</span>
+                    <span>/</span>
+                    <span class="text-slate-700 font-medium">Exam Registration</span>
+                </nav>
+
+                <div class="flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-xl bg-[#0b2546] text-[#f47721] flex items-center justify-center font-bold flex-shrink-0 shadow-sm">
+                        <i data-lucide="file-edit" class="w-6 h-6 text-[#f47721]"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold text-[#0b2546] tracking-tight">
+                            Semester Examination Registration Form
+                        </h1>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+                            Academic Session 2026-27 • SPPU University Regular / Backlog Examination Portal
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portal Badge -->
+            <div class="flex items-center gap-2 self-start md:self-auto">
+                <div class="bg-orange-50 border border-orange-200/80 px-4 py-2 rounded-xl flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-[#f47721]/15 text-[#d95f0b] flex items-center justify-center font-bold">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="text-[10px] uppercase font-extrabold text-[#d95f0b] tracking-wider block">Controller of Exams</span>
+                        <span class="text-xs font-bold text-[#0b2546]">Official Exam Portal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN REGISTRATION FORM -->
+    <form method="POST" action="/exam/student/exam-form" class="space-y-6">
+
+        <!-- ================= 1. PERSONAL INFORMATION CARD ================= -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+            
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#f47721]"></span>
+                    <h2 class="text-base sm:text-lg font-bold text-[#0b2546] uppercase tracking-wide">
+                        1. Candidate Personal Information
+                    </h2>
+                </div>
+                <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md flex items-center gap-1">
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Aadhaar / ERP Verified
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                <!-- Full Name -->
+                <div>
+                    <label class="mahadbt-label">
+                        <i data-lucide="user" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Candidate Full Name
+                    </label>
+                    <input type="text"
+                           readonly
+                           value="<%= student.fullname %>"
+                           class="mahadbt-input mahadbt-input-readonly font-semibold"
+                           title="Fetched directly from your student profile">
+                </div>
+
+                <!-- Aadhaar Number -->
+                <div>
+                    <label class="mahadbt-label">
+                        <i data-lucide="fingerprint" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Aadhaar Number (Masked)
+                    </label>
+                    <input type="text"
+                           readonly
+                           value="XXXX-XXXX-<%= student.aadharNumber?.slice(-4) || 'XXXX' %>"
+                           class="mahadbt-input mahadbt-input-readonly font-mono">
+                </div>
+
+                <!-- Mobile Number -->
+                <div>
+                    <label class="mahadbt-label">
+                        <i data-lucide="phone" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Registered Mobile Number
+                    </label>
+                    <input type="text"
+                           readonly
+                           value="<%= student.phone %>"
+                           class="mahadbt-input mahadbt-input-readonly font-mono">
+                </div>
+
+                <!-- Email Address -->
+                <div>
+                    <label class="mahadbt-label">
+                        <i data-lucide="mail" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Registered Email Address
+                    </label>
+                    <input type="email"
+                           readonly
+                           value="<%= student.email %>"
+                           class="mahadbt-input mahadbt-input-readonly">
+                </div>
+
+                <!-- ABC ID (Academic Bank of Credits) -->
+                <div class="md:col-span-2">
+                    <label class="mahadbt-label">
+                        <i data-lucide="award" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Academic Bank of Credits (ABC ID / APAAR ID)
+                    </label>
+                    <input type="text"
+                           readonly
+                           value="<%= student.abcId %>"
+                           class="mahadbt-input mahadbt-input-readonly font-mono font-bold text-[#0b2546]">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= 2. ACADEMIC DETAILS CARD ================= -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+            
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#f47721]"></span>
+                    <h2 class="text-base sm:text-lg font-bold text-[#0b2546] uppercase tracking-wide">
+                        2. Examination & Term Details
+                    </h2>
+                </div>
+                <span class="text-xs text-slate-500 font-medium">Session 2026-27</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                <!-- Verification Callout Banner -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 bg-orange-50/80 border border-orange-200 rounded-xl p-4">
+                        <div class="w-9 h-9 rounded-lg bg-[#f47721]/15 text-[#d95f0b] flex items-center justify-center font-bold flex-shrink-0">
+                            <i data-lucide="info" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xs sm:text-sm font-bold text-[#0b2546]">
+                                University Semester Examination Registration
+                            </h3>
+                            <p class="text-xs text-slate-600 mt-0.5">
+                                Ensure all examination types and semester details match your official university hall-ticket requirements.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Degree Program / Course -->
+                <div>
+                    <label class="mahadbt-label">
+                        <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Program / Course
+                    </label>
+                    <input type="text"
+                           readonly
+                           value="<%= student.course %>"
+                           class="mahadbt-input mahadbt-input-readonly font-semibold text-[#0b2546]">
+                </div>
+
+                <!-- Exam Attempt Type -->
+                <div>
+                    <label class="mahadbt-label">
+                        <i data-lucide="list-checks" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Exam Attempt Type <span class="text-red-500">*</span>
+                    </label>
+                    <select name="examType"
+                            required
+                            class="mahadbt-input cursor-pointer font-medium">
+                        <option value="" disabled selected>-- Select Exam Attempt Type --</option>
+                        <option value="Regular">Regular Examination</option>
+                        <option value="Backlog">Backlog / ATKT Examination</option>
+                        <option value="Improvement">Class Improvement Scheme</option>
+                    </select>
+                </div>
+
+                <!-- Semester To Appear -->
+                <div class="md:col-span-2">
+                    <label class="mahadbt-label">
+                        <i data-lucide="layers" class="w-3.5 h-3.5 text-orange-500"></i>
+                        Semester to Register <span class="text-red-500">*</span>
+                    </label>
+                    <select name="semester"
+                            id="currentSemester"
+                            required
+                            onchange="handleSemesterChange()"
+                            class="mahadbt-input cursor-pointer font-semibold text-[#0b2546]">
+                        <option value="" disabled selected>-- Select Current Semester --</option>
+                        <option value="1">Semester 1 (First Year - Sem I)</option>
+                        <option value="2">Semester 2 (First Year - Sem II)</option>
+                        <option value="3">Semester 3 (Second Year - Sem III)</option>
+                        <option value="4">Semester 4 (Second Year - Sem IV)</option>
+                        <option value="5">Semester 5 (Third Year - Sem V)</option>
+                        <option value="6">Semester 6 (Third Year - Sem VI)</option>
+                        <option value="7">Semester 7 (Final Year - Sem VII)</option>
+                        <option value="8">Semester 8 (Final Year - Sem VIII)</option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= 3. PREVIOUS ACADEMIC RECORDS (DYNAMIC) ================= -->
+        <section id="previousResultsContainer"
+                 class="hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-slate-100 gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#f47721]"></span>
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-[#0b2546] uppercase tracking-wide">
+                            3. Previous Academic Examination Records
+                        </h2>
+                        <p class="text-xs text-slate-500">
+                            Declare the status of all prior semesters completed under the university ledger.
+                        </p>
+                    </div>
+                </div>
+
+                <span class="text-xs font-semibold text-orange-800 bg-orange-50 border border-orange-200 px-3 py-1 rounded-lg self-start sm:self-auto">
+                    Ledger Verification
+                </span>
+            </div>
+
+            <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Dynamically populated by handleSemesterChange() -->
+            </div>
+
+        </section>
+
+        <!-- ================= 4. SUBJECTS TO APPEAR ================= -->
+        <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm space-y-5">
+            
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 flex-wrap gap-3">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#f47721]"></span>
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-[#0b2546] uppercase tracking-wide">
+                            4. Course Subjects to Appear
+                        </h2>
+                        <p class="text-xs text-slate-500">
+                            Add all Theory & Practical courses you intend to take in this examination session.
+                        </p>
+                    </div>
+                </div>
+
+                <button type="button"
+                        onclick="addSubjectInput()"
+                        class="px-4 py-2 rounded-xl bg-[#0b2546] hover:bg-[#f47721] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                    <span>ADD SUBJECT</span>
+                </button>
+            </div>
+
+            <!-- Subject Inputs Dynamic List -->
+            <div id="subjectsContainer" class="space-y-3">
+                <div class="flex gap-2.5 items-center">
+                    <div class="relative flex-1">
+                        <i data-lucide="book-open" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input type="text"
+                               name="subjects[]"
+                               required
+                               placeholder="Enter Subject Name / Course Code (e.g. 310241 - Database Management)"
+                               class="mahadbt-input pl-10">
+                    </div>
+
+                    <button type="button"
+                            onclick="this.parentElement.remove()"
+                            title="Remove Subject"
+                            class="w-10 h-10 flex items-center justify-center bg-slate-100 hover:bg-rose-50 text-slate-400 hover:text-rose-600 border border-slate-200 hover:border-rose-300 rounded-xl transition">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= 5. DECLARATION & SUBMISSION ================= -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm space-y-5">
+            
+            <div class="flex items-start gap-3 bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs text-slate-600">
+                <input type="checkbox" id="declarationCheck" required class="mt-0.5 accent-[#f47721] w-4 h-4 rounded cursor-pointer">
+                <label for="declarationCheck" class="cursor-pointer leading-relaxed">
+                    I hereby declare that the particulars furnished above are true and complete to the best of my knowledge. I agree to abide by all university regulations, examination ordinances, and anti-malpractice rules.
+                </label>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit"
+                    class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#0b2546] to-[#12396b] hover:from-[#f47721] hover:to-[#d95f0b] text-white text-sm sm:text-base font-bold shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-[.99]">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span>Submit Semester Examination Form</span>
+            </button>
+
+            <p class="text-center text-[11px] text-slate-400 uppercase tracking-widest font-semibold">
+                Official MahaDBT 2.0 Integrated Examination Cell • Government of Maharashtra
+            </p>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- ================= JAVASCRIPT LOGIC (EXACT LOGIC PRESERVED WITH MAHADBT THEMED DOM) ================= -->
+<script>
+    // Initialize Lucide Icons
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    });
+
+    // 1. Dynamic Previous Semesters Handler
+    function handleSemesterChange() {
+        const sem = parseInt(document.getElementById("currentSemester").value);
+        const container = document.getElementById("previousResultsContainer");
+        const resultsGrid = document.getElementById("resultsGrid");
+
+        if (!container || !resultsGrid) return;
+
+        container.classList.toggle("hidden", isNaN(sem) || sem <= 1);
+        resultsGrid.innerHTML = "";
+
+        for (let i = 1; i < sem; i++) {
+            resultsGrid.innerHTML += `
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between hover:border-orange-300/80 transition">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-orange-100 text-[#d95f0b] font-bold text-xs flex items-center justify-center">
+                            S${i}
+                        </div>
+                        <span class="font-bold text-[#0b2546] text-sm">
+                            Semester ${i} Result
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <label class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold cursor-pointer hover:bg-emerald-100 transition">
+                            <input type="radio"
+                                   name="sem_${i}_result"
+                                   value="PASS"
+                                   required
+                                   class="accent-emerald-600 w-3.5 h-3.5">
+                            <span>PASS</span>
+                        </label>
+
+                        <label class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold cursor-pointer hover:bg-rose-100 transition">
+                            <input type="radio"
+                                   name="sem_${i}_result"
+                                   value="FAIL"
+                                   class="accent-rose-600 w-3.5 h-3.5">
+                            <span>FAIL / ATKT</span>
+                        </label>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    // 2. Add Dynamic Subject Row
+    function addSubjectInput() {
+        const container = document.getElementById("subjectsContainer");
+        if (!container) return;
+
+        container.insertAdjacentHTML("beforeend", `
+            <div class="flex gap-2.5 items-center animate-in fade-in duration-150">
+                <div class="relative flex-1">
+                    <i data-lucide="book-open" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                    <input type="text"
+                           name="subjects[]"
+                           required
+                           placeholder="Enter Subject Name / Course Code"
+                           class="mahadbt-input pl-10">
+                </div>
+
+                <button type="button"
+                        onclick="this.parentElement.remove()"
+                        title="Remove Subject"
+                        class="w-10 h-10 flex items-center justify-center bg-slate-100 hover:bg-rose-50 text-slate-400 hover:text-rose-600 border border-slate-200 hover:border-rose-300 rounded-xl transition">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            </div>
+        `);
+
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+</script>

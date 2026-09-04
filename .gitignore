@@ -1,0 +1,7 @@
+
+python
+trained_model
+package-lock.json
+node_modules/
+.env
+uploads/

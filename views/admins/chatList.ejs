@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Chats</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 text-white min-h-screen p-6">
+
+<h1 class="text-3xl font-bold text-green-400 mb-6">
+  💬 Student Chats
+</h1>
+
+<div class="max-w-3xl mx-auto space-y-3">
+
+  <% if (students.length === 0) { %>
+    <p class="text-gray-400 text-center">
+      No approved students found
+    </p>
+  <% } %>
+
+  <% students.forEach(s => { %>
+    <a href="/admin/chat/<%= s._id %>"
+       class="block bg-slate-800 p-4 rounded-xl hover:bg-slate-700 transition flex items-center gap-4">
+
+      <img
+        src="<%= s.profileImage || 'https://ui-avatars.com/api/?name=' + s.fullname %>"
+        class="w-12 h-12 rounded-full object-cover"
+      />
+
+      <div class="flex-1">
+        <h3 class="font-semibold text-lg">
+          <%= s.fullname %>
+        </h3>
+        <p class="text-sm text-gray-400">
+          Admission No: <%= s.admissionNumber %>
+        </p>
+      </div>
+
+      <span class="text-xs text-gray-500">
+        Open →
+      </span>
+    </a>
+  <% }) %>
+
+</div>
+
+</body>
+</html>

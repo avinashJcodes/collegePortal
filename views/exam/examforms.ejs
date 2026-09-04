@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin | Exam Forms</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-900 text-white p-8">
+
+<h1 class="text-3xl font-bold mb-6 text-green-400">
+  📋 Exam Forms (Admin)
+</h1>
+
+<table class="w-full border border-white/10 rounded-xl overflow-hidden">
+  <thead class="bg-slate-800">
+    <tr class="text-left">
+      <th class="p-3">Student Name</th>
+      <th class="p-3">Admission No</th>
+      <th class="p-3">Semester</th>
+      <th class="p-3">Exam Type</th>
+      <th class="p-3">Fee</th>
+      <th class="p-3">Status</th>
+      <th class="p-3">Transaction</th>
+      <th class="p-3">Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+  <% if (forms.length === 0) { %>
+    <tr>
+      <td colspan="8" class="p-6 text-center text-gray-400">
+        No exam forms found
+      </td>
+    </tr>
+  <% } %>
+
+  <% forms.forEach(f => { %>
+    <tr class="border-t border-white/10">
+
+      <td class="p-3 font-semibold text-indigo-300">
+        <%= f.studentId?.fullname || "Deleted Student" %>
+      </td>
+
+      <td class="p-3">
+        <%= f.studentId?.admissionNumber || "-" %>
+      </td>
+
+      <td class="p-3"><%= f.semester %></td>
+
+      <td class="p-3"><%= f.examType %></td>
+
+      <td class="p-3">₹ <%= f.examFee %></td>
+
+      <td class="p-3 font-semibold">
+        <% if (f.paymentStatus === "Paid") { %>
+          <span class="text-green-400">Paid</span>
+        <% } else { %>
+          <span class="text-red-400">Pending</span>
+        <% } %>
+      </td>
+
+      <td class="p-3 text-sm">
+        <%= f.transactionId || "-" %>
+      </td>
+
+      <td class="p-3">
+        <% if (f.paymentStatus !== "Paid") { %>
+          <form method="POST" action="/exam/admin/exam-forms/verify/<%= f._id %>">
+            <button
+              class="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white text-sm">
+              Mark Paid
+            </button>
+          </form>
+        <% } else { %>
+          <span class="text-gray-400 text-sm">✔ Verified</span>
+        <% } %>
+      </td>
+
+    </tr>
+  <% }) %>
+
+  </tbody>
+</table>
+
+</body>
+</html>

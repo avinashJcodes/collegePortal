@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVI Student Portal - Login & Registration</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter, Poppins & Noto Sans Devanagari (Marathi) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0b2546',
+                            900: '#06172c',
+                            950: '#030d19'
+                        },
+                        saffron: {
+                            500: '#f47721',
+                            600: '#d95f0b',
+                            700: '#b84e06'
+                        }
+                    },
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        devanagari: ['Noto Sans Devanagari', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --portal-navy: #0b2546;
+            --portal-navy-dark: #06172c;
+            --portal-saffron: #f47721;
+            --portal-saffron-hover: #d95f0b;
+        }
+
+        /* Subtle Government Portal Grid Background Pattern */
+        .portal-bg-pattern {
+            background-color: #f1f5f9;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px), radial-gradient(#cbd5e1 1px, #f1f5f9 1px);
+            background-size: 28px 28px;
+            background-position: 0 0, 14px 14px;
+        }
+
+        /* MahaDBT Card Container */
+        .mahadbt-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 15px 35px -5px rgba(6, 23, 44, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.03);
+        }
+
+        /* Form Inputs Styled in MahaDBT 2.0 Portal Standard */
+        .input-field {
+            background-color: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            color: #1e293b;
+            transition: all 0.25s ease;
+        }
+        .input-field:focus {
+            border-color: #f47721;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(244, 119, 33, 0.15);
+        }
+
+        /* Double-width Slider Wrapper (Unchanged Logic) */
+        .wrapper {
+            display: flex;
+            width: 200%;
+            transition: transform 0.65s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .wrapper.slide-register {
+            transform: translateX(-50%);
+        }
+        .form-panel { 
+            width: 50%; 
+            display: flex; 
+        }
+
+        .no-scrollbar::-webkit-scrollbar { 
+            display: none; 
+        }
+    </style>
+</head>
+<body class="portal-bg-pattern min-h-screen text-slate-800 font-sans flex flex-col justify-between selection:bg-orange-500 selection:text-white">
+
+    <!-- ========================================================
+         PAGE LOADER (Unchanged Logic & ID)
+    ======================================================== -->
+    <div id="loader" class="fixed inset-0 bg-[#06172c] z-[99999] flex items-center justify-center transition-opacity duration-500">
+        <div class="relative w-28 h-28 flex flex-col items-center justify-center">
+            <!-- Outer Ring -->
+            <div class="absolute inset-0 rounded-full border-4 border-t-[#f47721] border-r-transparent border-b-[#0b2546] border-l-transparent animate-spin"></div>
+            <!-- Inner Ring -->
+            <div class="absolute inset-2 rounded-full border-4 border-t-transparent border-r-[#f47721]/50 border-b-transparent border-l-sky-400 animate-spin" style="animation-direction: reverse;"></div>
+            <!-- Logo Initials -->
+            <div class="text-white font-heading font-extrabold tracking-widest text-lg">
+                AVI
+            </div>
+            <span class="text-[10px] text-orange-400 tracking-wider font-semibold uppercase mt-1">Portal</span>
+        </div>
+    </div>
+
+    <!-- Hidden canvas element to maintain compatibility with aurora engine scripts -->
+    <canvas id="aurora-canvas" class="hidden"></canvas>
+
+    <!-- ========================================================
+         MAHADBT 2.0 MINI TOP HEADER BAR
+    ======================================================== -->
+    <header class="w-full bg-[#06172c] text-slate-300 text-xs py-2 px-4 md:px-8 border-b border-white/10 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-2">
+            <div class="flex items-center gap-3">
+                <span class="bg-orange-500/20 text-orange-400 border border-orange-500/30 px-2 py-0.5 rounded text-[11px] font-semibold">
+                    <i class="fa-solid fa-graduation-cap me-1"></i> Student ERP Portal
+                </span>
+                <span class="hidden sm:inline text-slate-400 font-devanagari">अवि इन्स्टिट्यूट ऑफ टेक्नॉलॉजी, पुणे</span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px]">
+                <a href="/" class="hover:text-white transition flex items-center gap-1"><i class="fa-solid fa-house"></i> Portal Home</a>
+                <span class="opacity-30">|</span>
+                <a href="tel:+912027650000" class="hover:text-white transition flex items-center gap-1"><i class="fa-solid fa-phone text-orange-400"></i> Helpdesk</a>
+                <span class="opacity-30">|</span>
+                <span class="text-orange-400 font-medium"><i class="fa-solid fa-shield-halved me-1"></i> MahaDBT 2.0 UI</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================================
+         MAIN AUTHENTICATION SLIDER CONTAINER
+    ======================================================== -->
+    <main class="flex-1 flex items-center justify-center p-3 sm:p-6 my-auto">
+        <div class="w-full max-w-[1050px] min-h-[640px] md:h-[620px] mahadbt-card rounded-2xl overflow-hidden relative border-t-4 border-t-[#f47721]">
+            
+            <div id="formWrapper" class="wrapper h-full">
+                
+                <!-- ==========================================
+                     SECTION 1: STUDENT LOGIN
+                ========================================== -->
+                <div class="form-panel h-full flex-col md:flex-row">
+                    <!-- Left Column: Login Form -->
+                    <div class="w-full md:w-[50%] flex flex-col justify-center px-8 sm:px-14 py-8 bg-white h-full">
+                        <div class="mb-6">
+                            <!-- College Branding Mini Badge -->
+                            <div class="flex items-center gap-2.5 mb-2">
+                                <div class="w-9 h-9 rounded-lg bg-[#0b2546] text-orange-400 flex items-center justify-center font-bold text-sm shadow-sm">
+                                    <i class="fa-solid fa-user-graduate"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xs font-bold text-[#0b2546] uppercase tracking-wider">AVI Student ERP</h3>
+                                    <span class="text-[11px] text-slate-500 font-devanagari">विद्यार्थी लॉगिन पोर्टल</span>
+                                </div>
+                            </div>
+                            <h1 class="text-2xl sm:text-3xl font-heading font-extrabold text-[#0b2546]">Welcome Back</h1>
+                            <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Please login using your registered credentials</p>
+                        </div>
+
+                        <!-- LOGIN FORM (IDs and Input Names Preserved) -->
+                        <form id="loginForm" autocomplete="off" class="space-y-4">
+                            <!-- Email Input -->
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Registered Email</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </span>
+                                    <input type="email" name="email" placeholder="student@avi.edu.in"
+                                           class="loginInput input-field w-full pl-11 pr-4 py-3 rounded-xl text-slate-800 text-sm placeholder-slate-400 outline-none" required>
+                                </div>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Password</label>
+                                    <a id="forgotBtn" class="text-xs font-semibold text-orange-600 hover:text-orange-700 hover:underline cursor-pointer">
+                                        Forgot Password?
+                                    </a>
+                                </div>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </span>
+                                    <input type="password" id="loginPass" name="password" placeholder="••••••••"
+                                           class="loginInput input-field w-full pl-11 pr-12 py-3 rounded-xl text-slate-800 text-sm placeholder-slate-400 outline-none" required>
+                                    <button type="button" onclick="togglePassword('loginPass','eye1')"
+                                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#0b2546] transition-colors">
+                                        <i id="eye1" class="fa-solid fa-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit"
+                                    class="w-full bg-[#f47721] hover:bg-[#d95f0b] active:scale-[0.98] text-white font-bold py-3.5 rounded-xl shadow-md shadow-orange-500/20 mt-3 transition-all flex items-center justify-center gap-2 text-sm tracking-wide uppercase">
+                                <i class="fa-solid fa-right-to-bracket"></i> Login to Portal
+                            </button>
+
+                            <!-- Navigation Links & Roles -->
+                            <div class="flex flex-col items-center gap-3 pt-3 border-t border-slate-100">
+                                <p class="text-xs text-slate-600 text-center">
+                                    New Applicant / Direct Student? 
+                                    <button type="button" onclick="showRegister()" 
+                                            class="text-orange-600 font-bold hover:text-orange-700 hover:underline ml-1">
+                                        New Registration
+                                    </button>
+                                </p>
+
+                                <div class="w-full flex items-center justify-center gap-2 pt-1 text-xs">
+                                    <span class="text-slate-500">Institute Employee / Staff?</span>
+                                    <a href="/admin/login" class="flex items-center gap-1 font-semibold text-[#0b2546] hover:text-orange-600 transition">
+                                        <i class="fa-solid fa-shield-halved text-orange-500"></i> Admin Login
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Official MahaDBT Portal Graphic & Info -->
+                    <div class="hidden md:flex w-[50%] bg-gradient-to-br from-[#0b2546] to-[#06172c] text-white flex-col justify-between p-10 relative overflow-hidden">
+                        <!-- Decorative Watermark Emblem -->
+                        <div class="absolute -right-12 -bottom-12 w-64 h-64 opacity-5 pointer-events-none">
+                            <i class="fa-solid fa-building-columns text-[200px]"></i>
+                        </div>
+
+                        <!-- Top Tagline -->
+                        <div>
+                            <div class="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1 rounded-full text-xs font-medium text-orange-300">
+                                <i class="fa-solid fa-circle-check text-green-400"></i> DTE / AICTE Approved Portal
+                            </div>
+                            <h2 class="text-2xl font-heading font-extrabold text-white mt-4 leading-tight">
+                                Integrated Student Academic & Scholarship ERP
+                            </h2>
+                            <p class="text-slate-300 text-xs mt-2 leading-relaxed">
+                                Single window for university exam forms, hall tickets, fee payments, and verified student profile management.
+                            </p>
+                        </div>
+
+                        <!-- Key Portal Highlights -->
+                        <div class="space-y-3 my-auto py-4">
+                            <div class="flex items-start gap-3 bg-white/5 border border-white/10 p-3 rounded-xl backdrop-blur-sm">
+                                <i class="fa-solid fa-id-card text-orange-400 mt-1 text-sm"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Centralized Admission & PRN Tracking</h4>
+                                    <p class="text-[11px] text-slate-300">Direct integration with Directorate of Technical Education records.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 bg-white/5 border border-white/10 p-3 rounded-xl backdrop-blur-sm">
+                                <i class="fa-solid fa-file-invoice-dollar text-orange-400 mt-1 text-sm"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Fee Receipts & Hall Tickets</h4>
+                                    <p class="text-[11px] text-slate-300">Download end-semester exam passes and verified fee breakdown.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer accreditation badge -->
+                        <div class="pt-4 border-t border-white/10 flex justify-between items-center text-[11px] text-slate-400">
+                            <span>Avi Institute of Technology</span>
+                            <span class="text-orange-300 font-semibold">NAAC A+ Accredited</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     SECTION 2: NEW STUDENT REGISTRATION
+                ========================================== -->
+                <div class="form-panel h-full flex-col md:flex-row">
+                    <!-- Left Column: Visual Guide -->
+                    <div class="hidden md:flex w-[50%] bg-gradient-to-br from-[#0b2546] to-[#06172c] text-white flex-col justify-between p-10 relative overflow-hidden">
+                        <div>
+                            <div class="inline-flex items-center gap-2 bg-orange-500/20 text-orange-300 border border-orange-500/30 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fa-solid fa-user-plus"></i> Student Enrollment 2026-27
+                            </div>
+                            <h2 class="text-2xl font-heading font-extrabold text-white mt-4">
+                                Create New Portal Account
+                            </h2>
+                            <p class="text-slate-300 text-xs mt-1.5">
+                                Register your academic profile using your official allotment / admission number.
+                            </p>
+                        </div>
+
+                        <!-- Steps Guide -->
+                        <div class="space-y-3 my-auto py-2">
+                            <div class="flex items-center gap-3">
+                                <span class="w-6 h-6 rounded-full bg-orange-500 text-white font-bold text-xs flex items-center justify-center">1</span>
+                                <span class="text-xs text-slate-200">Fill Application & Admission Number</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-6 h-6 rounded-full bg-white/10 text-orange-300 font-bold text-xs flex items-center justify-center border border-white/20">2</span>
+                                <span class="text-xs text-slate-200">Verify Email Address with OTP</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-6 h-6 rounded-full bg-white/10 text-orange-300 font-bold text-xs flex items-center justify-center border border-white/20">3</span>
+                                <span class="text-xs text-slate-200">Institute Admin Scrutiny & Approval</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/20 p-3 rounded-xl border border-white/10 text-[11px] text-slate-300">
+                            <i class="fa-solid fa-circle-info text-orange-400 me-1"></i> Ensure your name matches your SSC/HSC marksheets.
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Registration Form -->
+                    <div class="w-full md:w-[50%] flex flex-col justify-center px-8 sm:px-14 py-8 bg-white h-full overflow-y-auto no-scrollbar">
+                        <div class="mb-4 pt-4 md:pt-0">
+                            <h1 class="text-2xl sm:text-3xl font-heading font-extrabold text-[#0b2546]">Student Registration</h1>
+                            <p class="text-slate-500 text-xs">Enter your details to create your academic portal ID</p>
+                        </div>
+
+                        <!-- REGISTRATION FORM (IDs and Input Names Preserved) -->
+                        <form action="/auth/register" method="POST" autocomplete="off" class="space-y-3 pb-6">
+                            <!-- Full Name -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Full Name (As per HSC)</label>
+                                <input type="text" name="fullname" placeholder="e.g. Rahul Ashok Sharma"
+                                       class="regInput input-field w-full px-4 py-2.5 rounded-xl text-slate-800 text-sm placeholder-slate-400 outline-none" required>
+                            </div>
+
+                            <!-- Email Address -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Official Email ID</label>
+                                <input type="email" name="email" placeholder="rahul.sharma@example.com"
+                                       class="regInput input-field w-full px-4 py-2.5 rounded-xl text-slate-800 text-sm placeholder-slate-400 outline-none" required>
+                            </div>
+
+                            <!-- Admission / DTE Allotment No -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Admission / Application No</label>
+                                <input type="text" name="admissionNumber" placeholder="e.g. EN26-10489"
+                                       class="regInput input-field w-full px-4 py-2.5 rounded-xl text-slate-800 text-sm placeholder-slate-400 outline-none" required>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Password</label>
+                                    <div class="relative">
+                                        <input type="password" id="regPass" name="password" placeholder="••••••••"
+                                               class="regInput input-field w-full px-4 pr-9 py-2.5 rounded-xl text-slate-800 text-sm placeholder-slate-400 outline-none" required>
+                                        <button type="button" onclick="togglePassword('regPass','eye2')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                                            <i id="eye2" class="fa-solid fa-eye-slash text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Confirm</label>
+                                    <div class="relative">
+                                        <input type="password" id="regCPass" name="confirmPassword" placeholder="••••••••"
+                                               class="regInput input-field w-full px-4 pr-9 py-2.5 rounded-xl text-slate-800 text-sm placeholder-slate-400 outline-none" required>
+                                        <button type="button" onclick="togglePassword('regCPass','eye3')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                                            <i id="eye3" class="fa-solid fa-eye-slash text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Register Action Button -->
+                            <button type="button" onclick="submitRegisterForm()"
+                                    class="w-full bg-[#f47721] hover:bg-[#d95f0b] active:scale-[0.98] text-white font-bold py-3 rounded-xl shadow-md shadow-orange-500/20 mt-3 transition-all uppercase tracking-wide text-xs">
+                                <i class="fa-solid fa-user-plus me-1"></i> Register & Send OTP
+                            </button>
+
+                            <p class="text-center text-xs text-slate-600 pt-2">
+                                Already registered? 
+                                <button type="button" onclick="showLogin()" class="text-orange-600 font-bold hover:text-orange-700 hover:underline ml-1">
+                                    Login here
+                                </button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================================
+         MINI FOOTER
+    ======================================================== -->
+    <footer class="w-full bg-white border-t border-slate-200 py-3 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <span>© 2026 <strong>Avi Institute of Technology</strong>. All Rights Reserved.</span>
+            <span class="text-slate-400">Designed with MahaDBT 2.0 Architectural Guidelines</span>
+        </div>
+    </footer>
+
+
+    <!-- ========================================================
+         MODAL 1: REGISTRATION OTP VERIFICATION POPUP (Unchanged Target)
+    ======================================================== -->
+    <div id="otpPopup" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-[999] p-4">
+        <div id="otpCard" class="relative bg-white w-full max-w-sm rounded-2xl p-8 border border-slate-200 shadow-2xl scale-95 transition-all duration-300">
+            <!-- Close -->
+            <button onclick="closeOtpPopup()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-700 text-xl font-bold transition">
+                &times;
+            </button>
+
+            <!-- Icon -->
+            <div class="w-14 h-14 bg-orange-100 border border-orange-200 text-orange-600 rounded-full mx-auto flex items-center justify-center mb-4 text-xl">
+                <i class="fa-solid fa-envelope-circle-check"></i>
+            </div>
+
+            <!-- Title & Instructions -->
+            <h2 class="text-slate-900 text-xl font-heading font-extrabold text-center">Verify Email OTP</h2>
+            <p class="text-slate-500 text-xs text-center mt-1">Enter the 6-digit code sent to your email</p>
+            <p id="otpEmail" class="text-orange-600 text-xs font-semibold text-center mt-1 mb-5 break-all"></p>
+
+            <!-- OTP Boxes -->
+            <div class="flex justify-center gap-1.5 sm:gap-2 mb-5">
+                <input maxlength="1" class="otpBox w-10 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-lg font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all">
+                <input maxlength="1" class="otpBox w-10 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-lg font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all">
+                <input maxlength="1" class="otpBox w-10 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-lg font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all">
+                <input maxlength="1" class="otpBox w-10 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-lg font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all">
+                <input maxlength="1" class="otpBox w-10 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-lg font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all">
+                <input maxlength="1" class="otpBox w-10 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-lg font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all">
+            </div>
+
+            <!-- Resend Timer -->
+            <p class="text-slate-500 text-xs text-center mb-4">
+                Didn’t get the code?
+                <button id="resendBtn" disabled class="text-slate-400 font-semibold cursor-not-allowed ml-1">
+                    Resend in <span id="timer">120</span>s
+                </button>
+            </p>
+
+            <!-- Verify Button -->
+            <button id="verifyBtn" class="w-full bg-[#0b2546] hover:bg-[#06172c] text-white font-bold py-3 rounded-xl shadow-md transition-all text-sm uppercase tracking-wider">
+                Verify Email
+            </button>
+
+            <!-- Cancel Button -->
+            <button onclick="closeOtpPopup()" class="w-full text-slate-500 text-xs mt-3 py-1 hover:text-slate-800 transition font-medium">
+                Cancel
+            </button>
+
+            <!-- Success Message -->
+            <p id="otpMsg" class="text-center text-emerald-600 font-semibold text-xs mt-3 hidden">
+                <i class="fa-solid fa-circle-check me-1"></i> Email Verified Successfully!
+            </p>
+        </div>
+    </div>
+
+
+    <!-- ========================================================
+         MODAL 2: FORGOT PASSWORD POPUP (Unchanged Target)
+    ======================================================== -->
+    <div id="forgotPopup" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-[999] p-4">
+        <div id="forgotCard" class="relative bg-white w-full max-w-sm rounded-2xl p-8 border border-slate-200 shadow-2xl scale-95 transition-all duration-300">
+            <!-- Close -->
+            <button onclick="closeForgotPopup()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-700 text-xl font-bold transition">
+                &times;
+            </button>
+
+            <div class="w-14 h-14 bg-orange-100 border border-orange-200 text-orange-600 rounded-full mx-auto flex items-center justify-center mb-4 text-xl">
+                <i class="fa-solid fa-key"></i>
+            </div>
+
+            <h2 class="text-slate-900 text-xl font-heading font-extrabold text-center">Reset Password</h2>
+            <p class="text-slate-500 text-xs text-center mt-1">Enter your registered email ID to receive a password reset OTP.</p>
+
+            <!-- Input -->
+            <div class="my-5">
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Registered Email</label>
+                <input id="forgotEmail" type="email" placeholder="student@avi.edu.in"
+                       class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-slate-800 placeholder-slate-400 text-sm outline-none focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 transition">
+            </div>
+
+            <!-- Send OTP Button -->
+            <button id="forgotSendBtn" class="w-full bg-[#f47721] hover:bg-[#d95f0b] text-white font-bold py-3 rounded-xl shadow-md text-sm uppercase tracking-wider transition-all">
+                Send Reset OTP
+            </button>
+
+            <!-- Message -->
+            <p id="forgotMsg" class="text-center text-emerald-600 font-semibold text-xs mt-3 hidden">
+                <i class="fa-solid fa-circle-check me-1"></i> OTP Sent to your email!
+            </p>
+        </div>
+    </div>
+
+
+    <!-- ========================================================
+         MODAL 3: FORGOT PASSWORD OTP VERIFY POPUP (Unchanged Target)
+    ======================================================== -->
+    <div id="forgotOtpPopup" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-[999] p-4">
+        <div id="forgotOtpCard" class="relative bg-white w-full max-w-sm rounded-2xl p-8 border border-slate-200 shadow-2xl scale-95 transition-all duration-300">
+            <!-- Close -->
+            <button onclick="closeForgotOtpPopup()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-700 text-xl font-bold transition">
+                &times;
+            </button>
+
+            <div class="w-14 h-14 bg-sky-100 border border-sky-200 text-[#0b2546] rounded-full mx-auto flex items-center justify-center mb-4 text-xl">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            <h2 class="text-slate-900 text-xl font-heading font-extrabold text-center mb-4">Verify Reset OTP</h2>
+
+            <!-- OTP Inputs -->
+            <div class="flex justify-between gap-1.5 sm:gap-2 mb-6" id="otpInputGroup">
+                <input type="text" maxlength="1" inputmode="numeric" class="forgotOtpBox w-11 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-xl font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all uppercase">
+                <input type="text" maxlength="1" inputmode="numeric" class="forgotOtpBox w-11 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-xl font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all uppercase">
+                <input type="text" maxlength="1" inputmode="numeric" class="forgotOtpBox w-11 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-xl font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all uppercase">
+                <input type="text" maxlength="1" inputmode="numeric" class="forgotOtpBox w-11 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-xl font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all uppercase">
+                <input type="text" maxlength="1" inputmode="numeric" class="forgotOtpBox w-11 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-xl font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all uppercase">
+                <input type="text" maxlength="1" inputmode="numeric" class="forgotOtpBox w-11 h-12 bg-slate-50 border border-slate-300 rounded-lg text-center text-xl font-bold text-slate-800 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all uppercase">
+            </div>
+
+            <!-- Verify Button -->
+            <button id="forgotOtpVerifyBtn" class="w-full bg-[#0b2546] hover:bg-[#06172c] text-white font-bold py-3 rounded-xl shadow-md text-sm uppercase tracking-wider transition-all">
+                Verify & Proceed
+            </button>
+
+            <!-- Timer -->
+            <p class="text-center text-slate-500 text-xs mt-4">
+                Resend OTP in <span id="forgotOtpTimer" class="text-orange-600 font-bold">01:30</span>
+            </p>
+
+            <button id="forgotResendBtn" class="mt-2 w-full text-orange-600 font-semibold text-xs opacity-50 cursor-not-allowed">
+                Resend OTP
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ========================================================
+         MODAL 4: NEW PASSWORD POPUP (Unchanged Target)
+    ======================================================== -->
+    <div id="newPassPopup" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-[999] p-4">
+        <div id="newPassCard" class="relative bg-white w-full max-w-sm rounded-2xl p-8 border border-slate-200 shadow-2xl scale-95 transition-all duration-300">
+            <div class="w-14 h-14 bg-emerald-100 border border-emerald-200 text-emerald-600 rounded-full mx-auto flex items-center justify-center mb-4 text-xl">
+                <i class="fa-solid fa-lock-open"></i>
+            </div>
+
+            <h2 class="text-slate-900 text-xl font-heading font-extrabold text-center mb-4">Set New Password</h2>
+
+            <!-- New Password -->
+            <div class="space-y-3 mb-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">New Password</label>
+                    <input id="newPass" type="password" placeholder="••••••••"
+                           class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-slate-800 placeholder-slate-400 text-sm outline-none focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Confirm New Password</label>
+                    <input id="confirmPass" type="password" placeholder="••••••••"
+                           class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-slate-800 placeholder-slate-400 text-sm outline-none focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/20 transition">
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <button id="saveNewPassBtn" class="w-full bg-[#f47721] hover:bg-[#d95f0b] text-white font-bold py-3 rounded-xl shadow-md text-sm uppercase tracking-wider transition-all">
+                Save & Update Password
+            </button>
+
+            <!-- Message -->
+            <p id="newPassMsg" class="text-center text-emerald-600 font-semibold text-xs mt-3 hidden">
+                <i class="fa-solid fa-circle-check me-1"></i> Password updated successfully!
+            </p>
+        </div>
+    </div>
+
+
+    <!-- ========================================================
+         MODAL 5: REGISTRATION SUCCESSFUL (Unchanged Target)
+    ======================================================== -->
+    <div id="registerSuccessPopup" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-[999] p-4">
+        <div id="registerSuccessCard" class="relative bg-white w-full max-w-sm rounded-2xl p-8 border border-slate-200 text-center scale-95 transition-all duration-300 shadow-2xl">
+            <!-- Icon -->
+            <div class="w-14 h-14 bg-amber-100 border border-amber-200 text-amber-600 rounded-full mx-auto flex items-center justify-center mb-4 text-xl">
+                <i class="fa-regular fa-clock"></i>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-slate-900 text-xl font-heading font-extrabold">Registration Submitted</h2>
+
+            <!-- Pending Badge -->
+            <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-full px-3 py-1 mt-2 mb-3">
+                <span class="w-2 h-2 rounded-full bg-amber-500 inline-block animate-pulse"></span>
+                <span class="text-amber-800 text-[11px] font-bold uppercase tracking-wider">Pending Admin Scrutiny</span>
+            </div>
+
+            <p class="text-slate-600 text-xs leading-relaxed">
+                Your application has been received. Access will be activated once the <strong class="text-slate-800">Institute Admin verifies</strong> your admission records.
+            </p>
+
+            <!-- Verification Progress Steps -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 mt-4 text-left space-y-2.5">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></div>
+                    <span class="text-slate-700 text-xs font-medium">Account details submitted</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px]"><i class="fa-regular fa-clock"></i></div>
+                    <span class="text-amber-800 text-xs font-semibold">Under verification by Institute</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <div class="w-5 h-5 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center text-[10px]"><i class="fa-solid fa-lock"></i></div>
+                    <span class="text-slate-400 text-xs">Portal Dashboard access</span>
+                </div>
+            </div>
+
+            <form action="/" method="GET" class="mt-5">
+                <button type="submit" class="w-full bg-[#0b2546] hover:bg-[#06172c] text-white font-bold py-3 rounded-xl shadow-md text-xs uppercase tracking-wider transition-all">
+                    Back to Portal Home
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ========================================================
+         MODAL 6: LOGIN ERROR POPUP (Unchanged Target)
+    ======================================================== -->
+    <div id="loginErrorPopup" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-[999] p-4">
+        <div id="loginErrorCard" class="bg-white w-full max-w-xs rounded-2xl p-6 border border-red-200 text-center shadow-2xl">
+            <div id="loginErrorIcon" class="w-14 h-14 bg-red-100 text-red-600 rounded-full mx-auto flex items-center justify-center mb-3 text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h2 id="loginErrorTitle" class="text-slate-900 text-lg font-heading font-extrabold mb-1">Login Failed</h2>
+            <p id="loginErrorMsg" class="text-slate-500 text-xs mb-5"></p>
+            <button onclick="closeLoginErrorPopup()" class="w-full bg-[#0b2546] hover:bg-[#06172c] text-white py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Script fallback loaders and basic slider control functions -->
+    <script>
+        // Loader Dismissal (Unchanged)
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            if(loader) loader.classList.add('opacity-0', 'pointer-events-none');
+        }, 600);
+
+        // Slide controller helper functions if script.js relies on global showRegister/showLogin
+        function showRegister() {
+            const wrapper = document.getElementById('formWrapper');
+            if (wrapper) wrapper.classList.add('slide-register');
+        }
+
+        function showLogin() {
+            const wrapper = document.getElementById('formWrapper');
+            if (wrapper) wrapper.classList.remove('slide-register');
+        }
+
+        function togglePassword(inputId, eyeIconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(eyeIconId);
+            if (!input || !icon) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        }
+    </script>
+
+    <!-- Custom Script linking to existing backend logic (Unchanged) -->
+    <script src="/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+const express = require("express");
+const router = express.Router();
+
+const { isStudent } = require("../middlewares/studentAuth");
+const isAdmin = require("../middlewares/isAdmin");
+const examController = require("../controllers/examController");
+const { setHeader } = require("../middlewares/setHeader");
+const studentController = require("../controllers/studentController");
+
+
+
+
+/* STUDENT */
+router.get("/student/exam-form", isStudent,setHeader(true), examController.examFormPage);
+router.post("/student/exam-form", isStudent, examController.submitExamForm);
+
+router.post(
+  "/student/cashfree/create-order/:id",
+  
+  examController.createCashfreeOrder
+);
+
+router.get(
+  "/student/cashfree/return/:formId",setHeader(true),
+  examController.cashfreeReturn
+);
+
+router.get(
+  "/student/exam-status",
+  isStudent,setHeader(true),
+  examController.examStatusPage)
+
+  // 🔔 CASHFREE WEBHOOK (NO auth middleware)
+router.post(
+  "/cashfree/webhook",
+  examController.cashfreeWebhook
+);
+
+router.get(
+    "/student/exam/hallticket",
+    isStudent,
+    studentController.renderHallTicket
+);
+
+
+/* ADMIN */
+router.get("/admin/exam-forms", isAdmin, examController.viewExamForms);
+router.post("/admin/exam-forms/verify/:id", isAdmin, examController.verifyPayment);
+
+module.exports = router;

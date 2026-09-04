@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Avi Institute of Technology | Empowering Future Engineers</title>
+<meta name="description" content="Avi Institute of Technology (AIT) is a premier engineering college offering top-ranked programs in Computer Science, AI, Mechanical, Civil and Electronics Engineering with excellent placements, modern labs and NAAC accreditation." />
+<meta name="keywords" content="Avi Institute of Technology, engineering college, admissions, B.Tech, placements, AIT" />
+<meta property="og:title" content="Avi Institute of Technology" />
+<meta property="og:description" content="Empowering Future Engineers with Innovation, Excellence, and Technology." />
+
+<!-- Google Fonts: Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Tailwind CSS (CDN, configured) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Poppins', 'sans-serif'],
+        },
+        colors: {
+          primary: {
+            DEFAULT: '#7C3AED',
+            50: '#F5F3FF',
+            100: '#EDE4FF',
+            200: '#DCC9FF',
+            300: '#C4A3FE',
+            400: '#A575FA',
+            500: '#7C3AED',
+            600: '#6D28D9',
+            700: '#5B21B6',
+            800: '#4C1D95',
+            900: '#341264',
+          },
+          sky: '#EC4899',
+          violet: '#D946EF',
+          ink: '#180A2E',
+        },
+        boxShadow: {
+          soft: '0 10px 40px -10px rgba(124, 58, 237, 0.35)',
+          glass: '0 8px 32px 0 rgba(107, 33, 168, 0.18)',
+          glow: '0 0 25px rgba(217, 70, 239, 0.45), 0 0 60px rgba(124, 58, 237, 0.25)',
+        },
+        animation: {
+          'float': 'float 6s ease-in-out infinite',
+          'float-slow': 'float 9s ease-in-out infinite',
+          'marquee': 'marquee 30s linear infinite',
+          'gradient-x': 'gradient-x 6s ease infinite',
+          'blob': 'blob 12s infinite',
+        },
+        keyframes: {
+          float: {
+            '0%, 100%': { transform: 'translateY(0px)' },
+            '50%': { transform: 'translateY(-18px)' },
+          },
+          marquee: {
+            '0%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(-50%)' },
+          },
+          'gradient-x': {
+            '0%, 100%': { 'background-position': '0% 50%' },
+            '50%': { 'background-position': '100% 50%' },
+          },
+          blob: {
+            '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+            '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
+          },
+        },
+      },
+    },
+  }
+</script>
+
+<!-- AOS Animate on Scroll -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" rel="stylesheet">
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Poppins', sans-serif; background:#FBF8FF; color:#180A2E; }
+
+  /* Glassmorphism navbar */
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* Gradient text */
+  .grad-text {
+    background: linear-gradient(90deg, #7C3AED, #D946EF, #EC4899);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-x 6s ease infinite;
+  }
+
+  /* Circuit pattern background for hero (engineering motif) */
+  .circuit-bg {
+    background-image:
+      linear-gradient(rgba(24,10,46,0.82), rgba(46,16,84,0.78)),
+      url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1740&q=80');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(rgba(255,255,255,0.18) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 9px; }
+  ::-webkit-scrollbar-track { background: #F1E9FF; }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(#7C3AED, #D946EF); border-radius: 10px; }
+
+  /* Marquee for placement partner logos */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 28s linear infinite;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+
+  /* Card hover lift */
+  .lift { transition: transform .35s ease, box-shadow .35s ease; }
+  .lift:hover { transform: translateY(-10px); box-shadow: 0 20px 45px -15px rgba(124,58,237,.45); }
+
+  /* Gallery overlay */
+  .gallery-item img { transition: transform .6s ease; }
+  .gallery-item:hover img { transform: scale(1.12); }
+  .gallery-overlay {
+    background: linear-gradient(to top, rgba(24,10,46,0.92), rgba(24,10,46,0.1) 60%);
+    opacity: 0;
+    transition: opacity .4s ease;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  /* Section eyebrow */
+  .eyebrow {
+    letter-spacing: .18em;
+  }
+
+  /* Nav underline animation */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg,#7C3AED,#EC4899);
+    transition: width .3s ease;
+  }
+  .nav-link:hover::after { width: 100%; }
+  .nav-link:hover { color: #7C3AED; }
+
+  /* Stylish glow for premium buttons */
+  .btn-glow { position: relative; overflow: hidden; }
+  .btn-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: translateX(-120%);
+    transition: transform .7s ease;
+  }
+  .btn-glow:hover::before { transform: translateX(120%); }
+
+  /* Blob decoration */
+  .blob { filter: blur(60px); }
+
+  /* Testimonial fade */
+  .testimonial-slide { display:none; }
+  .testimonial-slide.active { display:block; animation: fadein .6s ease; }
+  @keyframes fadein { from{opacity:0; transform: translateY(12px);} to{opacity:1; transform:translateY(0);} }
+
+  /* Loader for counters */
+  .counter { font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+
+<body class="antialiased overflow-x-hidden">
+
+<!-- ============ HEADER / NAVBAR ============ -->
+<header id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-nav shadow-sm">
+  <nav class="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between h-20">
+    <!-- Logo -->
+    <a href="#home" class="flex items-center gap-3 group">
+      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-primary via-violet to-sky flex items-center justify-center shadow-soft group-hover:scale-105 transition-transform">
+        <i class="fa-solid fa-graduation-cap text-white text-xl"></i>
+      </div>
+      <div class="leading-tight">
+        <p class="font-bold text-lg text-ink">Avi Institute</p>
+        <p class="text-[11px] tracking-widest text-primary font-semibold -mt-0.5">OF TECHNOLOGY</p>
+      </div>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <ul class="hidden lg:flex items-center gap-8 font-medium text-sm text-ink/80">
+      <li><a href="#home" class="nav-link hover:text-primary transition-colors">Home</a></li>
+      <li><a href="#about" class="nav-link hover:text-primary transition-colors">About</a></li>
+      <li><a href="#departments" class="nav-link hover:text-primary transition-colors">Departments</a></li>
+      <li><a href="#admissions" class="nav-link hover:text-primary transition-colors">Admissions</a></li>
+      <li><a href="#courses" class="nav-link hover:text-primary transition-colors">Courses</a></li>
+      <li><a href="#faculty" class="nav-link hover:text-primary transition-colors">Faculty</a></li>
+      <li><a href="#placements" class="nav-link hover:text-primary transition-colors">Placements</a></li>
+      <li><a href="#campus-life" class="nav-link hover:text-primary transition-colors">Campus Life</a></li>
+      <li><a href="#contact" class="nav-link hover:text-primary transition-colors">Contact</a></li>
+    </ul>
+
+    <!-- Login + Hamburger -->
+    <div class="flex items-center gap-4">
+      <a href="#login" class="btn-glow hidden md:inline-flex items-center gap-2 bg-gradient-to-r from-primary to-violet text-white text-sm font-semibold px-6 py-2.5 rounded-full shadow-glow hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+        <i class="fa-solid fa-right-to-bracket"></i> Login
+      </a>
+      <button id="menuBtn" aria-label="Toggle menu" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary text-xl">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="lg:hidden hidden bg-white/95 backdrop-blur-lg border-t border-primary/10 shadow-glass">
+    <ul class="flex flex-col p-5 gap-4 font-medium text-ink/80">
+      <li><a href="#home" class="mobile-link block hover:text-primary">Home</a></li>
+      <li><a href="#about" class="mobile-link block hover:text-primary">About</a></li>
+      <li><a href="#departments" class="mobile-link block hover:text-primary">Departments</a></li>
+      <li><a href="#admissions" class="mobile-link block hover:text-primary">Admissions</a></li>
+      <li><a href="#courses" class="mobile-link block hover:text-primary">Courses</a></li>
+      <li><a href="#faculty" class="mobile-link block hover:text-primary">Faculty</a></li>
+      <li><a href="#placements" class="mobile-link block hover:text-primary">Placements</a></li>
+      <li><a href="#campus-life" class="mobile-link block hover:text-primary">Campus Life</a></li>
+      <li><a href="#contact" class="mobile-link block hover:text-primary">Contact</a></li>
+      <li><a href="#login" class="mobile-link inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-2.5 rounded-full w-fit"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ============ HERO SECTION ============ -->
+<section id="home" class="relative circuit-bg min-h-screen flex items-center pt-28 pb-16 dot-grid overflow-hidden">
+  <div class="absolute -top-20 -left-20 w-96 h-96 bg-sky/30 rounded-full blob animate-blob"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-violet/30 rounded-full blob animate-blob" style="animation-delay:3s"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+    <!-- Left: Text -->
+    <div data-aos="fade-right" data-aos-duration="900">
+      <span class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs font-semibold px-4 py-2 rounded-full eyebrow backdrop-blur-md">
+        <i class="fa-solid fa-star text-sky"></i> NAAC "A+" ACCREDITED ENGINEERING COLLEGE
+      </span>
+      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
+        Welcome to <span class="grad-text">Avi Institute</span> of Technology
+      </h1>
+      <p class="mt-6 text-lg text-white/80 max-w-xl">
+        Empowering Future Engineers with Innovation, Excellence, and Technology.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-4">
+        <a href="#admissions" class="btn-glow inline-flex items-center gap-2 bg-gradient-to-r from-primary via-violet to-sky text-white font-semibold px-8 py-4 rounded-full shadow-glow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          Apply Now <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="#campus-life" class="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-semibold px-8 py-4 rounded-full backdrop-blur-md hover:bg-white/20 hover:-translate-y-1 transition-all duration-300">
+          <i class="fa-solid fa-circle-play"></i> Explore Campus
+        </a>
+      </div>
+
+      <div class="mt-12 flex items-center gap-8">
+        <div>
+          <p class="text-3xl font-bold text-white">25+</p>
+          <p class="text-xs text-white/60 tracking-wide">Years of Excellence</p>
+        </div>
+        <div class="w-px h-10 bg-white/20"></div>
+        <div>
+          <p class="text-3xl font-bold text-white">95%</p>
+          <p class="text-xs text-white/60 tracking-wide">Placement Rate</p>
+        </div>
+        <div class="w-px h-10 bg-white/20"></div>
+        <div>
+          <p class="text-3xl font-bold text-white">250+</p>
+          <p class="text-xs text-white/60 tracking-wide">Recruiters</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Illustration -->
+    <div class="relative hidden lg:block" data-aos="fade-left" data-aos-duration="900">
+      <div class="relative bg-white/10 border border-white/20 backdrop-blur-xl rounded-3xl p-4 shadow-2xl animate-float">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" alt="Students using laptops on campus" class="rounded-2xl w-full h-[420px] object-cover">
+        <div class="absolute -bottom-6 -left-8 bg-white rounded-2xl shadow-2xl px-5 py-4 flex items-center gap-3 animate-float-slow">
+          <div class="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary"><i class="fa-solid fa-briefcase"></i></div>
+          <div>
+            <p class="font-bold text-sm">Top Recruiter</p>
+            <p class="text-xs text-ink/60">Placed @ ₹42 LPA</p>
+          </div>
+        </div>
+        <div class="absolute -top-6 -right-6 bg-white rounded-2xl shadow-2xl px-5 py-4 flex items-center gap-3 animate-float">
+          <div class="w-11 h-11 rounded-full bg-sky/10 flex items-center justify-center text-sky"><i class="fa-solid fa-award"></i></div>
+          <div>
+            <p class="font-bold text-sm">NAAC A+</p>
+            <p class="text-xs text-ink/60">Accredited Institute</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#quick-info" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 animate-bounce">
+    <i class="fa-solid fa-chevron-down text-xl"></i>
+  </a>
+</section>
+
+<!-- ============ QUICK INFO CARDS ============ -->
+<section id="quick-info" class="relative -mt-16 z-10">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <div data-aos="fade-up" data-aos-delay="0" class="lift bg-white rounded-2xl shadow-glass p-7 border border-primary/5">
+        <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-2xl mb-5"><i class="fa-solid fa-user-graduate"></i></div>
+        <h3 class="font-bold text-lg mb-2">Admissions Open</h3>
+        <p class="text-sm text-ink/60">Applications now open for B.Tech &amp; M.Tech programs, 2026-27 batch.</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="100" class="lift bg-white rounded-2xl shadow-glass p-7 border border-primary/5">
+        <div class="w-14 h-14 rounded-xl bg-sky/10 flex items-center justify-center text-sky text-2xl mb-5"><i class="fa-solid fa-chart-line"></i></div>
+        <h3 class="font-bold text-lg mb-2">Placement Record</h3>
+        <p class="text-sm text-ink/60">95% students placed with average package of ₹8.2 LPA across sectors.</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="200" class="lift bg-white rounded-2xl shadow-glass p-7 border border-primary/5">
+        <div class="w-14 h-14 rounded-xl bg-violet/10 flex items-center justify-center text-violet text-2xl mb-5"><i class="fa-solid fa-chalkboard-user"></i></div>
+        <h3 class="font-bold text-lg mb-2">Top Faculty</h3>
+        <p class="text-sm text-ink/60">500+ PhD &amp; industry-experienced faculty guiding every classroom.</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="300" class="lift bg-white rounded-2xl shadow-glass p-7 border border-primary/5">
+        <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-2xl mb-5"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        <h3 class="font-bold text-lg mb-2">Scholarships</h3>
+        <p class="text-sm text-ink/60">Merit &amp; need-based scholarships covering up to 100% tuition fee.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT INSTITUTE ============ -->
+<section id="about" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+
+    <div class="relative" data-aos="fade-right">
+      <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1000&q=80" alt="Avi Institute of Technology campus building" class="rounded-3xl shadow-2xl w-full h-[480px] object-cover">
+      <div class="absolute -bottom-8 -right-8 bg-gradient-to-br from-primary to-violet text-white rounded-2xl p-6 shadow-2xl w-48">
+        <p class="text-3xl font-extrabold">25+</p>
+        <p class="text-sm text-white/80">Years shaping engineers of tomorrow</p>
+      </div>
+    </div>
+
+    <div data-aos="fade-left">
+      <span class="text-primary font-semibold eyebrow text-sm uppercase">About the Institute</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 mb-6">Building Engineers Who <span class="grad-text">Build the Future</span></h2>
+      <p class="text-ink/70 leading-relaxed mb-6">
+        Avi Institute of Technology (AIT) is a premier engineering institution committed to delivering
+        world-class technical education. With state-of-the-art infrastructure, industry-aligned curriculum,
+        and a culture of innovation, AIT nurtures engineers ready to solve tomorrow's challenges today.
+      </p>
+
+      <div class="space-y-5 mb-8">
+        <div class="flex gap-4">
+          <div class="w-11 h-11 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><i class="fa-solid fa-bullseye"></i></div>
+          <div>
+            <h4 class="font-semibold">Our Mission</h4>
+            <p class="text-sm text-ink/60">To deliver industry-relevant, research-driven education that empowers students to become innovative, ethical engineers and leaders.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-11 h-11 shrink-0 rounded-lg bg-sky/10 flex items-center justify-center text-sky"><i class="fa-solid fa-eye"></i></div>
+          <div>
+            <h4 class="font-semibold">Our Vision</h4>
+            <p class="text-sm text-ink/60">To be recognized globally as a center of excellence in engineering education, research, and technological innovation.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-11 h-11 shrink-0 rounded-lg bg-violet/10 flex items-center justify-center text-violet"><i class="fa-solid fa-gem"></i></div>
+          <div>
+            <h4 class="font-semibold">Core Values</h4>
+            <p class="text-sm text-ink/60">Integrity, Innovation, Inclusivity, and Impact — the four pillars guiding every decision we make.</p>
+          </div>
+        </div>
+      </div>
+
+      <a href="#" class="inline-flex items-center gap-2 text-primary font-semibold border-b-2 border-primary pb-1 hover:gap-4 transition-all duration-300">
+        Read More About Us <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEPARTMENTS ============ -->
+<section id="departments" class="py-24 lg:py-32 bg-gradient-to-b from-primary-50/60 to-white">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+      <span class="text-primary font-semibold eyebrow text-sm uppercase">Academics</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Our Departments</h2>
+      <p class="text-ink/60 mt-4">Six specialized engineering departments equipped with modern labs and industry-driven curricula.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Dept card template x6 -->
+      <div data-aos="fade-up" data-aos-delay="0" class="lift bg-white rounded-2xl overflow-hidden shadow-glass border border-primary/5">
+        <div class="relative h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Computer Science Engineering lab">
+          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-primary text-xl shadow-lg"><i class="fa-solid fa-microchip"></i></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-bold text-lg mb-2">Computer Science Engineering</h3>
+          <p class="text-sm text-ink/60 mb-4">Software design, algorithms, and systems engineering for tomorrow's tech leaders.</p>
+          <a href="#" class="text-primary font-semibold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">Learn More <i class="fa-solid fa-arrow-right text-xs"></i></a>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="100" class="lift bg-white rounded-2xl overflow-hidden shadow-glass border border-primary/5">
+        <div class="relative h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Information Technology lab">
+          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-sky text-xl shadow-lg"><i class="fa-solid fa-network-wired"></i></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-bold text-lg mb-2">Information Technology</h3>
+          <p class="text-sm text-ink/60 mb-4">Networks, databases, and cloud computing preparing students for the digital economy.</p>
+          <a href="#" class="text-primary font-semibold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">Learn More <i class="fa-solid fa-arrow-right text-xs"></i></a>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="200" class="lift bg-white rounded-2xl overflow-hidden shadow-glass border border-primary/5">
+        <div class="relative h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Artificial Intelligence lab">
+          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-violet text-xl shadow-lg"><i class="fa-solid fa-robot"></i></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-bold text-lg mb-2">Artificial Intelligence</h3>
+          <p class="text-sm text-ink/60 mb-4">Machine learning, deep learning, and data science shaping intelligent systems.</p>
+          <a href="#" class="text-primary font-semibold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">Learn More <i class="fa-solid fa-arrow-right text-xs"></i></a>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="0" class="lift bg-white rounded-2xl overflow-hidden shadow-glass border border-primary/5">
+        <div class="relative h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Mechanical Engineering workshop">
+          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-primary text-xl shadow-lg"><i class="fa-solid fa-gears"></i></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-bold text-lg mb-2">Mechanical Engineering</h3>
+          <p class="text-sm text-ink/60 mb-4">Design, manufacturing, and robotics with hands-on workshop training.</p>
+          <a href="#" class="text-primary font-semibold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">Learn More <i class="fa-solid fa-arrow-right text-xs"></i></a>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="100" class="lift bg-white rounded-2xl overflow-hidden shadow-glass border border-primary/5">
+        <div class="relative h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Civil Engineering site">
+          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-sky text-xl shadow-lg"><i class="fa-solid fa-city"></i></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-bold text-lg mb-2">Civil Engineering</h3>
+          <p class="text-sm text-ink/60 mb-4">Structural design, construction management, and sustainable infrastructure.</p>
+          <a href="#" class="text-primary font-semibold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">Learn More <i class="fa-solid fa-arrow-right text-xs"></i></a>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="200" class="lift bg-white rounded-2xl overflow-hidden shadow-glass border border-primary/5">
+        <div class="relative h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Electronics Engineering lab">
+          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-violet text-xl shadow-lg"><i class="fa-solid fa-microchip"></i></div>
+        </div>
+        <div class="p-6">
+          <h3 class="font-bold text-lg mb-2">Electronics Engineering</h3>
+          <p class="text-sm text-ink/60 mb-4">Circuit design, embedded systems, and VLSI for the connected world.</p>
+          <a href="#" class="text-primary font-semibold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">Learn More <i class="fa-solid fa-arrow-right text-xs"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ADMISSIONS + COURSES (brief mention sections for nav anchors) ============ -->
+<section id="admissions" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+    <div data-aos="fade-right">
+      <span class="text-primary font-semibold eyebrow text-sm uppercase">Admissions 2026-27</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 mb-6">Your Journey to Engineering Starts Here</h2>
+      <p class="text-ink/70 leading-relaxed mb-8">
+        Admissions to all B.Tech and M.Tech programs at Avi Institute of Technology are now open.
+        Merit-based selection, transparent counselling, and dedicated scholarship support make joining AIT
+        simple and rewarding.
+      </p>
+      <ul class="space-y-4 mb-8">
+        <li class="flex items-center gap-3 text-sm text-ink/70"><i class="fa-solid fa-circle-check text-primary"></i> Online application &amp; document verification</li>
+        <li class="flex items-center gap-3 text-sm text-ink/70"><i class="fa-solid fa-circle-check text-primary"></i> Merit &amp; entrance-exam based counselling</li>
+        <li class="flex items-center gap-3 text-sm text-ink/70"><i class="fa-solid fa-circle-check text-primary"></i> Scholarships up to 100% for eligible students</li>
+      </ul>
+      <a href="#" class="inline-flex items-center gap-2 bg-primary text-white font-semibold px-8 py-4 rounded-full shadow-soft hover:-translate-y-1 hover:shadow-xl transition-all duration-300">Apply Online <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div data-aos="fade-left" id="courses" class="grid sm:grid-cols-2 gap-5">
+      <div class="lift bg-white rounded-2xl p-6 shadow-glass border border-primary/5">
+        <i class="fa-solid fa-laptop-code text-primary text-2xl mb-3"></i>
+        <h4 class="font-bold mb-1">B.Tech Programs</h4>
+        <p class="text-xs text-ink/60">4-year undergraduate degrees across 6 engineering branches.</p>
+      </div>
+      <div class="lift bg-white rounded-2xl p-6 shadow-glass border border-primary/5">
+        <i class="fa-solid fa-flask text-sky text-2xl mb-3"></i>
+        <h4 class="font-bold mb-1">M.Tech Programs</h4>
+        <p class="text-xs text-ink/60">Advanced postgraduate specializations with research focus.</p>
+      </div>
+      <div class="lift bg-white rounded-2xl p-6 shadow-glass border border-primary/5">
+        <i class="fa-solid fa-diagram-project text-violet text-2xl mb-3"></i>
+        <h4 class="font-bold mb-1">PhD &amp; Research</h4>
+        <p class="text-xs text-ink/60">Doctoral programs with funded research opportunities.</p>
+      </div>
+      <div class="lift bg-white rounded-2xl p-6 shadow-glass border border-primary/5">
+        <i class="fa-solid fa-certificate text-primary text-2xl mb-3"></i>
+        <h4 class="font-bold mb-1">Certification Courses</h4>
+        <p class="text-xs text-ink/60">Short-term industry certifications in emerging technologies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY CHOOSE AVI INSTITUTE ============ -->
+<section class="py-24 lg:py-32 bg-ink relative overflow-hidden">
+  <div class="absolute top-0 left-1/3 w-96 h-96 bg-primary/30 rounded-full blob animate-blob"></div>
+  <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-sky/20 rounded-full blob animate-blob" style="animation-delay:4s"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+      <span class="text-sky font-semibold eyebrow text-sm uppercase">Why AIT</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 text-white">Why Choose Avi Institute</h2>
+      <p class="text-white/60 mt-4">A learning ecosystem engineered for outcomes — from accreditation to placements.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div data-aos="zoom-in" data-aos-delay="0" class="bg-white/5 border border-white/10 backdrop-blur rounded-2xl p-8 hover:bg-white/10 hover:-translate-y-2 transition-all duration-300">
+        <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-sky text-2xl mb-5"><i class="fa-solid fa-medal"></i></div>
+        <h3 class="font-bold text-white text-lg mb-2">NAAC Accredited</h3>
+        <p class="text-sm text-white/60">Recognized with an "A+" grade for academic excellence and governance.</p>
+      </div>
+      <div data-aos="zoom-in" data-aos-delay="100" class="bg-white/5 border border-white/10 backdrop-blur rounded-2xl p-8 hover:bg-white/10 hover:-translate-y-2 transition-all duration-300">
+        <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-sky text-2xl mb-5"><i class="fa-solid fa-chalkboard-user"></i></div>
+        <h3 class="font-bold text-white text-lg mb-2">Experienced Faculty</h3>
+        <p class="text-sm text-white/60">500+ PhD-qualified and industry-veteran professors.</p>
+      </div>
+      <div data-aos="zoom-in" data-aos-delay="200" class="bg-white/5 border border-white/10 backdrop-blur rounded-2xl p-8 hover:bg-white/10 hover:-translate-y-2 transition-all duration-300">
+        <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-sky text-2xl mb-5"><i class="fa-solid fa-flask-vial"></i></div>
+        <h3 class="font-bold text-white text-lg mb-2">Modern Laboratories</h3>
+        <p class="text-sm text-white/60">Fully-equipped labs across all departments with the latest tools.</p>
+      </div>
+      <div data-aos="zoom-in" data-aos-delay="0" class="bg-white/5 border border-white/10 backdrop-blur rounded-2xl p-8 hover:bg-white/10 hover:-translate-y-2 transition-all duration-300">
+        <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-sky text-2xl mb-5"><i class="fa-solid fa-display"></i></div>
+        <h3 class="font-bold text-white text-lg mb-2">Smart Classrooms</h3>
+        <p class="text-sm text-white/60">Digitally enabled classrooms for an interactive learning experience.</p>
+      </div>
+      <div data-aos="zoom-in" data-aos-delay="100" class="bg-white/5 border border-white/10 backdrop-blur rounded-2xl p-8 hover:bg-white/10 hover:-translate-y-2 transition-all duration-300">
+        <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-sky text-2xl mb-5"><i class="fa-solid fa-handshake"></i></div>
+        <h3 class="font-bold text-white text-lg mb-2">Internship Support</h3>
+        <p class="text-sm text-white/60">Dedicated cell connecting students with internships at top firms.</p>
+      </div>
+      <div data-aos="zoom-in" data-aos-delay="200" class="bg-white/5 border border-white/10 backdrop-blur rounded-2xl p-8 hover:bg-white/10 hover:-translate-y-2 transition-all duration-300">
+        <div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-sky text-2xl mb-5"><i class="fa-solid fa-briefcase"></i></div>
+        <h3 class="font-bold text-white text-lg mb-2">Excellent Placements</h3>
+        <p class="text-sm text-white/60">95% placement rate with 250+ recruiting companies every year.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATISTICS (Animated Counters) ============ -->
+<section class="py-20 bg-gradient-to-r from-primary via-primary-700 to-violet">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center text-white">
+    <div data-aos="fade-up">
+      <p class="text-4xl sm:text-5xl font-extrabold counter" data-target="10000" data-suffix="+">0</p>
+      <p class="text-sm text-white/70 mt-2 tracking-wide">Students</p>
+    </div>
+    <div data-aos="fade-up" data-aos-delay="100">
+      <p class="text-4xl sm:text-5xl font-extrabold counter" data-target="500" data-suffix="+">0</p>
+      <p class="text-sm text-white/70 mt-2 tracking-wide">Faculty Members</p>
+    </div>
+    <div data-aos="fade-up" data-aos-delay="200">
+      <p class="text-4xl sm:text-5xl font-extrabold counter" data-target="250" data-suffix="+">0</p>
+      <p class="text-sm text-white/70 mt-2 tracking-wide">Recruiters</p>
+    </div>
+    <div data-aos="fade-up" data-aos-delay="300">
+      <p class="text-4xl sm:text-5xl font-extrabold counter" data-target="95" data-suffix="%">0</p>
+      <p class="text-sm text-white/70 mt-2 tracking-wide">Placement Rate</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FACULTY (brief section for nav anchor) ============ -->
+<section id="faculty" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+      <span class="text-primary font-semibold eyebrow text-sm uppercase">Our Mentors</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Learn From The Best</h2>
+      <p class="text-ink/60 mt-4">Distinguished faculty combining academic rigor with real-world industry experience.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div data-aos="fade-up" data-aos-delay="0" class="lift bg-white rounded-2xl shadow-glass overflow-hidden border border-primary/5 text-center">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" class="w-full h-56 object-cover" alt="Faculty member portrait">
+        <div class="p-5">
+          <h4 class="font-bold">Dr. R. Sharma</h4>
+          <p class="text-xs text-primary font-medium">Dean, Computer Science</p>
+        </div>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="100" class="lift bg-white rounded-2xl shadow-glass overflow-hidden border border-primary/5 text-center">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" class="w-full h-56 object-cover" alt="Faculty member portrait">
+        <div class="p-5">
+          <h4 class="font-bold">Dr. A. Mehta</h4>
+          <p class="text-xs text-primary font-medium">HOD, Electronics</p>
+        </div>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="200" class="lift bg-white rounded-2xl shadow-glass overflow-hidden border border-primary/5 text-center">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80" class="w-full h-56 object-cover" alt="Faculty member portrait">
+        <div class="p-5">
+          <h4 class="font-bold">Prof. S. Rao</h4>
+          <p class="text-xs text-primary font-medium">HOD, Mechanical</p>
+        </div>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="300" class="lift bg-white rounded-2xl shadow-glass overflow-hidden border border-primary/5 text-center">
+        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=400&q=80" class="w-full h-56 object-cover" alt="Faculty member portrait">
+        <div class="p-5">
+          <h4 class="font-bold">Dr. N. Iyer</h4>
+          <p class="text-xs text-primary font-medium">HOD, Artificial Intelligence</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLACEMENT PARTNERS ============ -->
+<section id="placements" class="py-24 bg-primary-50/50">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14" data-aos="fade-up">
+      <span class="text-primary font-semibold eyebrow text-sm uppercase">Our Recruiters</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Placement Partners</h2>
+      <p class="text-ink/60 mt-4">Trusted by leading global and national companies to hire top engineering talent.</p>
+    </div>
+  </div>
+
+  <div class="relative overflow-hidden py-4 border-y border-primary/10 bg-white">
+    <div class="marquee-track gap-14 px-7">
+      <!-- Set 1 -->
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-brands fa-google text-3xl"></i> Google</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-brands fa-microsoft text-3xl"></i> Microsoft</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-brands fa-amazon text-3xl"></i> Amazon</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-building text-3xl"></i> TCS</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-building-columns text-3xl"></i> Infosys</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-city text-3xl"></i> Wipro</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-diagram-project text-3xl"></i> Capgemini</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-network-wired text-3xl"></i> Cognizant</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-chart-simple text-3xl"></i> Accenture</span>
+      <!-- Set 2 (duplicate for seamless loop) -->
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-brands fa-google text-3xl"></i> Google</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-brands fa-microsoft text-3xl"></i> Microsoft</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-brands fa-amazon text-3xl"></i> Amazon</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-building text-3xl"></i> TCS</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-building-columns text-3xl"></i> Infosys</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-city text-3xl"></i> Wipro</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-diagram-project text-3xl"></i> Capgemini</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-network-wired text-3xl"></i> Cognizant</span>
+      <span class="flex items-center gap-3 text-2xl font-bold text-ink/70 whitespace-nowrap"><i class="fa-solid fa-chart-simple text-3xl"></i> Accenture</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAMPUS LIFE GALLERY ============ -->
+<section id="campus-life" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+      <span class="text-primary font-semibold eyebrow text-sm uppercase">Beyond Academics</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Campus Life</h2>
+      <p class="text-ink/60 mt-4">A vibrant campus with world-class facilities that make every day at AIT memorable.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="gallery-item relative rounded-2xl overflow-hidden h-72 group" data-aos="zoom-in">
+        <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Central Library">
+        <div class="gallery-overlay absolute inset-0 flex items-end p-6">
+          <h4 class="text-white font-bold text-xl">Library</h4>
+        </div>
+      </div>
+      <div class="gallery-item relative rounded-2xl overflow-hidden h-72 group" data-aos="zoom-in" data-aos-delay="100">
+        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Sports facilities">
+        <div class="gallery-overlay absolute inset-0 flex items-end p-6">
+          <h4 class="text-white font-bold text-xl">Sports</h4>
+        </div>
+      </div>
+      <div class="gallery-item relative rounded-2xl overflow-hidden h-72 group" data-aos="zoom-in" data-aos-delay="200">
+        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Engineering labs">
+        <div class="gallery-overlay absolute inset-0 flex items-end p-6">
+          <h4 class="text-white font-bold text-xl">Labs</h4>
+        </div>
+      </div>
+      <div class="gallery-item relative rounded-2xl overflow-hidden h-72 group" data-aos="zoom-in">
+        <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Student hostel">
+        <div class="gallery-overlay absolute inset-0 flex items-end p-6">
+          <h4 class="text-white font-bold text-xl">Hostel</h4>
+        </div>
+      </div>
+      <div class="gallery-item relative rounded-2xl overflow-hidden h-72 group" data-aos="zoom-in" data-aos-delay="100">
+        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Campus events and fests">
+        <div class="gallery-overlay absolute inset-0 flex items-end p-6">
+          <h4 class="text-white font-bold text-xl">Events</h4>
+        </div>
+      </div>
+      <div class="gallery-item relative rounded-2xl overflow-hidden h-72 group" data-aos="zoom-in" data-aos-delay="200">
+        <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Institute auditorium">
+        <div class="gallery-overlay absolute inset-0 flex items-end p-6">
+          <h4 class="text-white font-bold text-xl">Auditorium</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="py-24 lg:py-32 bg-primary-50/50 relative overflow-hidden">
+  <div class="max-w-5xl mx-auto px-5 lg:px-8 relative">
+    <div class="text-center max-w-2xl mx-auto mb-14" data-aos="fade-up">
+      <span class="text-primary font-semibold eyebrow text-sm uppercase">Testimonials</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">What Our Students Say</h2>
+    </div>
+
+    <div id="testimonialWrap" class="relative">
+      <div class="testimonial-slide active bg-white rounded-3xl shadow-glass p-10 text-center">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary/10" alt="Rohan Verma">
+        <p class="text-ink/70 mt-6 text-lg leading-relaxed">"AIT gave me the technical foundation and confidence to crack my dream placement at a top MNC. The faculty support was outstanding."</p>
+        <h4 class="font-bold mt-6">Rohan Verma</h4>
+        <p class="text-sm text-primary">Computer Science Engineering, 2025</p>
+      </div>
+      <div class="testimonial-slide bg-white rounded-3xl shadow-glass p-10 text-center">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary/10" alt="Ananya Kulkarni">
+        <p class="text-ink/70 mt-6 text-lg leading-relaxed">"The labs and industry projects at AIT gave me real hands-on exposure long before graduation. It truly shaped my engineering mindset."</p>
+        <h4 class="font-bold mt-6">Ananya Kulkarni</h4>
+        <p class="text-sm text-primary">Electronics Engineering, 2024</p>
+      </div>
+      <div class="testimonial-slide bg-white rounded-3xl shadow-glass p-10 text-center">
+        <img src="https://randomuser.me/api/portraits/men/65.jpg" class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary/10" alt="Aditya Nair">
+        <p class="text-ink/70 mt-6 text-lg leading-relaxed">"From hackathons to internships, AIT's ecosystem pushed me to grow beyond the classroom. Forever grateful to my mentors here."</p>
+        <h4 class="font-bold mt-6">Aditya Nair</h4>
+        <p class="text-sm text-primary">Artificial Intelligence, 2025</p>
+      </div>
+
+      <div class="flex justify-center gap-3 mt-8">
+        <button id="testiPrev" class="w-11 h-11 rounded-full bg-white shadow-glass flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"><i class="fa-solid fa-chevron-left"></i></button>
+        <button id="testiNext" class="w-11 h-11 rounded-full bg-white shadow-glass flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LATEST NEWS ============ -->
+<section class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+      <span class="text-primary font-semibold eyebrow text-sm uppercase">Stay Updated</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Latest News &amp; Announcements</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div data-aos="fade-up" data-aos-delay="0" class="lift bg-white rounded-2xl shadow-glass p-6 border border-primary/5">
+        <span class="text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">Admissions</span>
+        <h4 class="font-bold mt-4 mb-2">Admission Notice</h4>
+        <p class="text-xs text-ink/60">B.Tech 2026-27 admissions now open. Apply before Aug 15.</p>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="100" class="lift bg-white rounded-2xl shadow-glass p-6 border border-primary/5">
+        <span class="text-xs font-semibold text-sky bg-sky/10 px-3 py-1 rounded-full">Exams</span>
+        <h4 class="font-bold mt-4 mb-2">Exam Schedule</h4>
+        <p class="text-xs text-ink/60">Mid-semester examination timetable released for all branches.</p>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="200" class="lift bg-white rounded-2xl shadow-glass p-6 border border-primary/5">
+        <span class="text-xs font-semibold text-violet bg-violet/10 px-3 py-1 rounded-full">Placements</span>
+        <h4 class="font-bold mt-4 mb-2">Placement Drive</h4>
+        <p class="text-xs text-ink/60">Campus placement drive with 30+ companies starting next month.</p>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="300" class="lift bg-white rounded-2xl shadow-glass p-6 border border-primary/5">
+        <span class="text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">Workshop</span>
+        <h4 class="font-bold mt-4 mb-2">AI &amp; ML Workshop</h4>
+        <p class="text-xs text-ink/60">Three-day hands-on workshop on Artificial Intelligence &amp; ML.</p>
+      </div>
+      <div data-aos="fade-up" data-aos-delay="400" class="lift bg-white rounded-2xl shadow-glass p-6 border border-primary/5">
+        <span class="text-xs font-semibold text-sky bg-sky/10 px-3 py-1 rounded-full">Event</span>
+        <h4 class="font-bold mt-4 mb-2">National Hackathon</h4>
+        <p class="text-xs text-ink/60">Registrations open for AIT's flagship 24-hour hackathon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALL TO ACTION ============ -->
+<section class="relative py-24 bg-gradient-to-br from-primary via-primary-700 to-violet overflow-hidden">
+  <div class="absolute inset-0 dot-grid opacity-20"></div>
+  <div class="relative max-w-4xl mx-auto px-5 text-center" data-aos="zoom-in">
+    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">Begin Your Journey With Avi Institute of Technology</h2>
+    <p class="text-white/80 mt-5 max-w-xl mx-auto">Take the first step toward a future built on innovation, excellence, and technology.</p>
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+      <a href="#admissions" class="bg-white text-primary font-semibold px-8 py-4 rounded-full shadow-2xl hover:-translate-y-1 transition-all duration-300">Apply Online</a>
+      <a href="#contact" class="bg-white/10 border border-white/40 text-white font-semibold px-8 py-4 rounded-full backdrop-blur-md hover:bg-white/20 hover:-translate-y-1 transition-all duration-300">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" class="bg-ink text-white pt-20 pb-8">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
+
+    <div>
+      <a href="#home" class="flex items-center gap-3 mb-5">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-primary via-violet to-sky flex items-center justify-center shadow-soft">
+          <i class="fa-solid fa-graduation-cap text-white text-xl"></i>
+        </div>
+        <div class="leading-tight">
+          <p class="font-bold text-lg">Avi Institute</p>
+          <p class="text-[10px] tracking-widest text-sky font-semibold -mt-0.5">OF TECHNOLOGY</p>
+        </div>
+      </a>
+      <p class="text-sm text-white/60 leading-relaxed mb-5">Empowering future engineers with innovation, excellence, and technology since 2000.</p>
+      <div class="flex gap-3">
+        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+
+    <div>
+      <h4 class="font-bold mb-5">Quick Links</h4>
+      <ul class="space-y-3 text-sm text-white/60">
+        <li><a href="#about" class="hover:text-sky transition-colors">About Us</a></li>
+        <li><a href="#admissions" class="hover:text-sky transition-colors">Admissions</a></li>
+        <li><a href="#placements" class="hover:text-sky transition-colors">Placements</a></li>
+        <li><a href="#campus-life" class="hover:text-sky transition-colors">Campus Life</a></li>
+        <li><a href="#" class="hover:text-sky transition-colors">Careers</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-bold mb-5">Departments</h4>
+      <ul class="space-y-3 text-sm text-white/60">
+        <li><a href="#departments" class="hover:text-sky transition-colors">Computer Science</a></li>
+        <li><a href="#departments" class="hover:text-sky transition-colors">Information Technology</a></li>
+        <li><a href="#departments" class="hover:text-sky transition-colors">Artificial Intelligence</a></li>
+        <li><a href="#departments" class="hover:text-sky transition-colors">Mechanical Engineering</a></li>
+        <li><a href="#departments" class="hover:text-sky transition-colors">Civil Engineering</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-bold mb-5">Contact Information</h4>
+      <ul class="space-y-4 text-sm text-white/60">
+        <li class="flex items-start gap-3"><i class="fa-solid fa-location-dot mt-1 text-sky"></i> 123 Tech Park Road, Knowledge City, Pune, MH 411045</li>
+        <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-sky"></i> +91 98765 43210</li>
+        <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-sky"></i> info@aviinstitute.edu.in</li>
+      </ul>
+      <div class="mt-5 rounded-xl overflow-hidden border border-white/10 h-36">
+        <iframe title="Avi Institute of Technology location map" src="https://maps.google.com/maps?q=Pune&t=&z=12&ie=UTF8&iwloc=&output=embed" class="w-full h-full grayscale contrast-125 opacity-80" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/50">
+    <p>&copy; <span id="year"></span> Avi Institute of Technology. All rights reserved.</p>
+    <div class="flex gap-6">
+      <a href="#" class="hover:text-sky">Privacy Policy</a>
+      <a href="#" class="hover:text-sky">Terms of Use</a>
+      <a href="#" class="hover:text-sky">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button id="backToTop" aria-label="Back to top" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-primary text-white shadow-2xl flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+<script>
+  AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Sticky navbar shadow on scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 30) {
+      navbar.classList.add('shadow-lg');
+    } else {
+      navbar.classList.remove('shadow-lg');
+    }
+    // Back to top visibility
+    const btt = document.getElementById('backToTop');
+    if (window.scrollY > 500) {
+      btt.classList.remove('opacity-0', 'pointer-events-none');
+    } else {
+      btt.classList.add('opacity-0', 'pointer-events-none');
+    }
+  });
+
+  document.getElementById('backToTop').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    menuBtn.innerHTML = mobileMenu.classList.contains('hidden')
+      ? '<i class="fa-solid fa-bars"></i>'
+      : '<i class="fa-solid fa-xmark"></i>';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    });
+  });
+
+  // Animated counters (trigger once when visible)
+  const counters = document.querySelectorAll('.counter');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.done) {
+        entry.target.dataset.done = 'true';
+        const target = +entry.target.dataset.target;
+        const suffix = entry.target.dataset.suffix || '';
+        let current = 0;
+        const step = Math.max(1, Math.ceil(target / 100));
+        const duration = 1600;
+        const intervalTime = duration / (target / step);
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          entry.target.textContent = current.toLocaleString() + suffix;
+        }, intervalTime);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => counterObserver.observe(c));
+
+  // Testimonial carousel
+  const slides = document.querySelectorAll('.testimonial-slide');
+  let currentSlide = 0;
+  function showSlide(i) {
+    slides.forEach(s => s.classList.remove('active'));
+    currentSlide = (i + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }
+  document.getElementById('testiNext').addEventListener('click', () => showSlide(currentSlide + 1));
+  document.getElementById('testiPrev').addEventListener('click', () => showSlide(currentSlide - 1));
+  setInterval(() => showSlide(currentSlide + 1), 6000);
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+

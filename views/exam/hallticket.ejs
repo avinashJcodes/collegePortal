@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examination Hall Ticket & Admit Card | MahaDBT 2.0 ERP</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --mahadbt-navy: #0b2546;
+            --mahadbt-navy-dark: #071930;
+            --mahadbt-orange: #f47721;
+            --mahadbt-orange-dark: #d95f0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .heading-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Subtle scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Official Print Stylesheet */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            #printable-hall-ticket {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100% !important;
+                border: 2px solid #000000 !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                padding: 20px !important;
+                margin: 0 !important;
+            }
+
+            #printable-hall-ticket * {
+                color: #000000 !important;
+                text-shadow: none !important;
+            }
+
+            .print-border-black {
+                border-color: #000000 !important;
+            }
+
+            .print-bg-gray {
+                background-color: #f1f5f9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col">
+
+    <!-- ================= 3. MAIN CONTENT WRAPPER ================= -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+        <!-- Page Header Banner -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm relative overflow-hidden no-print">
+            <div class="absolute top-0 right-0 w-80 h-full bg-gradient-to-l from-orange-50 via-orange-50/40 to-transparent pointer-events-none"></div>
+
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+                <div>
+                    <!-- Breadcrumbs -->
+                    <nav class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                        <a href="/student/dashboard" class="hover:text-[#f47721]">Home</a>
+                        <span>/</span>
+                        <span class="text-[#0b2546] font-semibold">Examinations</span>
+                        <span>/</span>
+                        <span class="text-slate-700 font-medium">Digital Hall Ticket</span>
+                    </nav>
+
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-xl bg-[#0b2546] text-[#f47721] flex items-center justify-center font-bold flex-shrink-0 shadow-sm">
+                            <i data-lucide="graduation-cap" class="w-6 h-6 text-[#f47721]"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-700">Official Exam Document</span>
+                            </div>
+                            <h2 class="text-xl sm:text-2xl font-bold text-[#0b2546] tracking-tight heading-font">
+                                Semester Examination Hall Ticket
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+                                View, verify, print, and download your official university examination hall ticket.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Controls (When Hall Ticket Exists) -->
+                <% if (hallTicket) { %>
+                    <div class="flex flex-wrap items-center gap-2.5 self-start lg:self-auto">
+                        <% if (hallTicket.allowPrint) { %>
+                            <button onclick="triggerPrint()"
+                                    type="button"
+                                    class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-[#0b2546] text-xs sm:text-sm font-semibold transition flex items-center gap-2 shadow-xs active:scale-95">
+                                <i data-lucide="printer" class="w-4 h-4 text-slate-500"></i>
+                                <span>Print Ticket</span>
+                            </button>
+                        <% } %>
+
+                        <% if (hallTicket.allowDownload) { %>
+                            <button onclick="triggerDownload()"
+                                    type="button"
+                                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0b2546] to-[#12396b] hover:from-[#f47721] hover:to-[#d95f0b] text-white text-xs sm:text-sm font-bold transition-all shadow-sm flex items-center gap-2 active:scale-95">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                <span>Download PDF</span>
+                            </button>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- ================= 4. NO HALL TICKET STATE ================= -->
+        <% if (!hallTicket) { %>
+            <div class="bg-white border border-slate-200 rounded-2xl p-10 sm:p-16 text-center shadow-sm max-w-3xl mx-auto space-y-4">
+                <div class="w-20 h-20 mx-auto rounded-2xl bg-orange-50 border border-orange-200 text-[#f47721] flex items-center justify-center shadow-inner">
+                    <i data-lucide="file-clock" class="w-10 h-10 animate-pulse"></i>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
+                        <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i>
+                        Verification in Progress
+                    </span>
+                    <h3 class="text-2xl font-bold text-[#0b2546] heading-font">
+                        Hall Ticket Not Published Yet
+                    </h3>
+                    <p class="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+                        Your semester examination hall ticket has not been generated or approved by the Examination Cell. Please check back after fee clearance and eligibility confirmation.
+                    </p>
+                </div>
+
+                <div class="pt-4 flex flex-wrap items-center justify-center gap-3">
+                    <button onclick="window.location.reload()"
+                            type="button"
+                            class="px-5 py-2.5 bg-[#0b2546] hover:bg-[#f47721] text-white text-xs font-bold rounded-xl transition shadow-xs flex items-center gap-2">
+                        <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+                        <span>Refresh Status</span>
+                    </button>
+                    <a href="/student/dashboard" 
+                       class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        <% } else { %>
+
+            <!-- ================= 5. MAIN HALL TICKET DISPLAY GRID ================= -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                <!-- LEFT: OFFICIAL PRINTABLE HALL TICKET (8 Cols) -->
+                <div class="lg:col-span-8">
+                    
+                    <div id="printable-hall-ticket"
+                         class="bg-white text-slate-800 rounded-2xl border-2 border-slate-300 shadow-sm p-6 sm:p-8 relative overflow-hidden space-y-6">
+
+                        <!-- Watermark Seal Overlay (Hidden when printing to preserve ink) -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none no-print">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Seal_of_Maharashtra.svg/1200px-Seal_of_Maharashtra.svg.png"
+                                 alt="Watermark"
+                                 class="w-96 h-96 object-contain">
+                        </div>
+
+                        <!-- 1. Header of Hall Ticket -->
+                        <div class="relative flex flex-col sm:flex-row items-center justify-between gap-4 pb-5 border-b-2 border-slate-200">
+                            <div class="flex items-center gap-3.5 text-center sm:text-left">
+                                <div class="w-14 h-14 rounded-xl bg-orange-50 border border-orange-200 p-1 flex items-center justify-center flex-shrink-0 shadow-inner">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Seal_of_Maharashtra.svg/1200px-Seal_of_Maharashtra.svg.png"
+                                         alt="Maharashtra Seal"
+                                         class="w-full h-full object-contain">
+                                </div>
+                                <div>
+                                    <h2 class="text-base sm:text-lg font-bold text-[#0b2546] tracking-tight uppercase heading-font">
+                                        Avi Institute of Technology & Research
+                                    </h2>
+                                    <p class="text-xs font-bold text-[#d95f0b] uppercase tracking-wider">
+                                        Office of the Controller of Examinations
+                                    </p>
+                                    <p class="text-[10px] text-slate-500 font-medium">
+                                        <%= hallTicket.examCenterAddress || "Official Examination Department • SPPU University Code: 6175" %>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Hall Ticket Number Badge -->
+                            <div class="text-center sm:text-right bg-slate-50 border border-slate-200 rounded-xl p-2.5 sm:px-4 flex-shrink-0">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Official Hall Ticket No
+                                </span>
+                                <span class="text-sm sm:text-base font-mono font-extrabold text-[#0b2546] block">
+                                    <%= hallTicket.hallTicketNumber || "N/A" %>
+                                </span>
+                                <span class="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 mt-0.5">
+                                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i>
+                                    Verified Gatepass
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- 2. Candidate Particulars Grid -->
+                        <div class="relative grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs bg-slate-50/70 border border-slate-200 rounded-xl p-4 sm:p-5">
+                            
+                            <!-- Candidate Name -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Candidate Full Name
+                                </span>
+                                <span class="font-bold text-sm text-[#0b2546] block">
+                                    <%= student.fullname || student.fullName || "Not Available" %>
+                                </span>
+                            </div>
+
+                            <!-- University Seat No (USN) / PRN -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    University Seat No / PRN
+                                </span>
+                                <span class="font-mono font-bold text-sm text-[#d95f0b] block">
+                                    <%= student.enrollmentNumber || student.admissionNumber || "Not Available" %>
+                                </span>
+                            </div>
+
+                            <!-- Course / Branch -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Stream / Specialization
+                                </span>
+                                <span class="font-semibold text-slate-800 block">
+                                    <%= student.branch || student.course || "Not Assigned" %>
+                                </span>
+                            </div>
+
+                            <!-- Examination Semester -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Examination Term / Semester
+                                </span>
+                                <span class="font-semibold text-slate-800 block">
+                                    Semester <%= hallTicket.semester || student.semester || "--" %>
+                                </span>
+                            </div>
+
+                            <!-- Examination Center -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Examination Center
+                                </span>
+                                <span class="font-semibold text-slate-800 block">
+                                    <%= hallTicket.examCenter || "Not Assigned Yet" %>
+                                </span>
+                            </div>
+
+                            <!-- Official Emergency Helpline -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Exam Cell Helpline
+                                </span>
+                                <span class="font-semibold text-slate-800 block">
+                                    <%= settings && settings.officialHelpline ? settings.officialHelpline : "Not Available" %>
+                                </span>
+                            </div>
+
+                            <!-- Exam Attempt Type -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Attempt Category
+                                </span>
+                                <span class="font-semibold text-slate-800 block">
+                                    <%= hallTicket.examType || "Regular Examination" %>
+                                </span>
+                            </div>
+
+                            <!-- Seat Number -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Allotted Seat Number
+                                </span>
+                                <span class="font-mono font-bold text-slate-900 block">
+                                    <%= hallTicket.seatNumber || "--" %>
+                                </span>
+                            </div>
+
+                            <!-- Academic Year -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                                    Academic Session
+                                </span>
+                                <span class="font-semibold text-slate-800 block">
+                                    <%= hallTicket.academicYear || "2026-2027" %>
+                                </span>
+                            </div>
+
+                            <!-- Reporting Time -->
+                            <div class="space-y-0.5">
+                                <span class="text-[10px] uppercase font-bold text-rose-600 tracking-wider block">
+                                    Reporting Time (Strict)
+                                </span>
+                                <span class="font-bold text-rose-700 block">
+                                    <%= hallTicket.reportingTime || "30 Minutes Before Exam" %>
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <!-- 3. Center Address Callout -->
+                        <% if (hallTicket.examCenterAddress) { %>
+                            <div class="bg-orange-50/60 border border-orange-200 rounded-xl p-3.5 flex items-start gap-2.5">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-[#f47721] flex-shrink-0 mt-0.5"></i>
+                                <div class="text-xs">
+                                    <strong class="text-[#0b2546] uppercase text-[10px] tracking-wider block font-bold">
+                                        Assigned Venue Address
+                                    </strong>
+                                    <p class="text-slate-700 mt-0.5 leading-relaxed font-medium">
+                                        <%= hallTicket.examCenterAddress %>
+                                    </p>
+                                </div>
+                            </div>
+                        <% } %>
+
+                        <!-- 4. Barcode & Digital Signatures Section -->
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 pt-4 border-t-2 border-slate-200 items-center">
+                            
+                            <!-- Barcode Container (Span 6) -->
+                            <div class="md:col-span-6 bg-slate-50 border border-slate-200 p-3 rounded-xl text-center">
+                                <span class="text-[9px] uppercase font-bold text-slate-400 tracking-wider block mb-1.5">
+                                    Digital Gate Pass Barcode (Scan at Entry)
+                                </span>
+
+                                <% if (barcode) { %>
+                                    <div class="bg-white p-2 rounded-lg border border-slate-200 flex items-center justify-center">
+                                        <img src="<%= barcode %>" 
+                                             alt="Hall Ticket Barcode" 
+                                             class="w-full h-12 object-contain">
+                                    </div>
+                                <% } else { %>
+                                    <div class="h-12 flex items-center justify-center text-slate-400 text-xs font-semibold bg-white rounded-lg border border-slate-200">
+                                        Barcode Scanner Offline
+                                    </div>
+                                <% } %>
+
+                                <span class="text-[9px] font-mono font-bold text-slate-600 mt-1 block">
+                                    <%= hallTicket.hallTicketNumber || "N/A" %>
+                                </span>
+                            </div>
+
+                            <!-- Signatures Block (Span 6) -->
+                            <div class="md:col-span-6 grid grid-cols-2 gap-3 text-center">
+                                
+                                <!-- Candidate Signature -->
+                                <div class="border border-slate-200 rounded-xl p-2.5 bg-slate-50/60 flex flex-col justify-between h-24">
+                                    <div class="h-10 flex items-center justify-center text-slate-700 font-serif italic text-xs truncate px-1">
+                                        <%= student.fullname || student.fullName || "Student" %>
+                                    </div>
+                                    <span class="text-[9px] uppercase font-bold text-slate-400 tracking-wider block border-t border-slate-200 pt-1">
+                                        Candidate Signature
+                                    </span>
+                                </div>
+
+                                <!-- Controller Signature -->
+                                <div class="border border-slate-200 rounded-xl p-2.5 bg-slate-50/60 flex flex-col justify-between h-24 relative">
+                                    <div class="h-10 flex flex-col items-center justify-center">
+                                        <span class="text-xs font-mono font-bold text-[#0b2546] leading-none">
+                                            <%= settings && settings.controllerOfficer ? settings.controllerOfficer : "Dr. A. K. Sharma" %>
+                                        </span>
+                                        <span class="text-[8px] text-emerald-600 font-bold mt-0.5">Digitally Signed</span>
+                                    </div>
+                                    <span class="text-[9px] uppercase font-bold text-slate-400 tracking-wider block border-t border-slate-200 pt-1">
+                                        Controller of Exams
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- 5. Examination Center Mandate Footer -->
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-[10px] text-slate-500 leading-relaxed">
+                            <strong class="text-slate-700 block mb-0.5">Important Examination Hall Mandate:</strong>
+                            This is an official computer-generated admit card. Candidates must present this hall ticket along with their valid institutional Identity Card to gain admission into the exam hall. Tampering or misuse of this document will result in disqualification under Maharashtra University Examination Malpractice Regulations.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: MAHADBT 2.0 SIDEBAR (4 Cols) -->
+                <div class="lg:col-span-4 space-y-5 no-print">
+
+                    <!-- 1. STATUS CARD -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+                        
+                        <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center font-bold">
+                                <i data-lucide="badge-check" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-[#0b2546]">
+                                    Hall Ticket Status
+                                </h4>
+                                <span class="text-xs text-slate-400">Verified by University Cell</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between items-center border-b border-slate-100 pb-2.5">
+                                <span class="text-slate-500 font-medium">Generation Status</span>
+                                <span class="text-emerald-700 font-bold flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    <%= hallTicket.status || "Generated" %>
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between items-center border-b border-slate-100 pb-2.5">
+                                <span class="text-slate-500 font-medium">Publish State</span>
+                                <span class="text-[#d95f0b] font-bold">
+                                    <%= hallTicket.published ? "Published & Active" : "Draft / Unpublished" %>
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500 font-medium">Document ID</span>
+                                <span class="font-mono font-bold text-slate-800">
+                                    <%= hallTicket.hallTicketNumber || "--" %>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- 2. SYSTEM QUICK ACTIONS -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-3.5">
+                        
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="zap" class="w-3.5 h-3.5 text-orange-500"></i>
+                            <span>Quick Document Actions</span>
+                        </h4>
+
+                        <div class="grid grid-cols-2 gap-2.5 text-xs font-bold">
+                            <% if (hallTicket.allowPrint) { %>
+                                <button onclick="triggerPrint()"
+                                        type="button"
+                                        class="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-700 hover:text-[#d95f0b] transition gap-1.5 shadow-xs">
+                                    <i data-lucide="printer" class="w-4 h-4 text-[#f47721]"></i>
+                                    <span>Print Ticket</span>
+                                </button>
+                            <% } %>
+
+                            <% if (hallTicket.allowDownload) { %>
+                                <button onclick="triggerDownload()"
+                                        type="button"
+                                        class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#0b2546] hover:bg-[#12396b] text-white transition gap-1.5 shadow-xs">
+                                    <i data-lucide="download" class="w-4 h-4 text-white"></i>
+                                    <span>Save PDF</span>
+                                </button>
+                            <% } %>
+                        </div>
+
+                        <% if (settings && settings.googleMap) { %>
+                            <button onclick="openExamMap()"
+                                    type="button"
+                                    class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:border-orange-300 bg-slate-50 hover:bg-white text-slate-700 text-xs font-bold transition shadow-xs">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i>
+                                <span>Navigate to Exam Hall Center</span>
+                            </button>
+                        <% } %>
+
+                    </div>
+
+                    <!-- 3. ADVISORY RULES & REGULATIONS -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-3.5">
+                        
+                        <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
+                            <div class="w-7 h-7 rounded-lg bg-orange-100 text-[#d95f0b] flex items-center justify-center font-bold">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-[#0b2546]">
+                                Candidate Guidelines
+                            </h4>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-slate-600">
+                            <li class="flex items-start gap-2">
+                                <span class="w-4 h-4 rounded-full bg-orange-100 text-[#d95f0b] font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                                <span>Carry your physical <strong>College Identity Card</strong> alongside this Hall Ticket.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="w-4 h-4 rounded-full bg-orange-100 text-[#d95f0b] font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                                <span>Reach the examination center at least <strong>30 minutes before</strong> reporting time.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="w-4 h-4 rounded-full bg-orange-100 text-[#d95f0b] font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                                <span>Mobile phones, smartwatches, and unauthorized electronics are strictly barred.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="w-4 h-4 rounded-full bg-orange-100 text-[#d95f0b] font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+                                <span>Comply strictly with all directives issued by the university invigilator team.</span>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <!-- 4. EXAMINATION CELL DESK CONTACT -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-3">
+                        
+                        <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
+                            <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold">
+                                <i data-lucide="phone-call" class="w-4 h-4"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-[#0b2546]">
+                                Examination Cell Desk
+                            </h4>
+                        </div>
+
+                        <div class="text-xs space-y-2 text-slate-600">
+                            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-400">Controller</span>
+                                <span class="font-bold text-slate-800">
+                                    <%= settings && settings.controllerOfficer ? settings.controllerOfficer : "Examination Officer" %>
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-400">Desk Helpline</span>
+                                <span class="font-mono font-bold text-[#d95f0b]">
+                                    <%= settings && settings.officialHelpline ? settings.officialHelpline : "022-49150800" %>
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <span class="text-slate-400">Support Email</span>
+                                <span class="font-medium text-slate-700 truncate max-w-[150px]">
+                                    <%= settings && settings.deskEmail ? settings.deskEmail : "exam@avi.edu.in" %>
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">Working Hours</span>
+                                <span class="font-medium text-slate-700">
+                                    <%= settings && settings.officeHours ? settings.officeHours : "10:00 AM - 5:00 PM" %>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        <% } %>
+
+    </main>
+
+    <!-- ================= 6. PORTAL FOOTER ================= -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-4 px-4 text-center text-xs text-slate-500 no-print">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>© 2026 Avi Institute of Technology. Integrated with Maharashtra DBT & University Exam Portal.</span>
+            <div class="flex items-center gap-3">
+                <a href="#" class="hover:text-[#f47721]">Exam Ordinances</a>
+                <span>•</span>
+                <a href="#" class="hover:text-[#f47721]">Grievance Desk</a>
+                <span>•</span>
+                <span class="text-[#f47721] font-semibold">Portal Version 2.4.0</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast Element (Replaces alert) -->
+    <div id="portalToast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-[#0b2546] text-white border-l-4 border-l-[#f47721] px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-xs font-semibold">
+            <i data-lucide="info" class="w-4 h-4 text-[#f47721]"></i>
+            <span id="toastMessage">Notification</span>
+        </div>
+    </div>
+
+    <!-- ================= 7. CLIENT JAVASCRIPT ================= -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+
+        // Trigger Browser Print Dialogue
+        function triggerPrint() {
+            window.print();
+        }
+
+        // Trigger Download Dialogue
+        function triggerDownload() {
+            window.print();
+        }
+
+        // Toast Helper (Replaces alert)
+        function showToast(message) {
+            const toast = document.getElementById("portalToast");
+            const toastMsg = document.getElementById("toastMessage");
+            if (!toast || !toastMsg) return;
+
+            toastMsg.innerText = message;
+            toast.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
+            toast.classList.add("translate-y-0", "opacity-100");
+
+            setTimeout(() => {
+                toast.classList.remove("translate-y-0", "opacity-100");
+                toast.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
+            }, 3500);
+        }
+
+        // Open Exam Hall Map with Toast Fallback (No alert())
+        function openExamMap() {
+            const mapUrl = <%- JSON.stringify(
+                settings && settings.googleMap
+                    ? settings.googleMap
+                    : ""
+            ) %>;
+
+            if (!mapUrl) {
+                showToast("Exam Hall Navigation Map is currently not uploaded by the Examination Cell.");
+                return;
+            }
+
+            window.open(
+                mapUrl,
+                "_blank",
+                "noopener,noreferrer"
+            );
+        }
+    </script>
+</body>
+
+</html>

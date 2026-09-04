@@ -1,0 +1,602 @@
+<div class="min-h-screen p-4 md:p-8">
+
+    <!-- PAGE HEADER -->
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 mb-8">
+
+        <!-- LEFT HEADER -->
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+                Examination / Hall Tickets
+            </p>
+
+            <h1 class="text-2xl md:text-3xl font-bold text-white">
+                Hall Ticket Management
+            </h1>
+
+            <p class="text-sm text-gray-400 mt-2">
+                Generate, review and manage student hall tickets.
+            </p>
+
+        </div>
+
+
+        <!-- RIGHT ACTIONS -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+
+
+            <!-- SEARCH -->
+            <div class="w-full lg:w-80">
+
+                <div class="relative">
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"
+                        />
+                    </svg>
+
+                    <input
+                        type="text"
+                        id="studentSearch"
+                        placeholder="Search student..."
+                        class="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-gray-600 outline-none focus:border-purple-500 transition"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PUBLISH ALL -->
+            <form
+                action="/admin/halltickets/publish-all"
+                method="POST"
+                onsubmit="return confirmPublishAll()"
+            >
+
+                <button
+                    type="submit"
+                    class="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm font-semibold hover:bg-green-500/20 hover:border-green-500/40 transition"
+                >
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                    </svg>
+
+                    Publish All Generated
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-8">
+
+        <!-- TOTAL STUDENTS -->
+        <div class="bg-gray-900/70 border border-white/10 rounded-2xl p-5">
+
+            <p class="text-xs uppercase tracking-wider text-gray-500">
+                Approved Students
+            </p>
+
+            <h2 class="text-3xl font-bold text-white mt-3">
+                <%= students.length %>
+            </h2>
+
+        </div>
+
+
+        <!-- GENERATED -->
+        <div class="bg-gray-900/70 border border-white/10 rounded-2xl p-5">
+
+            <p class="text-xs uppercase tracking-wider text-gray-500">
+                Generated Hall Tickets
+            </p>
+
+            <h2 class="text-3xl font-bold text-green-400 mt-3">
+                <%= Object.keys(hallTicketMap).length %>
+            </h2>
+
+        </div>
+
+
+        <!-- PENDING -->
+        <div class="bg-gray-900/70 border border-white/10 rounded-2xl p-5">
+
+            <p class="text-xs uppercase tracking-wider text-gray-500">
+                Pending Generation
+            </p>
+
+            <h2 class="text-3xl font-bold text-yellow-400 mt-3">
+                <%= students.length - Object.keys(hallTicketMap).length %>
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- STUDENT TABLE -->
+    <div class="bg-gray-900/70 border border-white/10 rounded-2xl overflow-hidden">
+
+        <!-- TABLE HEADER -->
+        <div class="px-6 py-5 border-b border-white/10">
+
+            <h2 class="text-lg font-bold text-white">
+                Student Hall Tickets
+            </h2>
+
+            <p class="text-xs text-gray-500 mt-1">
+                Only approved students are displayed.
+            </p>
+
+        </div>
+
+
+        <% if (students.length > 0) { %>
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full text-left">
+
+                    <thead class="bg-white/[0.03]">
+
+                        <tr class="text-[11px] uppercase tracking-wider text-gray-500">
+
+                            <th class="px-6 py-4 font-medium">
+                                Student
+                            </th>
+
+                            <th class="px-6 py-4 font-medium">
+                                Admission No
+                            </th>
+
+                            <th class="px-6 py-4 font-medium">
+                                Course
+                            </th>
+
+                            <th class="px-6 py-4 font-medium">
+                                Semester
+                            </th>
+
+                            <th class="px-6 py-4 font-medium">
+                                Hall Ticket
+                            </th>
+
+                            <th class="px-6 py-4 font-medium">
+                                Publish Status
+                            </th>
+
+                            <th class="px-6 py-4 font-medium text-right">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="studentTableBody"
+                        class="divide-y divide-white/5"
+                    >
+
+                        <% students.forEach(student => { %>
+
+                            <%
+                                const ticket =
+                                    hallTicketMap[
+                                        student._id.toString()
+                                    ];
+                            %>
+
+
+                            <tr
+                                class="student-row hover:bg-white/[0.025] transition"
+                                data-name="<%= student.fullname?.toLowerCase() || '' %>"
+                                data-email="<%= student.email?.toLowerCase() || '' %>"
+                                data-admission="<%= student.admissionNumber || '' %>"
+                            >
+
+                                <!-- STUDENT -->
+                                <td class="px-6 py-4">
+
+                                    <div class="flex items-center gap-3">
+
+                                        <img
+                                            src="<%= student.profileImage || '/images/student.png' %>"
+                                            alt="Student"
+                                            class="w-10 h-10 rounded-xl object-cover border border-white/10"
+                                        >
+
+                                        <div>
+
+                                            <p class="text-sm font-semibold text-white">
+                                                <%= student.fullname || "Student" %>
+                                            </p>
+
+                                            <p class="text-xs text-gray-500 mt-0.5">
+                                                <%= student.email || "--" %>
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- ADMISSION -->
+                                <td class="px-6 py-4">
+
+                                    <span class="text-sm font-mono text-gray-300">
+                                        <%= student.admissionNumber || "--" %>
+                                    </span>
+
+                                </td>
+
+
+                                <!-- COURSE -->
+                                <td class="px-6 py-4">
+
+                                    <div>
+
+                                        <p class="text-sm text-gray-300">
+                                            <%= student.course || "Not Assigned" %>
+                                        </p>
+
+                                        <p class="text-xs text-gray-600 mt-1">
+                                            <%= student.branch || "" %>
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- SEMESTER -->
+                                <td class="px-6 py-4">
+
+                                    <span class="text-sm text-gray-300">
+                                        Semester <%= student.semester || "--" %>
+                                    </span>
+
+                                </td>
+
+
+                                <!-- HALL TICKET STATUS -->
+                                <td class="px-6 py-4">
+
+                                    <% if (ticket) { %>
+
+                                        <div>
+
+                                            <span class="inline-flex items-center gap-2 text-xs font-semibold text-green-400">
+
+                                                <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+
+                                                Generated
+
+                                            </span>
+
+                                            <p class="text-[11px] font-mono text-gray-500 mt-1">
+                                                <%= ticket.hallTicketNumber %>
+                                            </p>
+
+                                        </div>
+
+                                    <% } else { %>
+
+                                        <span class="inline-flex items-center gap-2 text-xs font-semibold text-yellow-400">
+
+                                            <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+
+                                            Not Generated
+
+                                        </span>
+
+                                    <% } %>
+
+                                </td>
+
+
+                                <!-- PUBLISH STATUS -->
+                                <td class="px-6 py-4">
+
+                                    <% if (!ticket) { %>
+
+                                        <span class="text-xs text-gray-600">
+                                            --
+                                        </span>
+
+                                    <% } else if (ticket.published) { %>
+
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-semibold">
+
+                                            Published
+
+                                        </span>
+
+                                    <% } else { %>
+
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold">
+
+                                            Unpublished
+
+                                        </span>
+
+                                    <% } %>
+
+                                </td>
+
+
+                                <!-- ACTION -->
+                           <!-- ACTION -->
+<td class="px-6 py-4 text-right">
+
+    <% if (ticket) { %>
+
+        <div class="flex items-center justify-end gap-2">
+
+            <!-- EDIT BUTTON -->
+            <a
+                href="/admin/halltickets/edit/<%= ticket._id %>"
+                class="inline-flex items-center justify-center px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-gray-300 text-xs font-semibold hover:text-white hover:border-purple-500/40 transition"
+            >
+                Edit
+            </a>
+
+
+            <!-- PUBLISH / UNPUBLISH FORM -->
+            <form
+                action="/admin/halltickets/<%= ticket._id %>/toggle-publish"
+                method="POST"
+                class="inline"
+            >
+
+                <% if (ticket.published) { %>
+
+                    <button
+                        type="submit"
+                        class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold hover:bg-red-500/20 transition"
+                    >
+                        Unpublish
+                    </button>
+
+                <% } else { %>
+
+                    <button
+                        type="submit"
+                        class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-semibold hover:bg-green-500/20 transition"
+                    >
+                        Publish
+                    </button>
+
+                <% } %>
+
+            </form>
+
+        </div>
+
+    <% } else { %>
+
+        <a
+            href="/admin/halltickets/generate/<%= student._id %>"
+            class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-semibold hover:scale-[1.03] transition"
+        >
+            Generate
+        </a>
+
+    <% } %>
+
+</td>
+                            </tr>
+
+                        <% }) %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- NO SEARCH RESULT -->
+            <div
+                id="noSearchResult"
+                class="hidden px-6 py-16 text-center"
+            >
+
+                <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6 text-gray-500"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"
+                        />
+                    </svg>
+
+                </div>
+
+                <h3 class="text-white font-semibold">
+                    No Student Found
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    Try searching with another name, email or admission number.
+                </p>
+
+            </div>
+
+
+        <% } else { %>
+
+            <!-- EMPTY STATE -->
+            <div class="px-6 py-20 text-center">
+
+                <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mx-auto mb-5">
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-7 h-7 text-purple-400"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15A2.25 2.25 0 0 0 2.25 6.75v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
+                        />
+                    </svg>
+
+                </div>
+
+                <h3 class="text-lg font-bold text-white">
+                    No Approved Students
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    Approved students will appear here for hall ticket generation.
+                </p>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     SEARCH SCRIPT
+========================================== -->
+
+<script>
+
+
+
+    function confirmPublishAll() {
+
+        return confirm(
+            "Are you sure you want to publish all generated Hall Tickets?"
+        );
+
+    }
+
+
+
+    const studentSearch =
+        document.getElementById("studentSearch");
+
+    const studentRows =
+        document.querySelectorAll(".student-row");
+
+    const noSearchResult =
+        document.getElementById("noSearchResult");
+
+
+    if (studentSearch) {
+
+        studentSearch.addEventListener("input", function () {
+
+            const searchValue =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            let visibleStudents = 0;
+
+
+            studentRows.forEach((row) => {
+
+                const name =
+                    row.dataset.name || "";
+
+                const email =
+                    row.dataset.email || "";
+
+                const admission =
+                    row.dataset.admission || "";
+
+
+                const isMatch =
+                    name.includes(searchValue) ||
+                    email.includes(searchValue) ||
+                    admission.includes(searchValue);
+
+
+                if (isMatch) {
+
+                    row.classList.remove("hidden");
+
+                    visibleStudents++;
+
+                } else {
+
+                    row.classList.add("hidden");
+
+                }
+
+            });
+
+
+            if (noSearchResult) {
+
+                if (
+                    visibleStudents === 0 &&
+                    searchValue !== ""
+                ) {
+
+                    noSearchResult.classList.remove("hidden");
+
+                } else {
+
+                    noSearchResult.classList.add("hidden");
+
+                }
+
+            }
+
+        });
+
+    }
+
+</script>

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avi Institute of Technology - College Portal Header</title>
+    
+    <!-- Google Fonts: Inter, Poppins & Noto Sans Devanagari (Marathi) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --portal-navy: #082444;
+            --portal-navy-dark: #05182e;
+            --portal-blue-mid: #0d386d;
+            --portal-saffron: #f47721;
+            --portal-saffron-hover: #d86211;
+            --portal-gold: #ffc107;
+            --portal-light-bg: #f8fafc;
+            --portal-border: #e2e8f0;
+            --portal-text-dark: #1e293b;
+            --portal-text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--portal-text-dark);
+            background-color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        /* Accessibility: High Contrast Mode */
+        body.high-contrast-mode {
+            background-color: #000 !important;
+            color: #ffff00 !important;
+        }
+        body.high-contrast-mode .top-utility-bar,
+        body.high-contrast-mode .main-branding-bar,
+        body.high-contrast-mode .college-navbar,
+        body.high-contrast-mode .notification-ticker-bar {
+            background-color: #121212 !important;
+            color: #ffff00 !important;
+            border-color: #ffff00 !important;
+        }
+        body.high-contrast-mode a,
+        body.high-contrast-mode .nav-link,
+        body.high-contrast-mode .dropdown-item {
+            color: #ffff00 !important;
+        }
+
+        /* ========================================================
+           1. TOP UTILITY & ACCESSIBILITY BAR (MahaDBT Standard)
+        ======================================================== */
+        .top-utility-bar {
+            background-color: var(--portal-navy-dark);
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .top-utility-bar a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .top-utility-bar a:hover {
+            color: #ffffff;
+        }
+
+        .util-badge {
+            background: rgba(244, 119, 33, 0.2);
+            color: #ffb17a;
+            border: 1px solid rgba(244, 119, 33, 0.35);
+            font-size: 0.72rem;
+            padding: 1px 7px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .access-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 0.72rem;
+            padding: 2px 7px;
+            border-radius: 3px;
+            cursor: pointer;
+            line-height: 1.2;
+            transition: all 0.2s;
+        }
+
+        .access-btn:hover {
+            background: var(--portal-saffron);
+            border-color: var(--portal-saffron);
+            color: #fff;
+        }
+
+        /* ========================================================
+           2. MAIN BRANDING BAR (College Identity & Badges)
+        ======================================================== */
+        .main-branding-bar {
+            background-color: #ffffff;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--portal-border);
+        }
+
+        .college-crest-box {
+            width: 76px;
+            height: 76px;
+            min-width: 76px;
+            background: linear-gradient(135deg, var(--portal-blue-mid) 0%, var(--portal-navy-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 2.2rem;
+            box-shadow: 0 4px 12px rgba(8, 36, 68, 0.2);
+            border: 3px solid #ffffff;
+            outline: 2px solid var(--portal-saffron);
+        }
+
+        .inst-name-regional {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 0.95rem;
+            color: var(--portal-saffron);
+            font-weight: 700;
+            margin-bottom: -2px;
+            letter-spacing: 0.2px;
+        }
+
+        .inst-name-main {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--portal-navy);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .inst-accreditation-sub {
+            font-size: 0.77rem;
+            color: var(--portal-text-muted);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .accreditation-pill {
+            background-color: #f8fafc;
+            border: 1px solid var(--portal-border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .naac-seal {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========================================================
+           3. PRIMARY NAVIGATION BAR (MahaDBT 2.0 Style)
+        ======================================================== */
+        .college-navbar {
+            background-color: var(--portal-navy);
+            padding: 0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid var(--portal-saffron);
+        }
+
+        .college-navbar .nav-link {
+            color: #f8fafc !important;
+            font-weight: 600;
+            font-size: 0.88rem;
+            padding: 15px 13px !important;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .college-navbar .nav-link:hover,
+        .college-navbar .nav-item.active .nav-link {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: var(--portal-gold) !important;
+        }
+
+        .college-navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: var(--portal-saffron);
+            transition: width 0.25s ease;
+        }
+
+        .college-navbar .nav-link:hover::after,
+        .college-navbar .nav-item.active .nav-link::after {
+            width: 75%;
+        }
+
+        /* Dropdown Menus */
+        .college-navbar .dropdown-menu {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+            padding: 8px 0;
+            margin-top: 1px;
+            border-top: 3px solid var(--portal-saffron);
+            background-color: #ffffff;
+            animation: navFadeIn 0.2s ease-in-out;
+        }
+
+        .college-navbar .dropdown-item {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--portal-text-dark);
+            padding: 8px 18px;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .college-navbar .dropdown-item:hover {
+            background-color: #fff4eb;
+            color: var(--portal-saffron);
+            padding-left: 22px;
+        }
+
+        .college-navbar .dropdown-item i {
+            font-size: 0.85rem;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* MahaDBT Saffron Action Login Button */
+        .btn-portal-action {
+            background: linear-gradient(135deg, var(--portal-saffron) 0%, #e05e07 100%);
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 0.88rem;
+            padding: 8px 18px;
+            border-radius: 5px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(244, 119, 33, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .btn-portal-action:hover {
+            background: linear-gradient(135deg, #e05e07 0%, #c44f02 100%);
+            box-shadow: 0 4px 14px rgba(244, 119, 33, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* ========================================================
+           4. NOTIFICATION / CIRCULAR TICKER BAR
+        ======================================================== */
+        .notification-ticker-bar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--portal-border);
+            padding: 6px 0;
+            font-size: 0.84rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-tag {
+            background: #dc2626;
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ticker-marquee a {
+            color: var(--portal-navy);
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 40px;
+            transition: color 0.15s ease;
+        }
+
+        .ticker-marquee a:hover {
+            color: var(--portal-saffron);
+            text-decoration: underline;
+        }
+
+        @keyframes navFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 991.98px) {
+            .college-navbar .nav-link {
+                padding: 10px 14px !important;
+            }
+            .inst-name-main {
+                font-size: 1.15rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================================
+         MAIN COLLEGE PORTAL HEADER (MahaDBT 2.0 UI Inspired)
+    ======================================================== -->
+    <header>
+
+        <!-- 1. TOP UTILITY / ACCESSIBILITY BAR -->
+        <div class="top-utility-bar">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <!-- Left: Statutory Codes & Direct Quick Links -->
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="util-badge"><i class="fa-solid fa-landmark me-1"></i> DTE Code: 6175</span>
+                        <span class="d-none d-md-inline opacity-50">|</span>
+                        <span class="d-none d-lg-inline text-light"><i class="fa-solid fa-certificate text-warning me-1"></i> AICTE Permanent ID: 1-4358921</span>
+                        <span class="d-none d-md-inline opacity-50">|</span>
+                        <a href="#" class="d-none d-sm-inline"><i class="fa-solid fa-bullhorn text-warning me-1"></i> Mandatory Disclosures</a>
+                        <span class="d-none d-md-inline opacity-50">|</span>
+                        <a href="#" class="d-none d-md-inline"><i class="fa-solid fa-briefcase me-1"></i> Careers @ AIT</a>
+                    </div>
+
+                    <!-- Right: Accessibility Utilities, Helpline & Language -->
+                    <div class="d-flex align-items-center gap-2">
+                        <!-- Font Size Adjustment -->
+                        <div class="btn-group btn-group-sm me-1" role="group" aria-label="Font resize">
+                            <button type="button" class="access-btn" onclick="adjustFontSize(-1)" title="Decrease font size">A-</button>
+                            <button type="button" class="access-btn" onclick="resetFontSize()" title="Reset font size">A</button>
+                            <button type="button" class="access-btn" onclick="adjustFontSize(1)" title="Increase font size">A+</button>
+                        </div>
+
+                        <!-- Contrast Mode Toggle -->
+                        <button type="button" class="access-btn me-1" onclick="toggleContrastMode()" title="Toggle High Contrast">
+                            <i class="fa-solid fa-circle-half-stroke"></i>
+                        </button>
+
+                        <!-- Student Helpline -->
+                        <a href="tel:+912027650000" class="d-none d-md-inline me-2">
+                            <i class="fa-solid fa-headset text-warning me-1"></i> (+91) 020-27650000
+                        </a>
+
+                        <!-- Language Selector Dropdown -->
+                        <div class="dropdown">
+                            <button class="access-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-language me-1"></i> English
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                <li><a class="dropdown-item active" href="#">English</a></li>
+                                <li><a class="dropdown-item" href="#">मराठी (Marathi)</a></li>
+                                <li><a class="dropdown-item" href="#">हिंदी (Hindi)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. MAIN BRANDING BAR -->
+        <div class="main-branding-bar">
+            <div class="container">
+                <div class="row align-items-center g-3">
+                    <!-- Left: College Crest & Titles -->
+                    <div class="col-lg-8 col-md-7 col-12">
+                        <div class="d-flex align-items-center gap-3">
+                            <!-- Emblem Seal Logo -->
+                            <div class="college-crest-box">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            
+                            <!-- Institute Bilingual Title & Approvals -->
+                            <div>
+                                <div class="inst-name-regional">अवि इन्स्टिट्यूट ऑफ टेक्नॉलॉजी, पुणे</div>
+                                <h1 class="inst-name-main">Avi Institute of Technology</h1>
+                                <p class="inst-accreditation-sub m-0">
+                                    Approved by AICTE, New Delhi | Recognized by DTE Govt. of Maharashtra | Affiliated to Savitribai Phule Pune University
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                 
+                    <div class="col-lg-4 col-md-5 col-12">
+                        <div class="d-flex justify-content-lg-end justify-content-start align-items-center gap-2 flex-wrap">
+                            <div class="accreditation-pill">
+                                <span class="naac-seal">NAAC A+</span>
+                                <div class="text-start">
+                                    <div class="fw-bold text-dark" style="font-size: 0.78rem;">CGPA: 3.48 / 4.0</div>
+                                    <div class="text-muted" style="font-size: 0.68rem;">Cycle-II Accredited</div>
+                                </div>
+                            </div>
+                            <div class="accreditation-pill d-none d-sm-inline-flex">
+                                <i class="fa-solid fa-award text-warning fs-5"></i>
+                                <div class="text-start">
+                                    <div class="fw-bold text-dark" style="font-size: 0.78rem;">NBA Accredited</div>
+                                    <div class="text-muted" style="font-size: 0.68rem;">CSE, E&TC, MECH</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. PRIMARY NAVBAR (MahaDBT 2.0 Styled) -->
+        <nav class="navbar navbar-expand-lg college-navbar sticky-top">
+            <div class="container">
+                <!-- Mobile Navigation Bar Header -->
+                <span class="navbar-brand text-white fw-bold d-lg-none fs-6 mb-0">
+                    <i class="fa-solid fa-compass me-2 text-warning"></i> College Menu
+                </span>
+
+                <!-- Mobile Hamburger Toggle Button -->
+                <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collegeNavbarMenu" aria-controls="collegeNavbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="fa-solid fa-bars text-white fs-5"></span>
+                </button>
+
+                <!-- Navigation Links List -->
+                <div class="collapse navbar-collapse" id="collegeNavbarMenu">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- Home -->
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"><i class="fa-solid fa-house"></i> Home</a>
+                        </li>
+
+                        <!-- About Us -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                About Us
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-landmark text-primary"></i> Institute Profile & Legacy</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-tie text-success"></i> Leadership & Board of Governors</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-shield-halved text-warning"></i> Accreditations, NIRF & Approvals</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-scale-balanced text-info"></i> IQAC & Quality Policies</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-file-pdf text-danger"></i> Mandatory Disclosures (AICTE/DTE)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Academics -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Academics
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-laptop-code text-primary"></i> Undergraduate (B.Tech)</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-microscope text-success"></i> Postgraduate (M.Tech)</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear text-secondary"></i> Diploma Programs (Polytechnic)</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-calendar-days text-danger"></i> Academic Calendar 2026-27</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-book-open text-warning"></i> Curriculum & Syllabus</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Admissions -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="badge bg-danger me-1">Admissions</span> 2026-27
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-id-card-clip text-primary"></i> Centralized Admission Process (CAP)</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-diagram-project text-success"></i> Direct Second Year (DSE) Admission</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-indian-rupee-sign text-warning"></i> Approved Fee Structure</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-chart-column text-info"></i> Eligibility & Cut-Off Marks</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-download text-danger"></i> Information Brochure 2026</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Departments -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Departments
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-brain text-primary"></i> Computer Engineering & AI</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-network-wired text-info"></i> Information Technology</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-microchip text-warning"></i> Electronics & Telecommunication</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gears text-secondary"></i> Mechanical Engineering</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-building text-success"></i> Civil & Environmental Engineering</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-atom text-danger"></i> Applied Sciences & Humanities</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Examinations -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Examination
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-clock text-danger"></i> University Exam Timetable</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-ticket text-primary"></i> Hall Ticket Download</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-square-poll-vertical text-success"></i> Online Results Portal</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-file-pen text-warning"></i> Photocopy & Revaluation Rules</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Student Life & Campus -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Student Life
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-bed text-primary"></i> Hostel & Mess Facilities</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-book-bookmark text-success"></i> Central Library & e-Journals</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-handshake-angle text-warning"></i> Training & Placement Cell (T&P)</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-shield-cat text-danger"></i> Anti-Ragging & ICC Committee</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-circle-question text-info"></i> Online Grievance Redressal</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Contact -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa-solid fa-envelope"></i> Contact</a>
+                        </li>
+                    </ul>
+
+                    <!-- Right Side: MahaDBT Style ERP / Portal Login Dropdown -->
+                    <div class="d-flex align-items-center py-2 py-lg-0">
+                        <div class="dropdown w-100">
+                            <button class="btn btn-portal-action dropdown-toggle w-100" type="button" id="collegePortalDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                <span>Portal Login</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="collegePortalDropdown" style="min-width: 250px;">
+                                <li><h6 class="dropdown-header text-uppercase fw-bold text-muted small">Select College ERP Portal</h6></li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="/register">
+                                        <i class="fa-solid fa-user-graduate text-primary fs-6"></i>
+                                        <div>
+                                            <div class="fw-bold">Student Portal / ERP</div>
+                                            <small class="text-muted d-block" style="font-size: 0.72rem;">Attendance, Fees & Exam forms</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="#">
+                                        <i class="fa-solid fa-chalkboard-user text-warning fs-6"></i>
+                                        <div>
+                                            <div class="fw-bold">Faculty & Staff Login</div>
+                                            <small class="text-muted d-block" style="font-size: 0.72rem;">Academics, Marks & Leave ERP</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="#">
+                                        <i class="fa-solid fa-users text-success fs-6"></i>
+                                        <div>
+                                            <div class="fw-bold">Parent Portal</div>
+                                            <small class="text-muted d-block" style="font-size: 0.72rem;">Track performance & attendance</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="#">
+                                        <i class="fa-solid fa-shield-halved text-danger fs-6"></i>
+                                        <div>
+                                            <div class="fw-bold">Administrator Login</div>
+                                            <small class="text-muted d-block" style="font-size: 0.72rem;">Institute Management ERP</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-center text-primary fw-bold py-2 bg-light" href="#">
+                                        <i class="fa-solid fa-user-plus me-1"></i> New Student Registration
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 4. NOTIFICATION / CIRCULAR TICKER BAR -->
+        <div class="notification-ticker-bar">
+            <div class="container">
+                <div class="d-flex align-items-center">
+                    <span class="ticker-tag me-3">
+                        <i class="fa-solid fa-bullhorn"></i> Circulars
+                    </span>
+                    <div class="overflow-hidden flex-grow-1">
+                        <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" class="ticker-marquee">
+                            <a href="#"><i class="fa-solid fa-star text-warning me-1"></i> [ADMISSION 2026-27] First Year B.Tech and Direct Second Year Engineering (DSE) CAP Application verification is ongoing.</a>
+                            <a href="#"><i class="fa-solid fa-circle-exclamation text-danger me-1"></i> End-Semester University Examination Theory & Practical Timetable for Summer Session released.</a>
+                            <a href="#"><i class="fa-solid fa-award text-success me-1"></i> Campus Placement Drive 2026: 450+ students placed with highest package of 28.5 LPA.</a>
+                            <a href="#"><i class="fa-solid fa-bell text-primary me-1"></i> Last date for submission of Exam Exam forms without late fee is 15th October 2026.</a>
+                        </marquee>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- Bootstrap 5.3 JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Accessibility: Font Size Adjustment Functionality
+        let currentScale = 100;
+        function adjustFontSize(direction) {
+            currentScale += direction * 7;
+            if (currentScale < 86) currentScale = 86;
+            if (currentScale > 120) currentScale = 120;
+            document.body.style.fontSize = (currentScale / 100) + 'rem';
+        }
+
+        function resetFontSize() {
+            currentScale = 100;
+            document.body.style.fontSize = '1rem';
+        }
+
+        // Accessibility: High Contrast Mode Toggle
+        function toggleContrastMode() {
+            document.body.classList.toggle('high-contrast-mode');
+        }
+    </script>
+</body>
+</html>

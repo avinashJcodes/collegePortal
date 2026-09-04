@@ -1,0 +1,379 @@
+<div class="min-h-screen p-4 md:p-8">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+        <p class="text-sm text-gray-400 mb-2">
+            Examination / Hall Tickets / Generate
+        </p>
+
+        <h1 class="text-2xl md:text-3xl font-bold text-white">
+            Generate Hall Ticket
+        </h1>
+
+        <p class="text-gray-400 mt-2 text-sm">
+            Create and configure examination hall ticket for the selected student.
+        </p>
+    </div>
+
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+
+        <!-- Student Information -->
+        <div class="xl:col-span-4">
+
+            <div class="bg-gray-900/70 border border-white/10 rounded-2xl p-6">
+
+                <h2 class="text-lg font-bold text-white mb-6">
+                    Student Information
+                </h2>
+
+                <!-- Student Profile -->
+                <div class="flex items-center gap-4 mb-6">
+
+                    <img
+                        src="<%= student.profileImage || '/images/student.png' %>"
+                        alt="Student"
+                        class="w-16 h-16 rounded-xl object-cover border border-white/10"
+                    >
+
+                    <div>
+                        <h3 class="text-white font-bold text-lg">
+                            <%= student.fullname %>
+                        </h3>
+
+                        <p class="text-gray-400 text-sm">
+                            <%= student.email %>
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Student Details -->
+                <div class="space-y-4 text-sm">
+
+                    <div class="flex justify-between border-b border-white/5 pb-3">
+                        <span class="text-gray-500">
+                            Admission Number
+                        </span>
+
+                        <span class="text-white font-medium">
+                            <%= student.admissionNumber %>
+                        </span>
+                    </div>
+
+
+                    <div class="flex justify-between border-b border-white/5 pb-3">
+                        <span class="text-gray-500">
+                            Roll Number
+                        </span>
+
+                        <span class="text-white font-medium">
+                            <%= student.rollNumber || "Not Assigned" %>
+                        </span>
+                    </div>
+
+
+                    <div class="flex justify-between border-b border-white/5 pb-3">
+                        <span class="text-gray-500">
+                            Course
+                        </span>
+
+                        <span class="text-white font-medium">
+                            <%= student.course || "Not Assigned" %>
+                        </span>
+                    </div>
+
+
+                    <div class="flex justify-between border-b border-white/5 pb-3">
+                        <span class="text-gray-500">
+                            Branch
+                        </span>
+
+                        <span class="text-white font-medium">
+                            <%= student.branch || "Not Assigned" %>
+                        </span>
+                    </div>
+
+
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">
+                            Semester
+                        </span>
+
+                        <span class="text-white font-medium">
+                            Semester <%= student.semester || "--" %>
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hall Ticket Form -->
+        <div class="xl:col-span-8">
+
+            <div class="bg-gray-900/70 border border-white/10 rounded-2xl p-6 md:p-8">
+
+                <div class="mb-7">
+
+                    <h2 class="text-xl font-bold text-white">
+                        Hall Ticket Configuration
+                    </h2>
+
+                    <p class="text-sm text-gray-400 mt-1">
+                        Enter examination and hall ticket details.
+                    </p>
+
+                </div>
+
+
+                <form
+                    action="/admin/halltickets/generate/<%= student._id %>"
+                    method="POST"
+                    class="space-y-6"
+                >
+
+                    <!-- Hall Ticket Number + Seat Number -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Hall Ticket Number
+                            </label>
+
+                            <input
+                                type="text"
+                                name="hallTicketNumber"
+                                required
+                                placeholder="HT20260001"
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 outline-none focus:border-purple-500 transition"
+                            >
+                        </div>
+
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">
+                                Seat Number
+                            </label>
+
+                            <input
+                                type="text"
+                                name="seatNumber"
+                                required
+                                placeholder="A-25"
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 outline-none focus:border-purple-500 transition"
+                            >
+                        </div>
+
+                    </div>
+
+
+                    <!-- Exam Type -->
+                    <div>
+
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            Examination Type
+                        </label>
+
+                        <input
+                            type="text"
+                            name="examType"
+                            required
+                            placeholder="Summer Examination 2026"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 outline-none focus:border-purple-500 transition"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+    <label class="block text-sm font-medium text-gray-300 mb-2">
+        Academic Year
+    </label>
+
+    <input
+        type="text"
+        name="academicYear"
+        required
+        placeholder="2025-26"
+        pattern="[0-9]{4}-[0-9]{2}"
+        title="Enter academic year like 2025-26"
+        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 outline-none focus:border-purple-500 transition"
+    >
+
+</div>
+
+
+                    <!-- Exam Center -->
+                    <div>
+
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            Examination Center
+                        </label>
+
+                        <input
+                            type="text"
+                            name="examCenter"
+                            required
+                            placeholder="Avi Institute of Technology"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 outline-none focus:border-purple-500 transition"
+                        >
+
+                    </div>
+
+
+                    <!-- Exam Center Address -->
+                    <div>
+
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            Examination Center Address
+                        </label>
+
+                        <textarea
+                            name="examCenterAddress"
+                            rows="3"
+                            placeholder="Enter complete examination center address"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 outline-none focus:border-purple-500 transition resize-none"
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- Reporting Time -->
+                    <div>
+
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            Reporting Time
+                        </label>
+
+                        <input
+                            type="time"
+                            name="reportingTime"
+                            value="09:00"
+                            required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-purple-500 transition"
+                        >
+
+                    </div>
+
+
+                    <!-- Permissions -->
+                    <div class="border border-white/10 rounded-2xl p-5">
+
+                        <h3 class="text-white font-semibold mb-5">
+                            Student Permissions
+                        </h3>
+
+
+                        <div class="space-y-4">
+
+                            <!-- Download -->
+                            <label class="flex items-center justify-between cursor-pointer">
+
+                                <div>
+                                    <p class="text-white text-sm font-medium">
+                                        Allow PDF Download
+                                    </p>
+
+                                    <p class="text-gray-500 text-xs mt-1">
+                                        Student can download hall ticket PDF.
+                                    </p>
+                                </div>
+
+                                <input
+                                    type="checkbox"
+                                    name="allowDownload"
+                                    class="w-5 h-5 accent-purple-600"
+                                >
+
+                            </label>
+
+
+                            <div class="border-t border-white/5"></div>
+
+
+                            <!-- Print -->
+                            <label class="flex items-center justify-between cursor-pointer">
+
+                                <div>
+                                    <p class="text-white text-sm font-medium">
+                                        Allow Print
+                                    </p>
+
+                                    <p class="text-gray-500 text-xs mt-1">
+                                        Student can print the hall ticket.
+                                    </p>
+                                </div>
+
+                                <input
+                                    type="checkbox"
+                                    name="allowPrint"
+                                    class="w-5 h-5 accent-purple-600"
+                                >
+
+                            </label>
+
+
+                            <div class="border-t border-white/5"></div>
+
+
+                            <!-- Published -->
+                            <label class="flex items-center justify-between cursor-pointer">
+
+                                <div>
+                                    <p class="text-white text-sm font-medium">
+                                        Publish Hall Ticket
+                                    </p>
+
+                                    <p class="text-gray-500 text-xs mt-1">
+                                        Hall ticket becomes visible to the student.
+                                    </p>
+                                </div>
+
+                                <input
+                                    type="checkbox"
+                                    name="published"
+                                    class="w-5 h-5 accent-purple-600"
+                                >
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Buttons -->
+                    <div class="flex flex-col sm:flex-row justify-end gap-3 pt-3">
+
+                        <a
+                            href="/admin/halltickets"
+                            class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 text-sm font-semibold text-center hover:bg-white/5 transition"
+                        >
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-sm font-semibold hover:scale-[1.02] transition"
+                        >
+                            Generate Hall Ticket
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
